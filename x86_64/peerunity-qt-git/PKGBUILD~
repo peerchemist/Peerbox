@@ -1,0 +1,45 @@
+# Maintainer: <dx /dot/ 1178 at gmail /dot/ com>
+#
+
+pkgname='peerunity-qt-git'
+_gitname=peerunity
+pkgver=0.1
+pkgrel=1
+pkgdesc="Peercoin network-compatible, community-developed wallet client."
+arch=('x86_64' 'i686')
+url="https://github.com/Peerunity/Peerunity"
+license=('MIT')
+provides=('peerunity-qt')
+conflicts=('peerunity-qt' 'peerunity-git')
+depends=('qt4' 'miniupnpc' 'boost-libs' 'qrencode')
+makedepends=('git' 'boost' 'gcc' 'make' 'qrencode')
+source=('git://github.com/peerunity/peerunity'
+        'peerunity.desktop')
+install=peerunity.install
+sha256sums=('SKIP'
+            'c932bf992252c9fc4f1691b2ef9a121316bf617f7cf09627a0fdcf9b13949202')
+pkgver() {
+	cd "$srcdir/$_gitname"
+	# Use tag of the last commit, but removing the prefix
+	git describe --long | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+}
+
+build() {
+	cd ${_gitname}/
+
+	# and make qt gui
+	qmake-qt4 USE_QRCODE=1 USE_UPNP=1
+	make
+
+}
+
+package() {
+
+	install -Dm644 peerunity.desktop ${pkgdir}/usr/share/applications/peerunity.desktop
+
+	cd ${_gitname}
+	install -Dm755 peerunity ${pkgdir}/usr/bin/peerunity-qt
+	install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+	install -Dm644 src/qt/res/icons/peerunity.png ${pkgdir}/usr/share/pixmaps/peerunity.png
+}
+
