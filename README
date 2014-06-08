@@ -37,8 +37,10 @@ However, with this setup with dummy user if daemon is compromised it can not rea
 anything outside /var/lib/ppcoind/. Thus, system and it's users are safe.
 
 How to use it:
+'''
 $ systemctl start ppcoind.service
 $ systemctl enable ppcoind.service (to start when booting)
+'''
 
 The daemon conf file is at /etc/ppcoind/ppcoind.conf. Yet again you see it is completely
 detached from ppcoind user.
