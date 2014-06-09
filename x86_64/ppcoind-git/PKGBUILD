@@ -14,7 +14,7 @@ md5sums=('SKIP'
          '82b6a69bb733d2e04e8648852b193117'
          '6f59418fe55d5eaa4a9f3c577ecced98'
          'b0fbd436d73e454d949c76d938183274')
-arch=('armv6h' 'x86_64')
+arch=('armv6h' 'i686' 'x86_64')
 makedepends=('boost' 'miniupnpc')
 depends=('boost-libs' 'miniupnpc' 'openssl')
 
