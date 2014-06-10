@@ -4,6 +4,8 @@ Beside ppcoind which will be used in Peerbox project there are PKGBUILDS for pee
 
 QT wallets are compiled for qt4 with qrencode and miniupnpc support.
 
+You can support this repo via peer4commit.
+[![tip for next commit](http://peer4commit.com/projects/92.svg)](http://peer4commit.com/projects/92)
 
 ## peercoind
 
