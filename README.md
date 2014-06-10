@@ -2,6 +2,8 @@ This is git repo for ArchLinux PKGBUILD scripts, it is subproject of Peerbox pro
 
 Beside ppcoind which will be used in Peerbox project there are PKGBUILDS for peercoin-qt and peerunit-qt wallets.
 
+QT wallets are compiled for qt4 with qrencode and miniupnpc support.
+
 
 ## peercoind
 
@@ -40,11 +42,11 @@ This same "DAC" based principe of security is used to secure web servers like ng
 
 
 How to use ppcoind:
-'''
-$ systemctl start ppcoind.service
 
-$ systemctl enable ppcoind.service (to start when booting)
-'''
+> $ systemctl start ppcoind.service
+
+> $ systemctl enable ppcoind.service (to start on boot)
+
 
 The daemon conf file is at /etc/ppcoind/ppcoind.conf. 
 Yet again you see it is completely
