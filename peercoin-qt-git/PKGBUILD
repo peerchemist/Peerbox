@@ -3,8 +3,8 @@
 
 pkgname='peercoin-qt-git'
 _gitname=ppcoin
-pkgver=0.3.0ppc.r38.g55dda99
-pkgrel=3
+pkgver=0.4.0ppc.r3.g1f058b6
+pkgrel=1
 pkgdesc="The secure and sustainable cryptocurency"
 arch=('x86_64' 'i686')
 url="https://github.com/ppcoin/ppcoin"
