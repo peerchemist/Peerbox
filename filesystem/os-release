@@ -1,0 +1,9 @@
+NAME="Peerbox OS"
+ID=archarm
+ID_LIKE=arch
+PRETTY_NAME="Peerbox"
+ANSI_COLOR="0;36"
+HOME_URL="http://archlinuxarm.org/"
+SUPPORT_URL="https://archlinuxarm.org/forum"
+BUG_REPORT_URL="https://github.com/archlinuxarm/PKGBUILDs/issues"
+

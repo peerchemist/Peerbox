@@ -1,0 +1,13 @@
+# 
+# /etc/fstab: static file system information
+#
+# <file system>	<dir>	<type>	<options>	<dump>	<pass>
+/dev/mmcblk0p1  /boot           vfat    defaults        0       0
+
+##/var/log
+
+tmpfs /var/log  tmpfs nodev,nosuid,size=16M     0       0
+
+##ppcoin
+
+/dev/mmcblk0p4  /var/lib/ppcoind ext4 defaults,nodev,nosuid,noexec,discard      0       1

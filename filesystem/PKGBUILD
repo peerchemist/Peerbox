@@ -1,0 +1,127 @@
+
+pkgname=filesystem-peerbox
+pkgver=2013.05
+pkgrel=1
+pkgdesc='Base filesystem'
+arch=('i686' 'x86_64')
+license=('GPL')
+url='http://www.archlinux.org'
+groups=('base')
+install='filesystem.install'
+makedepends=('asciidoc')
+depends=('iana-etc')
+backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/hosts.allow' 'etc/hosts.deny'
+	'etc/ld.so.conf' 'etc/passwd' 'etc/shadow' 'etc/gshadow' 'etc/resolv.conf'
+	'etc/motd' 'etc/nsswitch.conf' 'etc/shells' 'etc/host.conf' 'etc/securetty' 'etc/profile' 'etc/issue')
+source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf'
+        'passwd' 'shadow' 'fstab' 'crypttab' 'hosts' 'hosts.allow' 'hosts.deny' 
+	'motd' 'os-release' 'resolv.conf' 'shells' 'gshadow' 'profile' 
+	'modprobe.d.usb-load-ehci-first' 'archlinux.7.txt' 'locale.sh')
+
+build() {
+	cd ${srcdir}
+	a2x -d manpage -f manpage archlinux.7.txt
+}
+
+package() {
+	cd ${pkgdir}
+
+	#
+	# setup root filesystem
+	#
+	for d in boot dev etc home mnt usr var opt srv/http run; do
+		install -d -m755 ${d}
+	done
+	install -d -m555 proc
+	install -d -m555 sys
+	install -d -m0750 root
+	install -d -m1777 tmp
+	# vsftpd won't run with write perms on /srv/ftp
+	install -d -m555 -g ftp srv/ftp
+
+	# setup /etc
+	install -d etc/{ld.so.conf.d,skel,profile.d}
+	for f in fstab group host.conf hosts hosts.deny hosts.allow issue ld.so.conf motd nsswitch.conf os-release passwd resolv.conf securetty shells profile; do
+		install -m644 ${srcdir}/${f} etc/
+	done
+	ln -s /proc/self/mounts etc/mtab
+	for f in gshadow shadow crypttab; do
+		install -m600 ${srcdir}/${f} etc/
+	done
+	touch etc/arch-release
+	install -D -m644 ${srcdir}/modprobe.d.usb-load-ehci-first usr/lib/modprobe.d/usb-load-ehci-first.conf
+	install -m755 ${srcdir}/locale.sh etc/profile.d/locale.sh
+
+	# setup /var
+	for d in cache/man local opt log/old lib/misc empty; do
+		install -d -m755 var/${d}
+	done
+	install -d -m1777 var/{tmp,spool/mail}
+	# allow setgid games to write scores
+	install -d -m775 -g games var/games
+	ln -s spool/mail var/mail
+	ln -s ../run var/run
+	ln -s ../run/lock var/lock
+
+	#
+	# setup /usr hierarchy
+	#
+	for d in bin include lib share/misc src; do
+		install -d -m755 usr/${d}
+	done
+	for d in $(seq 8); do
+		install -d -m755 usr/share/man/man${d}
+	done
+
+	#
+	# add lib symlinks
+	#
+	ln -s usr/lib ${pkgdir}/lib
+	[[ ${CARCH} = "x86_64" ]] && (
+		ln -s usr/lib ${pkgdir}/lib64
+		ln -s lib ${pkgdir}/usr/lib64
+	)
+
+	#
+	# add bin symlinks
+	#
+	ln -s usr/bin ${pkgdir}/bin
+	ln -s usr/bin ${pkgdir}/sbin
+	ln -s bin ${pkgdir}/usr/sbin
+
+	#
+	# install archlinux(7) manpage
+	#
+	install -D -m644 ${srcdir}/archlinux.7 usr/share/man/man7/archlinux.7
+
+	#
+	# setup /usr/local hierarchy
+	#
+	for d in bin etc games include lib man sbin share src; do
+		install -d -m755 usr/local/${d}
+	done
+	ln -s ../man usr/local/share/man
+}
+
+sha256sums=('7d771e61dde23f97b96b9238086aa5aa0e206c0e3362d5790103c5ca90e38408'
+            'c774dbbcaea38ee1c1141d0daf82aa8177bfb26aca896d6f0c4ccdc902f6ac42'
+            '3cfbffdf732985d8a5cd5145cca2da338df53bf45cd097f30c194294492f16f1'
+            'f7b38167196943d8fb9d2e75358c7262d5fe1082b257c4c8caffe3b6de429cb5'
+            'f21f35e7d3083aeee19beb48478130d119b2572922a4889df98326d551540eda'
+            '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
+            '84c8b6103553a88b43e83360446ea3da31e815b457eff233adfd636a304d399d'
+            'bdf92c2a97996eb1b3be24090ca94100f16232290010a7395e44c5c92bd38027'
+            '94e1c7d3246c2ed466c999b0bee05b744cb492633cb76e39b4ae34a09f8ec321'
+            'ea8c67a34a0a8a41beabe3ceb5733c9e8b84b27c569c11ddbfd8395fce99d8dd'
+            '13d1f59c1d0860bf43da996e2b9a6ab2744791614241ed9a1376b7e7e30de3a8'
+            '0cc02162d217922791564447ede51cffb5bc857626317519b3c77d0325321b4c'
+            '380ad81c12e61efebb01d1169810ebf5fb4b786bfded83125ccdd9da7f30223c'
+            '3250ce2d0806e865466ff3b86dca03e1c5e6bc1f0f761fcde1253e74e54e85cf'
+            'be626f560cf4e1902d728cd7839c075c10847c27944c518939946125abe7fd78'
+            '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
+            '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
+            '2c4f081e1db3c855b8ab43514275a82263d50ac68b16c5eb5fcc2149c6b42aed'
+            '0262cacc91cd309be0747e088d46a39f0b205392fbbafab96d767e48a3872ad0'
+            '90fb123aa8c0176bc144322b585bb889181c437542ddbe546af43e11b95be6ab'
+            '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
+            '1d30a33a066e5788110d8d8ad95444d08b95f10d979f895a63b0a12bbfa7e243')
