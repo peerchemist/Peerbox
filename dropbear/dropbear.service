@@ -1,17 +1,14 @@
 [Unit]
 Description=Dropbear SSH Daemon
 Wants=dropbear-key.service
-After=dropbear-key.service
-After=network.target
+After=dropbear-key.service network.target
 
 [Service]
-Type=simple
 PIDFile=/run/dropbear.pid
 #EnviromentFile=-/etc/dropbear/dropbear.conf
-ExecStart=/usr/bin/dropbear -r /etc/dropbear/dropbear_rsa_host_key -p 222
+ExecStart=/usr/bin/dropbear -F -p 2222
 ExecReload=/bin/kill -HUP $MAINPID
-Restart=always
-StandardInput=socket
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target
