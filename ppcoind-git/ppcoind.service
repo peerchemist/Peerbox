@@ -7,7 +7,7 @@ WantedBy=multi-user.target
 
 [Service]
 User=ppcoind
-
+Restart=on-abort
 Type=forking
 TimeoutStartSec=30
 PIDFile=/run/ppcoind/ppcoind.pid
