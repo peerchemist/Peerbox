@@ -1,0 +1,77 @@
+# Maintainer: Caspar Verhey <caspar at verhey dot net>
+# Contributor: Seth Fulton  <seth@sysfu.com>
+# Contributor: Aaron Griffin <aaron@archlinux.org>
+# Contributor: judd <jvinet@zeroflux.org>
+# Contributor: benetnash <benetnash@mail.icpnet.pl>
+# Contributor: Thomas Haider <t.haider@vcnc.org>
+pkgname=openssh-hpn
+pkgver=6.5p1
+pkgrel=2
+pkgdesc='A Secure SHell server/client with High Performance patch'
+arch=('i686' 'x86_64' 'armv6h')
+url="http://www.psc.edu/networking/projects/hpn-ssh/"
+license=('custom:BSD')
+depends=('openssl' 'libedit')
+provides=('openssh')
+conflicts=('openssh')
+#backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd' 'etc/conf.d/sshd')
+
+_pkgname=openssh
+_hpn_ver='hpnssh14v4.diff'
+_hpn_patch="${_pkgname}-${pkgver}-${_hpn_ver}"
+
+source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${_pkgname}-${pkgver}.tar.gz"
+	${_hpn_patch}.gz::"http://sourceforge.net/projects/hpnssh/files/HPN-SSH%2014v4%206.5p1/${_hpn_patch}.gz/download"
+	'sshdgenkeys.service'
+	'sshd.service'
+	'sshd.pam')
+
+sha256sums=('a1195ed55db945252d5a1730d4a2a2a5c1c9a6aa01ef2e5af750a962623d9027'
+            '7b0507172759dd2c85965728981343d4b60d8b8c5faf2c20dc8145606421c364'
+            '1e81de4cec196347bce94a0d573816ff29cc50263fd3208e7adae464bdb198cd'
+            'd6eef4852e468a74e62caaf698bd5adfe13ab815edf629f01b18c8156f3d85fd'
+            'eaef9d761629ee4c7c99a9f29b7ed88907d37b6dae4bc0a8472600c7b86bdcb0')
+
+build() {
+    cd ${srcdir}/${_pkgname}-${pkgver}
+    patch -p1 < ../${_hpn_patch}
+
+    ./configure \
+            --prefix=/usr \
+            --libexecdir=/usr/lib/ssh \
+            --sysconfdir=/etc/ssh \
+            --with-privsep-user=nobody \
+            --with-md5-passwords \
+            --with-pam \
+            --with-mantype=man \
+            --with-xauth=/usr/bin/xauth \
+            --with-ssl-engine \
+            --with-libedit=/usr/lib \
+            --disable-strip
+    make 
+}
+
+package() {
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+
+    make DESTDIR="${pkgdir}" install
+
+    install -Dm644 ../sshd.pam "${pkgdir}"/etc/pam.d/sshd
+    install -Dm644 ../sshdgenkeys.service "${pkgdir}"/usr/lib/systemd/system/sshdgenkeys.service
+    install -Dm644 ../sshd.service "${pkgdir}"/usr/lib/systemd/system/sshd.service
+    install -Dm644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENCE"
+
+    rm "${pkgdir}/usr/share/man/man1/slogin.1"
+    ln -sf ssh.1.gz "${pkgdir}"/usr/share/man/man1/slogin.1.gz
+
+    #additional contrib scripts that we like
+    install -Dm755 contrib/findssl.sh "${pkgdir}"/usr/bin/findssl.sh
+    install -Dm755 contrib/ssh-copy-id "${pkgdir}"/usr/bin/ssh-copy-id
+    install -Dm644 contrib/ssh-copy-id.1  "${pkgdir}"/usr/share/man/man1/ssh-copy-id.1
+
+    # PAM is a common, standard feature to have
+    sed \
+            -e '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
+            -e '/^#UsePAM no$/c UsePAM yes' \
+            -i "${pkgdir}"/etc/ssh/sshd_config
+}
