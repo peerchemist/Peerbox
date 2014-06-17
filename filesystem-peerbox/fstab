@@ -6,8 +6,8 @@
 
 ##/var/log
 
-tmpfs /var/log  tmpfs nodev,nosuid,size=16M     0       0
+#tmpfs /var/log  tmpfs nodev,nosuid,size=16M     0       0
 
 ##ppcoin
 
-/dev/mmcblk0p4  /var/lib/ppcoind ext4 defaults,nodev,nosuid,noexec,discard      0       1
+/dev/mmcblk0p4  /var/lib/ppcoind ext4 defaults,nodev,nosuid,noexec     0       1
