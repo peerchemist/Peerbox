@@ -1,14 +1,14 @@
-pkgname=openssh
+pkgname=openssh-peerbox
 pkgver=6.6p1
-pkgrel=1
+pkgrel=2
 pkgdesc='Free version of the SSH connectivity tools'
-provides=('openssh-peerbox')
+provides=('openssh')
 conflicts=('openssh' 'openssh-hpn')
 url='http://www.openssh.org/portable.html'
 license=('custom:BSD')
 arch=('armv6h' 'i686' 'x86_64')
-depends=('openssl' 'libedit' 'ldns')
-source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
+depends=('openssl' 'libedit')
+source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${pkgver}.tar.gz"
         'curve25519pad.patch'
         'sshdgenkeys.service'
         'sshd.service'
@@ -17,29 +17,27 @@ source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}
 	)
 
 sha256sums=('48c1f0664b4534875038004cc4f3555b8329c2a81c1df48db5c517800de203bb'
-            'SKIP'
             '1d458d3a4337a59a05ba64989bbfbc9f6360b4c39c5404d57da4cbe2e87e9f3a'
             '3e13c5698d298f0e7f17247a4c5c96f58de125d51ae7ef417884fb83f7cf7ec1'
             'c5ed9fa629f8f8dbf3bae4edbad4441c36df535088553fe82695c52d7bde30aa'
             '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846'
-	    'd9c745020e2b3c3dfde314486cc855d990afb1d94efa4a636e3d3f38b4c24623')
+            '319d7be58c59661bf8d0116b9d57d403178ec4cb0ec6016d62ac5260c26d9a8a')
 
 backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd')
 
 prepare() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/openssh-${pkgver}"
 	patch -p0 -i ../curve25519pad.patch
 }
 
 build() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/openssh-${pkgver}"
 
 	./configure \
 		--prefix=/usr \
 		--sbindir=/usr/bin \
 		--libexecdir=/usr/lib/ssh \
 		--sysconfdir=/etc/ssh \
-		--with-ldns \
 		--with-libedit \
 		--with-ssl-engine \
 		--with-pam \
@@ -54,9 +52,10 @@ package() {
 	
 	## Use preconfigured sshd_config
 
-	cp sshd_config ${srcdir}/${pkgname}-${pkgver}
+	cp sshd_config ${srcdir}/openssh-${pkgver}
 
-	cd "${srcdir}/${pkgname}-${pkgver}"
+
+	cd "${srcdir}/openssh-${pkgver}"
 
 	make DESTDIR="${pkgdir}" install
 

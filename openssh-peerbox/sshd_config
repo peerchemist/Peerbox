@@ -59,17 +59,12 @@ AuthorizedKeysFile	.ssh/authorized_keys
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
+PasswordAuthentication yes
 PermitEmptyPasswords no
 
-## For local network only!
-
-#PasswordAuthentication no
-
+# To enable authentication only on local network
 #Match address 192.168.1.0/24
-#    PasswordAuthentication yes
-
-####
+#PasswordAuthentication yes
 
 # Change to no to disable s/key passwords
 ChallengeResponseAuthentication no
@@ -92,9 +87,6 @@ UsePAM yes
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
-X11Forwarding no
-#X11DisplayOffset 10
-#X11UseLocalhost yes
 #PermitTTY yes
 PrintMotd no # pam does that
 #PrintLastLog yes
@@ -111,6 +103,3 @@ ClientAliveCountMax 0
 #PermitTunnel no
 #ChrootDirectory none
 #VersionAddendum none
-
-Ciphers aes256-ctr,aes192-ctr,aes128-ctr,arcfour256
-MACs hmac-sha2-256,hmac-sha2-256-96,hmac-sha2-512,hmac-sha2-512-96,hmac-md5,hmac-sha1,umac-64@openssh.com,hmac-ripemd160
