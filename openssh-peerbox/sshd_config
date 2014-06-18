@@ -31,7 +31,7 @@ Protocol 2
 # Authentication:
 
 LoginGraceTime 60
-PermitRootLogin yes
+PermitRootLogin no
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
@@ -59,19 +59,11 @@ AuthorizedKeysFile	.ssh/authorized_keys
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-PasswordAuthentication yes
+#PasswordAuthentication yes
 PermitEmptyPasswords no
 
-# To enable authentication only on local network
-#Match address 192.168.1.0/24
-#PasswordAuthentication yes
-
 # Change to no to disable s/key passwords
-ChallengeResponseAuthentication no
-
-# GSSAPI options
-GSSAPIAuthentication no
-#GSSAPICleanupCredentials yes
+#ChallengeResponseAuthentication no
 
 # Set this to 'yes' to enable PAM authentication, account processing,
 # and session processing. If this is enabled, PAM authentication will
@@ -88,7 +80,7 @@ UsePAM yes
 #AllowTcpForwarding yes
 #GatewayPorts no
 #PermitTTY yes
-PrintMotd no # pam does that
+PrintMotd yes # pam does that
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no
@@ -97,9 +89,15 @@ UsePrivilegeSeparation sandbox		# Default for new installations.
 #Compression delayed
 ClientAliveInterval 600
 ClientAliveCountMax 0
-#UseDNS yes
 #PidFile /run/sshd.pid
 #MaxStartups 10:30:100
 #PermitTunnel no
 #ChrootDirectory none
 #VersionAddendum none
+
+Subsystem       sftp    /usr/lib/ssh/sftp-server
+
+# To enable authentication only on local network
+Match address 192.168.1.0/24
+        PasswordAuthentication yes
+
