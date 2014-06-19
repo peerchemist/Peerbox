@@ -1,7 +1,8 @@
 pkgname=filesystem-peerbox
 pkgver=1
-pkgrel=1
+pkgrel=3
 pkgdesc='Base filesystem'
+provides=('filesystem')
 arch=('any')
 license=('GPL')
 url='http://www.archlinux.org'
@@ -12,7 +13,7 @@ depends=('iana-etc')
 backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/hosts.allow' 'etc/hosts.deny'
 	'etc/ld.so.conf' 'etc/passwd' 'etc/shadow' 'etc/gshadow' 'etc/resolv.conf'
 	'etc/motd' 'etc/nsswitch.conf' 'etc/shells' 'etc/host.conf' 'etc/securetty' 'etc/profile' 'etc/issue')
-source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf'
+source=('hostname' 'group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf'
         'passwd' 'shadow' 'fstab' 'crypttab' 'hosts' 'hosts.allow' 'hosts.deny' 
 	'motd' 'os-release' 'resolv.conf' 'shells' 'gshadow' 'profile' 
 	'modprobe.d.usb-load-ehci-first' 'archlinux.7.txt' 'locale.sh')
@@ -40,7 +41,8 @@ package() {
 
 	# setup /etc
 	install -d etc/{ld.so.conf.d,skel,profile.d}
-	for f in fstab group host.conf hosts hosts.deny hosts.allow issue ld.so.conf motd nsswitch.conf os-release passwd resolv.conf securetty shells profile; do
+	for f in fstab group host.conf hosts hosts.deny hosts.allow issue ld.so.conf motd nsswitch.conf \
+    os-release passwd resolv.conf securetty shells profile hostname; do
 		install -m644 ${srcdir}/${f} etc/
 	done
 	ln -s /proc/self/mounts etc/mtab
@@ -102,15 +104,16 @@ package() {
 	ln -s ../man usr/local/share/man
 }
 
-sha256sums=('12ca813ea154da5e0c57ce290e7aaa84adc9688467ddbfda7876f733ad73f6ec'
+sha256sums=('f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
+            'd2bb19502cef5f192e7489368506afb30c0b34e1e3de92fb873283ef6bed9b88'
             '5ac5bdaa7184ea9110bbff82d168007d8b67f85d8e797e4cf76829ba25bd1bd8'
             '3cfbffdf732985d8a5cd5145cca2da338df53bf45cd097f30c194294492f16f1'
-            'f7b38167196943d8fb9d2e75358c7262d5fe1082b257c4c8caffe3b6de429cb5'
+            'aee432ba0ae6721778ba4b64cfd829afd55f67d3d25b8cbb9af1b571026d79f4'
             'f21f35e7d3083aeee19beb48478130d119b2572922a4889df98326d551540eda'
             '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
-            '84c8b6103553a88b43e83360446ea3da31e815b457eff233adfd636a304d399d'
+            'c2ff9c9821be4cd8c0e5efce2475efe9865588f521fffc9adc0c055592046ac1'
             'bdf92c2a97996eb1b3be24090ca94100f16232290010a7395e44c5c92bd38027'
-            '2fe9186361dad90ff7da5b949b3805765f755b3177ee8f62b6f2afe0d543a7c7'
+            '7e67fd2f1527f5b8045ffe26975bed670c84f5c7c4e705c9cd408b7f48402bcb'
             'ea8c67a34a0a8a41beabe3ceb5733c9e8b84b27c569c11ddbfd8395fce99d8dd'
             '13d1f59c1d0860bf43da996e2b9a6ab2744791614241ed9a1376b7e7e30de3a8'
             '0cc02162d217922791564447ede51cffb5bc857626317519b3c77d0325321b4c'

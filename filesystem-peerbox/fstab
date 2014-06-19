@@ -10,4 +10,4 @@
 
 ##ppcoin
 
-/dev/mmcblk0p4  /var/lib/ppcoind ext4 defaults,nodev,nosuid,noexec     0       1
+/dev/mmcblk0p6  /var/lib/ppcoind ext4 defaults,nodev,nosuid,noexec     0       1
