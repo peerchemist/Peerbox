@@ -1,10 +1,9 @@
 
 pkgname=ufw-peerbox
 pkgver=0.33
-pkgrel=1
+pkgrel=2
 pkgdesc="Uncomplicated and easy to use CLI tool for managing a netfilter firewall"
 provides=('ufw-peerbox')
-conflicts=('ufw')
 arch=('any')
 url="https://launchpad.net/ufw"
 license=('GPL3')
@@ -17,8 +16,7 @@ backup=('etc/ufw/before.rules'
         'etc/ufw/user.rules'
         'etc/ufw/sysctl.conf'
         'etc/default/ufw'
-        'usr/lib/ufw/user.rules'
-        'usr/lib/ufw/user6.rules')
+	)
 source=(http://launchpad.net/ufw/$pkgver/$pkgver/+download/ufw-$pkgver.tar.gz
         ufw.service
         user.rules
@@ -35,7 +33,7 @@ package() {
 
   # Use predefined rules
 
-  cp ../user*.rules .
+  cp ../user*.rules conf
   
   # FS#28769 - move from /lib to /usr/lib
   sed -e 's|/lib|/usr/lib|' -i setup.py
