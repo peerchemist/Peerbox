@@ -14,16 +14,16 @@ source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${pkgver}.ta
         'sshd.service'
         'sshd.pam'
 	'sshd_config'
-	)
+	 )
 
 sha256sums=('48c1f0664b4534875038004cc4f3555b8329c2a81c1df48db5c517800de203bb'
             '1d458d3a4337a59a05ba64989bbfbc9f6360b4c39c5404d57da4cbe2e87e9f3a'
-            '14afb1f9de35e304d102734f5163d08950cdfeac05d3d2d708a6f571142844bf'
+            '8b2ead71715c235cce50c653c97d8eb54bb2908c6fd8c09cbaf20ef9a1c6196c'
             'c5ed9fa629f8f8dbf3bae4edbad4441c36df535088553fe82695c52d7bde30aa'
             '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846'
             '27d0874afc1f87036409e2972f4352e9c1e9bb2a727fdf043a4408fe524826ba')
 
-backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd')
+#backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd')
 
 prepare() {
 	cd "${srcdir}/openssh-${pkgver}"
