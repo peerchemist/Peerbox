@@ -1,0 +1,28 @@
+
+pkgname=paxd
+pkgver=11
+pkgrel=1
+pkgdesc='PaX exception daemon'
+arch=(armv6h i686 x86_64)
+url='https://github.com/thestinger/paxd/'
+license=('MIT')
+depends=('glibc')
+makedepends=('git')
+source=('git://github.com/thestinger/paxd'
+        '10-enable-pax.conf')
+sha256sums=('SKIP'
+            'c047ae56a7f66670b73bba97ee2babf9fc0b72878375040f29901e3c1e7b28de')
+backup=('etc/paxd.conf')
+
+build() {
+  cd $pkgname
+  make CC=gcc
+}
+
+package() {
+  cd $pkgname
+  mkdir -p "$pkgdir/usr/lib/systemd/system/sysinit.target.wants"
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 ../10-enable-pax.conf "$pkgdir/etc/sysctl.d/10-enable-pax.conf"
+}
