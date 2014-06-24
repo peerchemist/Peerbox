@@ -1,13 +1,14 @@
 [Unit]
 Description=PPCoin Daemon
 After=network.target
+RequiresMountsFor=/var/lib/ppcoind
 
 [Install]
 WantedBy=multi-user.target
 
 [Service]
 User=ppcoind
-Restart=on-abort
+Restart=always
 Type=forking
 TimeoutStartSec=30
 PIDFile=/run/ppcoind/ppcoind.pid
