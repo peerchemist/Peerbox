@@ -16,6 +16,7 @@ options=('!strip')
 source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
      ##mirror#"http://deb.digdeo.fr/grsecurity-archives/$_grsec_patch"
         "http://mirrors.muarf.org/grsecurity/test/${_grsec_patch}.gz"
+	"http://mirrors.muarf.org/grsecurity/test/${_grsec_patch}.sig"
         'config'
         'change-default-console-loglevel.patch'
         'args-uncompressed.txt'
@@ -27,7 +28,8 @@ source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
 
 sha256sums=('92c8c30ca69d01341431a0de30a34a332197aa890ea484a1fa26a18df3008e5f'
             '7b0139dc176630094827faa18caa0da01a2aee86f4d4499716f8ac954a4adc43'
-            '6bc76e8c241c400b63145bff905ff17da7da3c392ae4c9d8017c5c00696b807e'
+	    'SKIP'        
+    	    '6bc76e8c241c400b63145bff905ff17da7da3c392ae4c9d8017c5c00696b807e'
             '3f1120150350dc2650c28dbe4a732b4b33d0f5213058bcfb184b8bf241f9c4c9'
             'f6085b24ab74440159a836713620ca3193df9da365884f6b56917655898f00dc'
             '4af6e284f892cdf6960874cc176d8a16ee2d812ebffb1aa46ebf1b6927a20ce7'
