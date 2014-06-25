@@ -12,7 +12,7 @@ source=($pkgname'::git+https://github.com/ppcoin/ppcoin.git'
         'ppcoind.tmpfiles')
 
 sha256sums=('SKIP'
-            '5629e4e9c5ff8f61fe87e798ddf7acdc259f7c714fb815ea7df60451a4ecfd48'
+            'dc0268cc189e7ad57d2d5d063a5d8ab511ef8bb37e69fe034df2e7d5d225553c'
             '0bc7812785fa1844cdda1a2aecf393fa080d08a3e43801d2e8bf9ce1b2d6906e'
             '187ea10d4f1c7577a271513966fa255ec94e96b3212d16974beeaf81625ac24c')
 
