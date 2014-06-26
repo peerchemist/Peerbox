@@ -12,7 +12,9 @@ Restart=always
 Type=forking
 TimeoutStartSec=30
 PIDFile=/run/ppcoind/ppcoind.pid
+EnvironmentFile=/etc/conf.d/ppcoind.conf
 ExecStart=/usr/bin/ppcoind -daemon \
-                           -conf=/etc/ppcoind/ppcoind.conf \
+                           -conf=/etc/peercoin/peercoin.conf \
                            -pid=/run/ppcoind/ppcoind.pid \
-                           -datadir=/var/lib/ppcoind
+                           -datadir=/var/lib/ppcoind \
+                           $ARGS

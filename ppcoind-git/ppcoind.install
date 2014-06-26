@@ -2,7 +2,7 @@ _user_name="ppcoind"
 _user_home="/var/lib/$_user_name"
 
 chown_conf() {
- chown $_user_name: "/etc/ppcoind/ppcoind.conf"
+ chown $_user_name: "/etc/peercoin/peercoin.conf"
 }
 
 pre_install() {
