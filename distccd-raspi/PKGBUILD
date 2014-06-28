@@ -1,0 +1,47 @@
+
+pkgname=('distccd-raspi')
+pkgver=2014.06
+pkgrel=1
+pkgdesc="Crosstools by raspbian project configured to be used with distcc"
+arch=('x86_64')
+license=('GPL')
+depends=('distcc')
+options=('libtool' 'emptydirs' '!strip')
+backup=("etc/conf.d/distccd-raspi.conf")
+source=(
+        "http://peerbox.me/download/gcc-linaro-raspbian-x64.tar.xz"
+	    distccd-raspi.conf
+	    distccd-raspi.service
+	    linker.py
+        )
+
+sha256sums=('4c2559466b9dda3e9b4448dc4417a45bae0c80f969f7b91faed7a19a97172d12'
+            'be11eb82905773ea895ecb3f786189ec1257f6a9917f778ce680487549d3e611'
+            'ddc03c4d83bb422515efd4d4641c316a3435b7190797c4e69bb8274f72060fb2'
+            '259247fd69ed80a83a0a784c247efd43660c31e8a0a3a9fb5de1d8b31aec7747')')
+
+package() {
+
+    ## install symlink to distccd
+    install -d "${pkgdir}/usr/bin"
+    ln -sf /usr/bin/distccd "${pkgdir}/usr/bin/${pkgname}"
+    
+    ## make links in src/bin 
+    cd ${srcdir}/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin
+    /usr/bin/python2 ${srcdir}/linker.py
+    cd ${srcdir}
+    
+    ## copy the toolchain
+    install -d "${pkgdir}/opt/x-tools"
+    cp -ar "${srcdir}/gcc-linaro-arm-linux-gnueabihf-raspbian-x64" "${pkgdir}/opt/x-tools/"
+    
+    # install services
+    install -Dm0644 "${srcdir}/${pkgname}.service" \
+       "${pkgdir}/usr/lib/systemd/system/${pkgname}.service"
+    
+    # install config
+    install -Dm0644 "${srcdir}/${pkgname}.conf" \
+       "${pkgdir}/etc/conf.d/${pkgname}.conf"
+    
+}
+
