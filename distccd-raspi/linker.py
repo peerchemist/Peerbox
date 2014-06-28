@@ -14,7 +14,7 @@ slave_prefix="arm-linux-gnueabihf-"
 
 ## remove all present sym links
 
-os.system("find . -maxdepth 1 -type l -exec rm -f {} \;")
+#os.system("find . -maxdepth 1 -type l -exec rm -f {} \;")
 
 ## list all files in this dir
 

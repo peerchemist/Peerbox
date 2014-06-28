@@ -1,6 +1,6 @@
 [Unit]
 Description=A distributed C/C++ compiler for raspberrypi
-Conflicts=distccd distccd-armv6h
+#Conflicts=distccd distccd-armv6h
 
 [Service]
 EnvironmentFile=/etc/conf.d/distccd-raspi.conf
