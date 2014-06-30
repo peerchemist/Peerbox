@@ -6,7 +6,7 @@ arch=('any')
 license=('GPL')
 source=( "${pkgname}.sh" )
 
-sha256sums=('50a483f302ae03e15393f76a1d2be24ab241131ad5043bd967c6725a79681845')
+sha256sums=('ce970048ad6fc32032d1231baab7d5459dd67398a828cd4c9424789e23c21c78')
 
 package() {
 
