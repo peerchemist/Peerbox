@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/bash 
 txtgrn=$(tput setaf 2) # Peer Green
 txtylw=$(tput setaf 3) # Coin Yellow
 txtrst=$(tput sgr0) # Resets Text
