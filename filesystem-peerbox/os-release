@@ -1,6 +1,6 @@
 NAME="Peerbox OS"
-ID=archarm
-ID_LIKE=arch
+ID=peerbox
+ID_LIKE=peerbox
 PRETTY_NAME="Peerbox"
 ANSI_COLOR="0;36"
 HOME_URL="http://archlinuxarm.org/"
