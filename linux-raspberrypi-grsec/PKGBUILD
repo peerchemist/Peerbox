@@ -6,7 +6,7 @@ _branch=rpi-3.14.y
 _srcname=linux-$_branch
 _kernelname=${pkgbase#linux}
 _desc="Raspberry Pi"
-_grsec_patch="grsecurity-3.0-3.14.6-201406101411.patch"
+_grsec_patch="grsecurity-3.0-3.14.6-rpi-201406301600.patch"
 
 arch=('armv6h')
 url="http://www.kernel.org/"
@@ -14,7 +14,7 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'uboot-mkimage' 'git' 'python2' 'bc')
 options=('!strip')
 source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
-        "http://mirrors.muarf.org/grsecurity/test/${_grsec_patch}.gz"
+	"https://grsecurity.net/${_grsec_patch}"
         'config'
         'change-default-console-loglevel.patch'
         'args-uncompressed.txt'
