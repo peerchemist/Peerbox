@@ -98,7 +98,7 @@ os.system(link)
 
 gcc = slave_prefix + "gcc"
 
-line = "ln -s {0} cc".format(gcc)
+link = "ln -s {0} cc".format(gcc)
 
 os.system(link)
 
