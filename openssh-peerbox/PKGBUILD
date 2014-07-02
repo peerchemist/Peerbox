@@ -1,6 +1,6 @@
 pkgname=openssh-peerbox
 pkgver=6.6p1
-pkgrel=4
+pkgrel=5
 pkgdesc='Free version of the SSH connectivity tools'
 provides=('openssh')
 conflicts=('openssh' 'openssh-hpn')
@@ -23,7 +23,7 @@ sha256sums=('48c1f0664b4534875038004cc4f3555b8329c2a81c1df48db5c517800de203bb'
             '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846'
             '27d0874afc1f87036409e2972f4352e9c1e9bb2a727fdf043a4408fe524826ba')
 
-#backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config' 'etc/pam.d/sshd')
+backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config')
 
 prepare() {
 	cd "${srcdir}/openssh-${pkgver}"
