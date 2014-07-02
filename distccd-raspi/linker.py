@@ -94,6 +94,13 @@ link = "ln -s {0}gcc-4.8.3 {1}".format(slave_prefix, gcc)
 
 os.system(link)
 
+# gcc to cc
+
+gcc = slave_prefix + "gcc"
+
+line = "ln -s {0} cc".format(gcc)
+
+os.system(link)
 
 # ld.bfd to ld
 
@@ -106,7 +113,6 @@ print "LINKING: {0} to {1}".format(ldbfd, ld)
 link = "ln -s {0} {1}".format(ldbfd, ld)
 
 os.system(link)
-
 
 
     
