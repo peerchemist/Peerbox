@@ -1,12 +1,12 @@
 pkgname=peerbox-info
 pkgver=2014.06
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple script to display info about Peerbox node"
 arch=('any')
 license=('GPL')
 source=( "${pkgname}.sh" )
 
-sha256sums=('ce970048ad6fc32032d1231baab7d5459dd67398a828cd4c9424789e23c21c78')
+sha256sums=('8e8e2a2d6ebb4aea49960a47da27917e4078a4887a1afe29c4963e09f0899757')
 
 package() {
 
