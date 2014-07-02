@@ -1,6 +1,6 @@
 pkgname=filesystem-peerbox
 pkgver=1
-pkgrel=3
+pkgrel=4
 pkgdesc='Base filesystem'
 provides=('filesystem')
 arch=('any')
@@ -12,7 +12,7 @@ makedepends=('asciidoc')
 depends=('iana-etc')
 backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/hosts.allow' 'etc/hosts.deny'
 	'etc/ld.so.conf' 'etc/passwd' 'etc/shadow' 'etc/gshadow' 'etc/resolv.conf'
-	'etc/motd' 'etc/nsswitch.conf' 'etc/shells' 'etc/host.conf' 'etc/securetty' 'etc/profile' 'etc/issue')
+	'etc/nsswitch.conf' 'etc/shells' 'etc/host.conf' 'etc/securetty' 'etc/profile')
 source=('hostname' 'group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf'
         'passwd' 'shadow' 'fstab' 'crypttab' 'hosts' 'hosts.allow' 'hosts.deny' 
 	'motd' 'os-release' 'resolv.conf' 'shells' 'gshadow' 'profile' 
@@ -113,13 +113,13 @@ sha256sums=('f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
             '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
             'c2ff9c9821be4cd8c0e5efce2475efe9865588f521fffc9adc0c055592046ac1'
             'bdf92c2a97996eb1b3be24090ca94100f16232290010a7395e44c5c92bd38027'
-            '7e67fd2f1527f5b8045ffe26975bed670c84f5c7c4e705c9cd408b7f48402bcb'
+            '7437d040542d244e11be54afdc6d8d70ddd90947a133050bf81cf3105e13bb57'
             'ea8c67a34a0a8a41beabe3ceb5733c9e8b84b27c569c11ddbfd8395fce99d8dd'
             '13d1f59c1d0860bf43da996e2b9a6ab2744791614241ed9a1376b7e7e30de3a8'
             '0cc02162d217922791564447ede51cffb5bc857626317519b3c77d0325321b4c'
             '380ad81c12e61efebb01d1169810ebf5fb4b786bfded83125ccdd9da7f30223c'
-            'bc049f33c5b826175078ad6f511bf791e6d2f72563bced1b496d5de220797c93'
-            'edc047c4c379cf08058dd164e562782dcb6a513420b7dc2fc6900013fff0c31d'
+            'cb9ea6507cdae19bc879e73f9386c63911a2425ac367c855fa4aca4018b0dfd7'
+            '8c9deb5360ce973509855f7ce40e659de1940f8d4a3ee329cdc91949b1fb2041'
             '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
             '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
             '2c4f081e1db3c855b8ab43514275a82263d50ac68b16c5eb5fcc2149c6b42aed'
