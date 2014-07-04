@@ -1,7 +1,7 @@
 
 pkgname=filesystem-peerbox
 pkgver=0.11
-pkgrel=1
+pkgrel=2
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
@@ -17,7 +17,7 @@ backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/hosts.allow' 'et
 source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf' 'hostname'
         'passwd' 'shadow' 'fstab' 'crypttab' 'hosts' 'hosts.allow' 'hosts.deny' 'motd' 
         'os-release' 'resolv.conf' 'shells' 'gshadow' 'profile' 'modprobe.d.usb-load-ehci-first'
-        'archlinux.7.txt' 'locale.sh' '50-dmesg-restrict.conf')
+        'archlinux.7.txt' 'locale.sh')
 
 sha256sums=('b601d194a6d23e4759ebf331ceb519ead4dfe67d7c0d2008d634eb23d4a8a7fb'
             'c117fe3ffde070ee73113a35c8c7c51f0a59d868cb46a9c141adcd1626aefe7b'
@@ -42,7 +42,7 @@ sha256sums=('b601d194a6d23e4759ebf331ceb519ead4dfe67d7c0d2008d634eb23d4a8a7fb'
             '90fb123aa8c0176bc144322b585bb889181c437542ddbe546af43e11b95be6ab'
             '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
             '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649'
-            '279e6edf3a78b9ff5a396c0e0c005dd4c814318606a64a6ee910b2b786e5206d')
+            )
 
 build() {
 	cd ${srcdir}
@@ -78,8 +78,8 @@ package() {
 	#
 	# etc/sysctl.d/
 	#
-	install -d etc/sysctl.d
-	install -m644 ${srcdir}/50-dmesg-restrict.conf etc/sysctl.d/
+	#install -d etc/sysctl.d
+	#install -m644 ${srcdir}/50-dmesg-restrict.conf etc/sysctl.d/
 	#install -m644 ${srcdir}/grsec.conf etc/sysctl.d/
 	
 	#
