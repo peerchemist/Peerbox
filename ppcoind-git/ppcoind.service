@@ -9,8 +9,8 @@ WantedBy=multi-user.target
 [Service]
 User=ppcoind
 Restart=always
+RestartSec=15
 Type=forking
-TimeoutStartSec=30
 PIDFile=/run/ppcoind/ppcoind.pid
 EnvironmentFile=/etc/conf.d/ppcoind.conf
 ExecStart=/usr/bin/ppcoind -daemon \
