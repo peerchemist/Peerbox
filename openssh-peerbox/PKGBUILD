@@ -1,27 +1,27 @@
 pkgname=openssh-peerbox
 pkgver=6.6p1
-pkgrel=6
+pkgrel=7
 pkgdesc='Free version of the SSH connectivity tools'
 provides=('openssh')
-conflicts=('openssh' 'openssh-hpn')
+conflicts=('openssh')
 url='http://www.openssh.org/portable.html'
 license=('custom:BSD')
 arch=('armv6h' 'i686' 'x86_64')
 depends=('openssl' 'libedit')
-source=('ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${pkgver}.tar.gz'
+source=(ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${pkgver}.tar.gz
         'curve25519pad.patch'
         'ssh-genkeys.service'
         'sshd.service'
         'sshd.pam'
-	    'sshd_config'
-	    )
+	'sshd_config'
+	)
 
 sha256sums=('48c1f0664b4534875038004cc4f3555b8329c2a81c1df48db5c517800de203bb'
             '1d458d3a4337a59a05ba64989bbfbc9f6360b4c39c5404d57da4cbe2e87e9f3a'
             '8b2ead71715c235cce50c653c97d8eb54bb2908c6fd8c09cbaf20ef9a1c6196c'
-            'c5ed9fa629f8f8dbf3bae4edbad4441c36df535088553fe82695c52d7bde30aa'
+            '41347824023de76399cd9b7b117e30dc976c75803711c6006b70ff23998adff4'
             '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846'
-            '27d0874afc1f87036409e2972f4352e9c1e9bb2a727fdf043a4408fe524826ba')
+            'c36e6a1bb82234851857f5ccd19e2267582bc366c50db9bfc33dd24ec4253703')
 
 backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config')
 

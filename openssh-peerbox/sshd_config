@@ -11,7 +11,7 @@
 # default value.
 
 #Port 22
-AddressFamily inet
+#AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
 
@@ -39,10 +39,6 @@ PermitRootLogin yes
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 
-# The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
-# but this is overridden so installations will only check .ssh/authorized_keys
-AuthorizedKeysFile	.ssh/authorized_keys
-
 #AuthorizedPrincipalsFile none
 
 #AuthorizedKeysCommand none
@@ -59,7 +55,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-PasswordAuthentication yes
+#PasswordAuthentication yes
 PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
@@ -98,6 +94,8 @@ ClientAliveCountMax 0
 Subsystem       sftp    /usr/lib/ssh/sftp-server
 
 # To enable authentication only on local network
-#Match address 192.168.1.0/24
-#        PasswordAuthentication yes
+Match address 192.168.1.0/24
+        PasswordAuthentication yes
+Match address 10.42.0.0/24
+	PasswordAuthentication yes
 
