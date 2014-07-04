@@ -1,7 +1,7 @@
 
 pkgname='ppcoind'
 pkgver=v0.4.0ppc.r3.g1f058b6
-pkgrel=5
+pkgrel=6
 pkgdesc='Official CLI implementation of Peercoin, the sustainable and secure cryptocurrency alternative to Bitcoin.'
 url='http://peercoin.net/'
 license=('MIT')
@@ -10,13 +10,15 @@ source=($pkgname'::git+https://github.com/ppcoin/ppcoin.git'
         'ppcoind.service'
         'peercoin.conf'
         'ppcoind.conf'
-        'ppcoind.tmpfiles')
+        'ppcoind.tmpfiles'
+        'ppcoin-skel')
 
 sha256sums=('SKIP'
             '019b9919b39c5b4ecf401eeee1f9a2e0a7203b6278aa894e1af622308fee6c63'
             '0bc7812785fa1844cdda1a2aecf393fa080d08a3e43801d2e8bf9ce1b2d6906e'
-            '3c6e35cc6c864353a0f5fd09f4be2c4be84916faa28b7eafb947ec55d312fbc7'
-            '187ea10d4f1c7577a271513966fa255ec94e96b3212d16974beeaf81625ac24c')
+            '81e903da20668448b6809b1af74d503eee9ed3dd535c78a1fbe920f9aa727019'
+            '187ea10d4f1c7577a271513966fa255ec94e96b3212d16974beeaf81625ac24c'
+            '39200e7dfce0d34fea6e624d1b716686c185f2df912a63fd5744262c0f3071a9')
 
 arch=('armv6h' 'i686' 'x86_64')
 makedepends=('boost' 'miniupnpc')
@@ -40,6 +42,7 @@ package() {
  install -Dm755 "$pkgname/src/ppcoind" "$pkgdir/usr/bin/ppcoind"
  install -Dm640 "peercoin.conf" "$pkgdir/etc/peercoin/peercoin.conf"
  install -Dm640 "ppcoind.conf" "$pkgdir/etc/conf.d/ppcoind.conf"
+ install -Dm640 "ppcoin-skel" $pkgdir/etc/skel/ppcoin.conf
  install -Dm644 "ppcoind.service" "$pkgdir/usr/lib/systemd/system/ppcoind.service"
  install -Dm644 "ppcoind.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/ppcoind.conf"
  install -Dm644 "$pkgname/COPYING" "$pkgdir/usr/share/licenses/ppcoind/COPYING"
