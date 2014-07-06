@@ -1,0 +1,51 @@
+
+pkgname=ufw-peerbox
+pkgver=0.33
+pkgrel=2
+pkgdesc="Uncomplicated and easy to use CLI tool for managing a netfilter firewall"
+provides=('ufw-peerbox')
+arch=('any')
+url="https://launchpad.net/ufw"
+license=('GPL3')
+depends=('iptables' 'python2')
+backup=('etc/ufw/before.rules'
+        'etc/ufw/before6.rules'
+        'etc/ufw/after.rules'
+        'etc/ufw/after6.rules'
+        'etc/ufw/ufw.conf'
+        'etc/ufw/user.rules'
+        'etc/ufw/sysctl.conf'
+        'etc/default/ufw'
+	)
+source=(http://launchpad.net/ufw/$pkgver/$pkgver/+download/ufw-$pkgver.tar.gz
+        ufw.service
+        user.rules
+        user6.rules
+        )
+
+sha256sums=('5f85a8084ad3539b547bec097286948233188c971f498890316dec170bdd1da8'
+            'fdface6f4690e4748fbbd5661c02e1967a8750fdb23581d35516174017a3fe39'
+            'cbebc7ee1be814810389ace0a0c54fd56031dcc7ef085ac7300b1a855a82b209'
+            '899247eaa9a4642477de80183a9c0f736661486ec1fc7f4cfe8d83d741463051')
+
+package() {
+  cd ufw-$pkgver
+
+  # Use predefined rules
+
+  cp ../user*.rules conf
+  
+  # FS#28769 - move from /lib to /usr/lib
+  sed -e 's|/lib|/usr/lib|' -i setup.py
+
+  python2 setup.py install --root=$pkgdir
+
+  # FS#35458 - correct iptables location
+  sed -e 's|sbin|bin|g' -i $pkgdir/usr/lib/python2.7/site-packages/ufw/*
+
+  install -Dm644 $srcdir/ufw.service $pkgdir/usr/lib/systemd/system/ufw.service
+  chmod 644 $pkgdir/etc/ufw/*.rules $pkgdir/usr/lib/ufw/*.rules
+
+  install -Dm755 $pkgdir/usr/sbin/ufw $pkgdir/usr/bin/ufw
+  rm -rf $pkgdir/usr/sbin
+}

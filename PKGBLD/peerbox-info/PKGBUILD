@@ -1,0 +1,15 @@
+pkgname=peerbox-info
+pkgver=2014.06
+pkgrel=2
+pkgdesc="Simple script to display info about Peerbox node"
+arch=('any')
+license=('GPL')
+source=( "${pkgname}.sh" )
+
+sha256sums=('8e8e2a2d6ebb4aea49960a47da27917e4078a4887a1afe29c4963e09f0899757')
+
+package() {
+
+install -Dm755 ${pkgname}.sh ${pkgdir}/usr/bin/${pkgname}
+
+}

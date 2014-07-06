@@ -1,0 +1,149 @@
+
+pkgname=filesystem-peerbox
+pkgver=0.11
+pkgrel=2
+pkgdesc='Base filesystem'
+arch=('any')
+license=('GPL')
+provides=('filesystem')
+replaces=('filesystem')
+install='filesystem.install'
+makedepends=('asciidoc')
+depends=('iana-etc')
+backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/hosts.allow' 'etc/hosts.deny' 
+        'etc/ld.so.conf' 'etc/passwd' 'etc/shadow' 'etc/gshadow' 'etc/resolv.conf' 
+        'etc/nsswitch.conf' 'etc/shells' 'etc/host.conf' 'etc/securetty' 'etc/profile')
+
+source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf' 'hostname'
+        'passwd' 'shadow' 'fstab' 'crypttab' 'hosts' 'hosts.allow' 'hosts.deny' 'motd' 
+        'os-release' 'resolv.conf' 'shells' 'gshadow' 'profile' 'modprobe.d.usb-load-ehci-first'
+        'archlinux.7.txt' 'locale.sh')
+
+sha256sums=('b601d194a6d23e4759ebf331ceb519ead4dfe67d7c0d2008d634eb23d4a8a7fb'
+            'c117fe3ffde070ee73113a35c8c7c51f0a59d868cb46a9c141adcd1626aefe7b'
+            '3cfbffdf732985d8a5cd5145cca2da338df53bf45cd097f30c194294492f16f1'
+            '4a5ef3c8fe48e377284660376fcb8999328c27b85e7560fce3add920e7bef357'
+            'f21f35e7d3083aeee19beb48478130d119b2572922a4889df98326d551540eda'
+            '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
+            'f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
+            '5688b04a9472d7143f4f8b3b9edfc67ed5e2bdf3b4631a00e18491179be77d50'
+            'ab2059a88625b6a03be85af385698bf288c3d173cfa22c0384181ce1a7308c4d'
+            'b9e2b164b0b4920ab47f9745c32ee4e3abd4c3d232b2941b9dcc56cb4a3dc754'
+            'ea8c67a34a0a8a41beabe3ceb5733c9e8b84b27c569c11ddbfd8395fce99d8dd'
+            '13d1f59c1d0860bf43da996e2b9a6ab2744791614241ed9a1376b7e7e30de3a8'
+            '962cb10ee1c503316ce727cc7130270295b483a8358b48a0c31b5e6a72e7f37a'
+            '380ad81c12e61efebb01d1169810ebf5fb4b786bfded83125ccdd9da7f30223c'
+            '6c3cc77939b77367a63d4d03a327840db52cd7bf099749f2167583802d170357'
+            '51a2301a7d00d5fa2fa794ba22909c409b69d1911820b684ebeeff099864382c'
+            '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
+            '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
+            '2c4f081e1db3c855b8ab43514275a82263d50ac68b16c5eb5fcc2149c6b42aed'
+            '0262cacc91cd309be0747e088d46a39f0b205392fbbafab96d767e48a3872ad0'
+            '90fb123aa8c0176bc144322b585bb889181c437542ddbe546af43e11b95be6ab'
+            '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
+            '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649'
+            )
+
+build() {
+	cd ${srcdir}
+	a2x -d manpage -f manpage archlinux.7.txt
+}
+
+package() {
+
+	cd ${pkgdir}
+
+	#
+	# setup root filesystem
+	#
+	for d in boot dev etc home mnt usr var opt srv/http run; do
+		install -d -m755 ${d}
+	done
+	install -d -m555 proc
+	install -d -m555 sys
+	install -d -m0750 root
+	install -d -m1777 tmp
+	# vsftpd won't run with write perms on /srv/ftp
+	install -d -m555 -g ftp srv/ftp
+    
+    #
+	# setup /etc
+	#
+	install -d etc/{ld.so.conf.d,skel,profile.d}
+	for f in fstab group host.conf hosts issue ld.so.conf motd nsswitch.conf os-release passwd \
+	    resolv.conf securetty shells profile hosts.allow hosts.deny hostname; do
+		install -m644 ${srcdir}/${f} etc/
+	done
+	
+	#
+	# etc/sysctl.d/
+	#
+	#install -d etc/sysctl.d
+	#install -m644 ${srcdir}/50-dmesg-restrict.conf etc/sysctl.d/
+	#install -m644 ${srcdir}/grsec.conf etc/sysctl.d/
+	
+	#
+	# mtab & crypttab
+	#
+	ln -s /proc/self/mounts etc/mtab
+	for f in gshadow shadow crypttab; do
+		install -m600 ${srcdir}/${f} etc/
+	done
+	
+	touch etc/arch-release
+	
+	install -D -m644 ${srcdir}/modprobe.d.usb-load-ehci-first usr/lib/modprobe.d/usb-load-ehci-first.conf
+	install -m755 ${srcdir}/locale.sh etc/profile.d/locale.sh
+    
+    #
+	# setup /var
+	#
+	for d in cache/man local opt log/old lib/misc empty; do
+		install -d -m755 var/${d}
+	done
+	install -d -m1777 var/{tmp,spool/mail}
+	# allow setgid games to write scores
+	install -d -m775 -g games var/games
+	ln -s spool/mail var/mail
+	ln -s ../run var/run
+	ln -s ../run/lock var/lock
+
+	#
+	# setup /usr hierarchy
+	#
+	for d in bin include lib share/misc src; do
+		install -d -m755 usr/${d}
+	done
+	for d in $(seq 8); do
+		install -d -m755 usr/share/man/man${d}
+	done
+
+	#
+	# add lib symlinks
+	#
+	ln -s usr/lib ${pkgdir}/lib
+	[[ ${CARCH} = "x86_64" ]] && (
+		ln -s usr/lib ${pkgdir}/lib64
+		ln -s lib ${pkgdir}/usr/lib64
+	)
+
+	#
+	# add bin symlinks
+	#
+	ln -s usr/bin ${pkgdir}/bin
+	ln -s usr/bin ${pkgdir}/sbin
+	ln -s bin ${pkgdir}/usr/sbin
+
+	#
+	# install archlinux(7) manpage
+	#
+	install -D -m644 ${srcdir}/archlinux.7 usr/share/man/man7/archlinux.7
+
+	#
+	# setup /usr/local hierarchy
+	#
+	for d in bin etc games include lib man sbin share src; do
+		install -d -m755 usr/local/${d}
+	done
+	ln -s ../man usr/local/share/man
+}
