@@ -1,0 +1,46 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>peerbox</title>
+</head><body>
+<pre>
+          OooOOo.                      o
+          O     `O                    O
+          o      O                    O
+          O     .o                    o
+ooooooooo oOooOO'  .oOo. .oOo. `OoOo. OoOo. .oOo. o   O ooooooooo
+          o        OooO' OooO'  o     O   o O   o  OoO
+          O        O     O      O     o   O o   O  o o
+          o'       `OoO' `OoO'  o     `OoO' `OoO' O   O
+
+<a href="news.html">news</a>		<a href="download.html">download</a>		<a href="info.html">info</a>		<a href="team.html">team</a>
+
+- Write detailed description of project, explaining goals and methods.
+
+- Finish filesystem-peerbox package
+
+add automated installation of /var/lib/ppcoind, setting up ppcoind user
+
+- Package pre-configured firewall
+
+- Use more optimal filesystem for SD cards, encrypt it
+
+j2fs is in plan, but it still lacks some features so I'll wait for upstream or think of something else.
+
+- Package the blockchain
+
+I plan to "bootstrap" the blockchain, with this feature deployment of new nodes will be a lot faster.
+User can only do: pacman -S peercoin-blkchain and in moments it will be synced.
+
+- Configure and package linux-grsecurity (http://grsecurity.net/)
+This is a major security improvement!
+
+- Add limited user to Peerbox, disable root account.
+
+- Write grsec rules for ppcoind and other important parts of system
+
+With this release I'll remove warning to not use Peerbox for minting. By now, Peerbox will be 99% secure.
+
+- Shave more weight of the system
+
+- After this, I expect projects based on Peerbox, like user friendly interface and detached with stats, monitoring etc.
+</pre>
+</body></html>
