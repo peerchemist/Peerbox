@@ -7,7 +7,7 @@ but it will include changes needed for Peerbox.
 It is responsible for "hostname", users, groups, fstab, motd greeter and so on.
 Also, it defines "host.deny" and "hosts.allow" files which act as a firewall enabling ssh connections only on local network.
 
-# /etc/fstab
+### /etc/fstab
 
 This file defines partitions to be used by Peerbox.
 
