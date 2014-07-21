@@ -29,6 +29,7 @@ optical:x:93:
 floppy:x:94:
 storage:x:95:
 scanner:x:96:
+input:x:97:
 power:x:98:
 nobody:x:99:
 users:x:100:
@@ -38,3 +39,9 @@ systemd-timesync:x:192:
 systemd-network:x:193:
 systemd-bus-proxy:x:194:
 systemd-resolve:x:195:
+tpe:x:200:
+audit:x:201:
+socket-deny-all:x:202:
+socket-deny-client:x:203:
+socket-deny-server:x:204:
+
