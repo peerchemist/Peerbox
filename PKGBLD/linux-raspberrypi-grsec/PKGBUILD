@@ -1,6 +1,6 @@
 
 pkgver=3.14.6
-pkgrel=1
+pkgrel=2
 pkgbase=linux-raspberrypi-grsec
 _branch=rpi-3.14.y
 _srcname=linux-$_branch
@@ -25,15 +25,14 @@ source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
         )
 
 sha256sums=('92c8c30ca69d01341431a0de30a34a332197aa890ea484a1fa26a18df3008e5f'
-            '7b0139dc176630094827faa18caa0da01a2aee86f4d4499716f8ac954a4adc43'      
-    	    '6bc76e8c241c400b63145bff905ff17da7da3c392ae4c9d8017c5c00696b807e'
+            'c1f7ec11889360cf83520785b41509f07f29296a5145fa0f8f3bc727e4b31acd'
+            '74209c569f545d45d415350b479399d0449ca04995d31f2a73511acc88a39bcf'
             '3f1120150350dc2650c28dbe4a732b4b33d0f5213058bcfb184b8bf241f9c4c9'
             'f6085b24ab74440159a836713620ca3193df9da365884f6b56917655898f00dc'
             '4af6e284f892cdf6960874cc176d8a16ee2d812ebffb1aa46ebf1b6927a20ce7'
             '23b9e48acb009c179d39241cac6e524880d2d92671985196b14be8dac58c6367'
             '2bd5c195ff3df55a0aa2550860c2574bbb79f3fe1a25ad4c4bc015f35b4c88ea'
             '6d72e14552df59e6310f16c176806c408355951724cd5b48a47bf01591b8be02')
-
 
 prepare() {
   cd "${srcdir}/${_srcname}"
@@ -43,22 +42,22 @@ msg "Patches:"
   msg2 "Set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)"
   # remove this when a Kconfig knob is made available by upstream
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-  patch -Np1 -i "${srcdir}/change-default-console-loglevel.patch"
+    patch -Np1 -i "${srcdir}/change-default-console-loglevel.patch"
 
   ## Without this depmod will fail
   msg2 "Fix vhci warning in kmod (to restore every kernel maintainer's sanity)"
-  patch -p1 -i "${srcdir}/0001-Bluetooth-allocate-static-minor-for-vhci.patch"
+    patch -p1 -i "${srcdir}/0001-Bluetooth-allocate-static-minor-for-vhci.patch"
 
-  cp ${srcdir}/args-uncompressed.txt arch/arm/boot/
-  cp ${srcdir}/boot-uncompressed.txt arch/arm/boot/
-  cp ${srcdir}/imagetool-uncompressed.py arch/arm/boot/
+    cp ${srcdir}/args-uncompressed.txt arch/arm/boot/
+    cp ${srcdir}/boot-uncompressed.txt arch/arm/boot/
+    cp ${srcdir}/imagetool-uncompressed.py arch/arm/boot/
 
   msg2 "Disable out of tree RTL8192 driver and enable rtlwifi"
-  patch -Np1 -i "${srcdir}/disable-8192cu.patch"
+    patch -Np1 -i "${srcdir}/disable-8192cu.patch"
 
   msg2 "Add grsecurity patches"
-  patch -Np1 -i "$srcdir/$_grsec_patch"
-  rm localversion-grsec
+    patch -Np1 -i "$srcdir/$_grsec_patch"
+    rm localversion-grsec
 
 
 msg "Prepare to build"

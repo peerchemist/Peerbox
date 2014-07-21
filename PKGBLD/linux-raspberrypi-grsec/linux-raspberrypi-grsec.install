@@ -2,7 +2,7 @@
 # arg 2:  the old package version
 
 KERNEL_NAME=-raspberrypi-grsec
-KERNEL_VERSION=3.14.6-grsec-ARCH
+KERNEL_VERSION=3.14.6-2-GRSEC
 
 disable_cma() {
   if [[ -f /boot/config.txt && $(grep '^cma' /boot/config.txt) != '' ]]; then
