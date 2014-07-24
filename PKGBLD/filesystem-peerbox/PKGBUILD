@@ -1,6 +1,6 @@
 
 pkgname=filesystem-peerbox
-pkgver=0.19
+pkgver=0.2
 pkgrel=2
 pkgdesc='Base filesystem'
 arch=('any')
@@ -20,7 +20,7 @@ source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf' 'ho
         'archlinux.7.txt' 'locale.sh' '05-sysctl.conf')
 
 sha256sums=('c8c5e4b41311138983db5fdfc832eab32be2245d84e3213974cbe1b99a516a0c'
-            '1d67dea219a8efebeff4856a0c1cdd31f665a846df3ad34c38ca7c288f1f7fad'
+            '151e7e09b2f2002790cb477ef8e2bc96983f044358317c95fd2dd2a69894eb7f'
             '3cfbffdf732985d8a5cd5145cca2da338df53bf45cd097f30c194294492f16f1'
             '4a5ef3c8fe48e377284660376fcb8999328c27b85e7560fce3add920e7bef357'
             'f21f35e7d3083aeee19beb48478130d119b2572922a4889df98326d551540eda'
@@ -33,7 +33,7 @@ sha256sums=('c8c5e4b41311138983db5fdfc832eab32be2245d84e3213974cbe1b99a516a0c'
             '13d1f59c1d0860bf43da996e2b9a6ab2744791614241ed9a1376b7e7e30de3a8'
             '962cb10ee1c503316ce727cc7130270295b483a8358b48a0c31b5e6a72e7f37a'
             '380ad81c12e61efebb01d1169810ebf5fb4b786bfded83125ccdd9da7f30223c'
-            '0d4c8f12862490f60654d9c2a9c7c37080e7773874f2c256bf7b864e64843216'
+            '4563c9cde3d8a1105a127b9a4c61ded06a205224592f2161090b704b5cd34f17'
             'ca49eca679c7bae3183a631753b3c4fb38c2a62db2b9ceb273790141d731b6ca'
             '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
             '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
@@ -43,7 +43,7 @@ sha256sums=('c8c5e4b41311138983db5fdfc832eab32be2245d84e3213974cbe1b99a516a0c'
             '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
             '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649'
             '9136e5491ac8f934bf966c7156b99d12cd77ee0337a0241bff9ba496e4e8f225')
-                        
+            
 build() {
 	cd ${srcdir}
 	a2x -d manpage -f manpage archlinux.7.txt
