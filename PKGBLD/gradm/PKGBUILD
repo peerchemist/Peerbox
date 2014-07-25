@@ -1,6 +1,6 @@
 pkgname=gradm
 _version=3.0
-_timestamp=201405281853
+_timestamp=201407222118
 pkgver=3.0.$_timestamp
 pkgrel=1
 pkgdesc="Administration utility for grsecurity's Role Based Access Control (RBAC)"
@@ -13,7 +13,8 @@ source=(https://grsecurity.net/stable/$pkgname-$_version-$_timestamp.tar.gz
         https://grsecurity.net/stable/$pkgname-$_version-$_timestamp.tar.gz.sig
         learn_config
         policy)
-sha256sums=('4ee8a4e3a658f14b58c55fb8c5a9d3234e0ec87cf90a886499918553a15c557a'
+
+sha256sums=('6c29274d63293540646be8c8c2c131654ec307b17674c25085b352305562e7e8'
             'SKIP'
             '704ea6ba7f748761735cbe1cf52ef04f53eab1a1e9ea1bdcb6abaaf4a641e44d'
             'c2fb8e696969530c4dc707c59cdc608df6c21d6226979dfeadef92c51deabc5e')
