@@ -1,6 +1,6 @@
 
 pkgname=paxd
-pkgver=11
+pkgver=15
 pkgrel=1
 pkgdesc='PaX exception daemon'
 arch=(armv6h i686 x86_64)
