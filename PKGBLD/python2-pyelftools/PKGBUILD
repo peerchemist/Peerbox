@@ -1,0 +1,27 @@
+pkgname=python-pyelftools
+_pypiname=pyelftools
+pkgver=0.22
+pkgrel=1
+pkgdesc="Python library for analyzing ELF files and DWARF debugging information"
+arch=('any')
+url="http://pypi.python.org/pypi/pyelftools"
+license=('custom')
+depends=('python2')
+source=("http://pypi.python.org/packages/source/p/${_pypiname}/${_pypiname}-${pkgver}.tar.gz")
+sha256sums=('9f7dd617b8a577a3834e7dd7f34f49df21c0670e67a48b21add19abe1adffb60')
+
+build() {
+  cd ${srcdir}/${_pypiname}-${pkgver}
+  python2 setup.py build
+}
+
+check() {
+  cd ${srcdir}/${_pypiname}-${pkgver}
+  python2 test/run_all_unittests.py
+}
+
+package() {
+  cd ${srcdir}/${_pypiname}-${pkgver}
+  python2 setup.py install --root=${pkgdir}
+  install -D -m 644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
+}
