@@ -1,7 +1,7 @@
-pkgname=python-pyelftools
+pkgname=python2-pyelftools
 _pypiname=pyelftools
 pkgver=0.22
-pkgrel=1
+pkgrel=2
 pkgdesc="Python library for analyzing ELF files and DWARF debugging information"
 arch=('any')
 url="http://pypi.python.org/pypi/pyelftools"
