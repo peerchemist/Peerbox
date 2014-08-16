@@ -1,11 +1,11 @@
 
 pkgver=3.14.6
-pkgrel=2
+pkgrel=3
 pkgbase=linux-raspberrypi-grsec
 _branch=rpi-3.14.y
 _srcname=linux-$_branch
 _kernelname=${pkgbase#linux}
-_desc="Raspberry Pi"
+_desc="Peerbox"
 _grsec_patch="grsecurity-3.0-3.14.6-rpi-201406301600.patch"
 
 arch=('armv6h')
@@ -14,7 +14,7 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'uboot-mkimage' 'git' 'python2' 'bc')
 options=('!strip')
 source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
-	"https://grsecurity.net/${_grsec_patch}"
+	    "https://grsecurity.net/${_grsec_patch}"
         'config'
         'change-default-console-loglevel.patch'
         'args-uncompressed.txt'
@@ -26,7 +26,7 @@ source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
 
 sha256sums=('92c8c30ca69d01341431a0de30a34a332197aa890ea484a1fa26a18df3008e5f'
             'c1f7ec11889360cf83520785b41509f07f29296a5145fa0f8f3bc727e4b31acd'
-            '74209c569f545d45d415350b479399d0449ca04995d31f2a73511acc88a39bcf'
+            '7f0ebc3e77979d062b7ab1a79a862535645f95a613d17357aea7400c9362931a'
             '3f1120150350dc2650c28dbe4a732b4b33d0f5213058bcfb184b8bf241f9c4c9'
             'f6085b24ab74440159a836713620ca3193df9da365884f6b56917655898f00dc'
             '4af6e284f892cdf6960874cc176d8a16ee2d812ebffb1aa46ebf1b6927a20ce7'
@@ -60,14 +60,14 @@ msg "Patches:"
     rm localversion-grsec
 
 
-msg "Prepare to build"
-  cat "${srcdir}/config" > ./.config
+  msg "Prepare to build"
+    cat "${srcdir}/config" > ./.config
 
-  # add pkgrel to extraversion
-  sed -ri "s|^(EXTRAVERSION =)(.*)|\1 \2-${pkgrel}|" Makefile
+    # add pkgrel to extraversion
+    sed -ri "s|^(EXTRAVERSION =)(.*)|\1 \2-${pkgrel}|" Makefile
 
-  # don't run depmod on 'make install'. We'll do this ourselves in packaging
-  sed -i '2iexit 0' scripts/depmod.sh
+    # don't run depmod on 'make install'. We'll do this ourselves in packaging
+    sed -i '2iexit 0' scripts/depmod.sh
 }
 
 build() {
