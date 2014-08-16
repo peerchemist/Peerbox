@@ -31,7 +31,7 @@ Protocol 2
 # Authentication:
 
 LoginGraceTime 60
-PermitRootLogin yes
+PermitRootLogin no
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
