@@ -44,5 +44,3 @@ audit:x:201:
 socket-deny-all:x:202:
 socket-deny-client:x:203:
 socket-deny-server:x:204:
-ppcoind:x:999:
-sunny:x:1000:
