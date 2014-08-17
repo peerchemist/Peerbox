@@ -8,7 +8,7 @@ disk:x:6:root
 lp:x:7:daemon
 mem:x:8:
 kmem:x:9:
-wheel:x:10:root
+wheel:x:10:root,sunny
 ftp:x:11:
 mail:x:12:
 uucp:x:14:
@@ -44,4 +44,5 @@ audit:x:201:
 socket-deny-all:x:202:
 socket-deny-client:x:203:
 socket-deny-server:x:204:
-
+ppcoind:x:999:
+sunny:x:1000:
