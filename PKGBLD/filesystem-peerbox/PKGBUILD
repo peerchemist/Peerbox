@@ -1,7 +1,7 @@
 
 pkgname=filesystem-peerbox
 pkgver=0.21
-pkgrel=1
+pkgrel=2
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
