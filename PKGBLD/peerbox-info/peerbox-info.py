@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.1"
+__version__ = "0.2"
 
 import os, sys
 import sh
@@ -28,6 +28,7 @@ import argparse
 import json
 import platform
 from datetime import timedelta
+from colored import fore, back, style
 
 ## Class that pulls and parses data
 class pbinfo:
@@ -49,11 +50,17 @@ class pbinfo:
 					if line.startswith('VERSION_ID'):
 						return(line.split('=')[1].replace('"','').strip())
 
+		def temp():
+
+			with open('/sys/class/thermal/thermal_zone0/temp', 'r') as temp:
+				return(float(temp.readline().strip())/1000)
+
 		mm = {
 			'peerbox': distr(),
 			'kernel release': platform.release(),	
 			'uptime': uptime(),
-			'average load': os.getloadavg()
+			'average load': os.getloadavg(),
+			'system_temperature': temp()
 			}
 
 		return(mm)
@@ -110,32 +117,44 @@ class box:
 	def default(self): ## printed when no arguments
 
 		box = {}
-
-		box['Peerbox:'] = "v" + pbinfo.system()['peerbox']
+		box['peerbox version'] = "v" + pbinfo.system()['peerbox']
 		box['uptime'] = pbinfo.system()['uptime']
 		box['ppcoind'] = pbinfo.ppcoind(self)
 		box['serial'] = pbinfo.hardware()['serial']
 		box['raspi_board_rev'] = pbinfo.hardware()['board_rev']
-		return(json.dumps(box, sort_keys=True, indent=4))
+
+		print(fore.GREEN + style.UNDERLINED + "Peerbox:" + style.RESET)
+		print(json.dumps(box, sort_keys=True, indent=4))
+
+		if box['ppcoind'] == "ppcoind inactive":
+			print(fore.RED + style.BOLD + "WARNING: ppcoind is not running!" + style.RESET)
 
 	def public(self): ## When privacy is needed
 
 		box = {}
-
 		box['Peerbox:'] = "v" + pbinfo.system()['peerbox']
 		box['serial'] = pbinfo.hardware()['serial']
 		box['uptime'] = pbinfo.system()['uptime']
-		box['ppcoind'] = pbinfo.ppcoind("private")
-		return(json.dumps(box, sort_keys=True, indent=4))		
+		box['ppcoind'] = pbinfo.ppcoind('private')
+		print(fore.GREEN + style.UNDERLINED + "Peerbox:" + style.RESET)
+		print(json.dumps(box, sort_keys=True, indent=4))		
+
+	def system(self):
+
+		box = pbinfo.system()
+		print(fore.GREEN + style.UNDERLINED + "Peerbox system info:" + style.RESET)
+		print(json.dumps(box, sort_keys=True, indent=4))
+
+		if box['system_temperature'] > 76:
+			print(fore.RED + style.BOLD + "WARNING: system temperature too high!" + style.RESET)
 
 	def all(self): ## Switch to show all
 
 		box = {}
-
 		box['system'] = pbinfo.system()
 		box['system'].update(pbinfo.hardware())
 		box['ppcoind'] = pbinfo.ppcoind(self)
-		return(json.dumps(box, sort_keys=True, indent=4))
+		print(json.dumps(box, sort_keys=True, indent=4))
 
 
 pbinfo = pbinfo()
@@ -144,29 +163,29 @@ box = box()
 ######################### args
 
 parser = argparse.ArgumentParser(description='Show information on Peerbox')
-parser.add_argument('-a', '--all', help='Show everything', action='store_true')
-parser.add_argument('-s','--system', help='Show system information', action='store_true')
-parser.add_argument('-p', '--ppcoin', help='Equal to "ppcoid getinfo"', action='store_true')
-parser.add_argument('--public', help='Hide private data [ip, balance, serial]', action='store_true')
-parser.add_argument('-o', '--output', help='Dump data to stdout, use to pipe to some other program', 
+parser.add_argument('-a', '--all', help='show everything', action='store_true')
+parser.add_argument('-s','--system', help='show system information', action='store_true')
+parser.add_argument('-p', '--ppcoin', help='equal to "ppcoid getinfo"', action='store_true')
+parser.add_argument('--public', help='hide private data [ip, balance, serial]', action='store_true')
+parser.add_argument('-o', '--output', help='dump data to stdout, use to pipe to some other program', 
 																		action='store_true')
 args = parser.parse_args()
 
 ## Default, if no arguments
 if not any(vars(args).values()):
-	print(box.default())
+	box.default()
 
 if args.all:
-	print(box.all())
+	box.all()
 
 if args.system:
-	print(pbinfo.system())
+	box.system()
 
 if args.ppcoin:
 	print(json.dumps(pbinfo.ppcoind("self"), indent=4))
 
 if args.public:
-	print(box.public())
+	box.public()
 
 if args.output:
 	sys.stdout.write(box.all())
