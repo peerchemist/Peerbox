@@ -1,5 +1,0 @@
-# Username for JSON-RPC connections.
-rpcuser=ppcoind
-
-# Password for JSON-RPC connections.
-rpcpassword=ppcoind

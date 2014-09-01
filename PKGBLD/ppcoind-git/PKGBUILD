@@ -1,7 +1,7 @@
 
 pkgname='ppcoind'
 pkgver=v0.4.0ppc.r4.g5ace24f
-pkgrel=9
+pkgrel=10
 pkgdesc='Official CLI implementation of Peercoin, the sustainable and secure cryptocurrency alternative to Bitcoin.'
 url='http://peercoin.net/'
 license=('MIT')
@@ -14,9 +14,9 @@ source=($pkgname'::git+https://github.com/ppcoin/ppcoin.git'
         'ppcoin-skel')
 
 sha256sums=('SKIP'
-            '4dcee7fd15834f4d4af6c2d37823f1ca2ef13c177aefc5b20c46fa9e1a02297d'
-            '0bc7812785fa1844cdda1a2aecf393fa080d08a3e43801d2e8bf9ce1b2d6906e'
-            '3b75d38d952aa5d3b83bcfdd84550a7851ed7e2053fd89a8ca16f9dbb4a0c3fa'
+            '9eedec3cbc19718cd5428002a55e4ecb83fd5c85fd2c6cbe9bdab8304a1a7808'
+            'd9787233db52b2738d4376cd04278365bbb43d0c7c08eac20d2f2378b12787d4'
+            '44b40d7d4402dbc5f24dead2ea141134e4186c6f8a9851469d45615bb8d26913'
             '187ea10d4f1c7577a271513966fa255ec94e96b3212d16974beeaf81625ac24c'
             '39200e7dfce0d34fea6e624d1b716686c185f2df912a63fd5744262c0f3071a9')
 

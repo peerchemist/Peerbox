@@ -19,7 +19,7 @@ ExecStart=/usr/bin/ppcoind -daemon \
                            -datadir=/var/lib/ppcoind \
                            $ARGS
 
-InaccessibleDirectories=/home /boot
-ReadOnlyDirectories=/etc
+InaccessibleDirectories=/home /boot /root
+ReadOnlyDirectories=/etc /usr
 DeviceAllow=/dev/null rw
 PrivateTmp=true
