@@ -1,0 +1,16 @@
+pkgname=mintbox
+pkgver=0.1
+pkgrel=1
+pkgdesc="Small wrapper around ppcoind walletpassphrase"
+provides=('mintbox')
+makedepends=('python2')
+depends=('python2-sh' 'python2-colored')
+arch=('any')
+license=('GPL')
+source=( "${pkgname}.py" )
+
+sha256sums=('b9d401708b9cc1dc9ac54f8f2a16cd18e5b533d9720bfcd7ab9f4ad26aaffa54')
+
+package() {
+install -Dm755 ${pkgname}.py ${pkgdir}/usr/bin/${pkgname}
+}
