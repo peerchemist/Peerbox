@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.2"
+__version__ = "0.22"
 
 import os, sys
 import sh
@@ -96,9 +96,12 @@ class pbinfo:
 	def ppcoind(self, argv):
 
 		get = sh.ppcoind("getinfo", _ok_code=[0,3,5,87]).stdout
+		pos_diff = sh.ppcoind("getdifficulty", _ok_code=[0,3,5,87]).stdout
 
 		try:
 			getinfo = json.loads(get)
+			pos = json.loads(pos_diff)['proof-of-stake']
+			getinfo["difficulty proof-of-stake"] = pos
 		except:
 			return("ppcoind inactive")
 
@@ -182,7 +185,7 @@ if args.system:
 	box.system()
 
 if args.ppcoin:
-	print(json.dumps(pbinfo.ppcoind("self"), indent=4))
+	print(json.dumps(pbinfo.ppcoind("self"), indent=4, sort_keys=True))
 
 if args.public:
 	box.public()
