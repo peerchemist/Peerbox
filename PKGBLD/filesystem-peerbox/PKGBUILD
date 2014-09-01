@@ -1,42 +1,43 @@
 
 pkgname=filesystem-peerbox
-pkgver=0.21
+pkgver=0.22
 pkgrel=2
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
 provides=('filesystem')
+replaces=('filesystem')
 install='filesystem.install'
 makedepends=('asciidoc')
 depends=('iana-etc')
 backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/hosts.allow' 'etc/hosts.deny' 
-        'etc/ld.so.conf' 'etc/passwd' 'etc/shadow' 'etc/gshadow' 'etc/resolv.conf' 
-        'etc/nsswitch.conf' 'etc/shells' 'etc/host.conf' 'etc/securetty' 'etc/profile')
+        'etc/passwd' 'etc/shadow' 'etc/gshadow' 'etc/resolv.conf' 'etc/shells' 'etc/host.conf'
+        'etc/securetty' 'etc/profile')
 
 source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf' 'hostname'
         'passwd' 'shadow' 'fstab' 'crypttab' 'hosts' 'hosts.allow' 'hosts.deny' 'motd' 
         'os-release' 'resolv.conf' 'shells' 'gshadow' 'profile' 'modprobe.d.usb-load-ehci-first'
         'archlinux.7.txt' 'locale.sh' '05-sysctl.conf')
 
-sha256sums=('7da46f1630ae1ab8b6b94b10a8d77bfaba95bf38ad7a5d4edb87357656d8e06d'
-            '6726c3bdcfdc037fdf9da2f3e7717d47dc3ed10d38956a34509ff06641379df3'
+sha256sums=('867bc18abb625044136beaa4b8d6a14e10a1ccf9f8bdcc358fc496dbfbd18e73'
+            '48bdfada99beadcc369e97926d880f2179edfc79eee556bf74074c79f6b3f8c7'
             '3cfbffdf732985d8a5cd5145cca2da338df53bf45cd097f30c194294492f16f1'
             '4a5ef3c8fe48e377284660376fcb8999328c27b85e7560fce3add920e7bef357'
             'f21f35e7d3083aeee19beb48478130d119b2572922a4889df98326d551540eda'
             '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
             'f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
-            '7f2192cc59b616aa206166fe31207eb4753fe73c75610493e29963c25bb1bfd0'
-            '4608b90de23ff3a6cbbc47718e620bff98e00725368eae7fc9ab61c9cc21ea5b'
+            'f50050ff77e4723b7bc7ef478e14296cb57a83549573112ea74f4a09e26e132c'
+            'fce7a860f805e05e4727d106e74fda7fa0f46caa64257bef494ce04e253e953c'
             '92fecd0e399cee86204f86cd8171c4c8d30d110263dc521479d48627f5b20a69'
             'ea8c67a34a0a8a41beabe3ceb5733c9e8b84b27c569c11ddbfd8395fce99d8dd'
             '13d1f59c1d0860bf43da996e2b9a6ab2744791614241ed9a1376b7e7e30de3a8'
             '962cb10ee1c503316ce727cc7130270295b483a8358b48a0c31b5e6a72e7f37a'
             '380ad81c12e61efebb01d1169810ebf5fb4b786bfded83125ccdd9da7f30223c'
-            '11e086c3ad8270785d150305a7323387f436c10b52a5757dc9548ef690780be2'
-            'a2b0f7ff1cb9574e9e15dfd1b692ab92b67d92923e3a3c107c262ba5943546a7'
+            'e7616a55a09c05a6242729709bff31b4531c2cc84da9ee4bc5d609e70ee4541b'
+            '7778236e2b12c45ba849a0f9e02dde282526869abc6bb9d46b958f9b494f3b69'
             '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
             '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
-            'b78d2eaf52c5ca3a2f64ce46abb8f64ed050e605d1558ac6e88802ec67712125'
+            '5b1f38ae3648954f0d6a95bf069aeff06c3418380359f588774b1a28c105f491'
             '0262cacc91cd309be0747e088d46a39f0b205392fbbafab96d767e48a3872ad0'
             '90fb123aa8c0176bc144322b585bb889181c437542ddbe546af43e11b95be6ab'
             '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
