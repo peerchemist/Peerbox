@@ -1,10 +1,10 @@
 pkgname=peerbox-info
 pkgver=0.22
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple script to display detailed info about Peerbox node"
 provides=('peerbox-info')
 makedepends=('python2')
-depends=('filesystem-peerbox>=0.22' 'python2-sh')
+depends=('filesystem-peerbox>=0.22' 'python2-sh' 'python2-colored')
 arch=('any')
 license=('GPL')
 source=( "${pkgname}.py" )
