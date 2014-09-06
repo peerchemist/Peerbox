@@ -1,0 +1,31 @@
+
+chown_files() {
+ chown ppcoind:ppcoind /var/lib/ppcoind/blk0001.dat
+}
+
+pre_install() {
+	echo
+	echo "==> WARNING!!!"
+	echo "==> before you continue stop the ppcoind"
+	echo 
+	echo "==> sudo systemctl stop ppcoind <=="
+	echo
+	echo "==> thank you."
+}
+
+post_install() {
+ chown_files
+ echo 
+ echo "After installation is complete restart the ppcoind"
+ echo "===> sudo systemctl start ppcoind"
+ echo
+
+}
+
+post_upgrade() {
+ chown_files
+ echo 
+ echo "After installation is complete restart the ppcoind"
+ echo "===> sudo systemctl start ppcoind"
+ echo
+}

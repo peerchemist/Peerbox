@@ -1,0 +1,19 @@
+
+pkgname='ppcoind-blockchain'
+pkgver=2014.09.05
+pkgrel=3
+pkgdesc='Peercoin blockchain'
+license=('MIT')
+install='ppcoind-blockchain.install'
+source=('blk0001.dat')
+
+sha256sums=('a9c75911dfdbbf302f69c26f7cc923fd3e61ab302395ad7f97010512c6f06d41')
+
+arch=('any')
+depends=('ppcoind')
+
+package() {
+ cd "$srcdir"
+ mkdir -p ${pkgdir}/var/lib/ppcoind
+ install -Dm640 "blk0001.dat" ${pkgdir}/var/lib/ppcoind/
+}
