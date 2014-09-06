@@ -1,7 +1,7 @@
 
 pkgname='ppcoind'
 pkgver=v0.4.0ppc.r4.g5ace24f
-pkgrel=10
+pkgrel=11
 pkgdesc='Official CLI implementation of Peercoin, the sustainable and secure cryptocurrency alternative to Bitcoin.'
 url='http://peercoin.net/'
 license=('MIT')
@@ -23,6 +23,7 @@ sha256sums=('SKIP'
 arch=('armv6h' 'i686' 'x86_64')
 makedepends=('boost' 'miniupnpc')
 depends=('boost-libs' 'miniupnpc' 'openssl')
+optdepends=('ppcoind-blockchain')
 
 pkgver() {
  cd "$srcdir/$pkgname"
@@ -42,7 +43,7 @@ package() {
  install -Dm755 "$pkgname/src/ppcoind" "$pkgdir/usr/bin/ppcoind"
  install -Dm640 "peercoin.conf" "$pkgdir/etc/peercoin/peercoin.conf"
  install -Dm640 "ppcoind.conf" "$pkgdir/etc/conf.d/ppcoind.conf"
- install -Dm640 "ppcoin-skel" $pkgdir/etc/skel/ppcoind.conf
+ install -Dm640 "ppcoin-skel" "$pkgdir/etc/skel/.ppcoin"
  install -Dm644 "ppcoind.service" "$pkgdir/usr/lib/systemd/system/ppcoind.service"
  install -Dm644 "ppcoind.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/ppcoind.conf"
  install -Dm644 "$pkgname/COPYING" "$pkgdir/usr/share/licenses/ppcoind/COPYING"
