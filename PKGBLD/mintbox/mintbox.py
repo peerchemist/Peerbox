@@ -14,7 +14,7 @@ def unlock_wallet():
 	password = raw_input("Enter wallet password: ")
 
 	try:
-		sh.ppcoind("ppcoind walletpassphrase {0} true").format(password)
+		sh.ppcoind("ppcoind walletpassphrase {0} 999999999 true").format(password)
 	except:
 		print("Something went wrong")
 
