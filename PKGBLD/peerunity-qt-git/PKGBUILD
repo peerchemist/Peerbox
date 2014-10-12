@@ -1,7 +1,7 @@
 
 pkgname='peerunity-qt-git'
 _gitname=peerunity
-pkgver=0.1
+pkgver=0.1.1.r0.gfd2da0e
 pkgrel=1
 pkgdesc="Peercoin network-compatible, community-developed wallet client."
 arch=('x86_64' 'i686')
