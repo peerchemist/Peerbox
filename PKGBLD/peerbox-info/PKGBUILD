@@ -1,6 +1,6 @@
 pkgname=peerbox-info
-pkgver=0.22
-pkgrel=2
+pkgver=0.23
+pkgrel=1
 pkgdesc="Simple script to display detailed info about Peerbox node"
 provides=('peerbox-info')
 makedepends=('python2')
@@ -9,7 +9,7 @@ arch=('any')
 license=('GPL')
 source=( "${pkgname}.py" )
 
-sha256sums=('01b367303c619dbf1e6267c719fc100b8a21a7ba780aa491a46148b8e805b230')
+sha256sums=('64f137e72236b53f0cea7d7588d9d42a47b0a96b5023103454633f8c57e3c28f')
 
 package() {
 install -Dm755 ${pkgname}.py ${pkgdir}/usr/bin/${pkgname}
