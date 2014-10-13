@@ -20,14 +20,16 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.22"
+__version__ = "0.23"
 
 import os, sys
 import sh
 import argparse
 import json
+import urllib
 import platform
 from datetime import timedelta
+from datetime import datetime as dt
 from colored import fore, back, style
 
 ## Class that pulls and parses data
@@ -159,9 +161,82 @@ class box:
 		box['ppcoind'] = pbinfo.ppcoind(self)
 		print(json.dumps(box, sort_keys=True, indent=4))
 
+	def health(self):
+
+		report = health.check()
+		print "Checking if we are on the right chain..."
+		print "Using" + " " + style.UNDERLINED + "www.peerchain.co" + style.RESET + " as reference."
+		print
+
+		for k,v in report.items():
+			if v == True:
+				print(k + ":" + fore.GREEN + style.BOLD + "True" + style.RESET)
+			else:
+				print(k + ":" + fore.RED + style.BOLD + "False" + style.RESET)
+
+		print
+
+
+## Checking health of blockchain
+class health:
+
+	def pull(self):
+		url = "https://peerchain.co/api/v1/blockLatest/"
+		response = urllib.urlopen(url)
+		return(json.loads(response.read()))
+
+	def local(self):
+		
+		local = {}
+		local["heightInt"] = int(sh.ppcoind("getblockcount", _ok_code=[0,3,5,87]).stdout)
+
+		local["hash"] = sh.ppcoind("getblockhash", local["heightInt"],
+												_ok_code=[0,3,5,87]).stdout.strip()
+
+		block_info = json.loads(sh.ppcoind("getblock", local["hash"],
+												_ok_code=[0,3,5,87]).stdout)
+
+		local["prevHash"] = block_info["previousblockhash"]
+		local["mrkRoot"] = block_info["merkleroot"]
+
+		#timestring = block_info["time"].replace("UTC", "").strip()
+		#local["timeStampUnix"] = dt.strptime(timestring
+		#										, "%Y-%m-%d %H:%M:%S").strftime("%s")
+
+		return local
+
+	def check(self):
+
+		local = self.local()
+		remote = self.pull()
+		report = {}
+
+		if remote["heightInt"] == local["heightInt"]:
+			report["block_count_matches"] = True
+		else:
+			report["block_count_matches"] = False
+
+		if remote["hash"] == local["hash"]:
+			report["last_block_hash_matches"] = True
+		else:
+			report["last_block_hash_matches"] = False
+
+		if remote["prevHash"] == local["prevHash"]:
+			report["previous_block_hash_matches"] = True
+		else:
+			report["previous_block_hash_matches"] = False
+
+		if remote["mrkRoot"] == local["mrkRoot"]:
+			report["merkle_root_matches"] = True
+		else:
+			report["merkle_root_matches"] = False
+
+		return report
+
 
 pbinfo = pbinfo()
 box = box()
+health = health()
 
 ######################### args
 
@@ -171,6 +246,8 @@ parser.add_argument('-s','--system', help='show system information', action='sto
 parser.add_argument('-p', '--ppcoin', help='equal to "ppcoid getinfo"', action='store_true')
 parser.add_argument('--public', help='hide private data [ip, balance, serial]', action='store_true')
 parser.add_argument('-o', '--output', help='dump data to stdout, use to pipe to some other program', 
+																		action='store_true')
+parser.add_argument('--health', help='compare local blockchain data with peerchain.co as reference',
 																		action='store_true')
 args = parser.parse_args()
 
@@ -192,3 +269,6 @@ if args.public:
 
 if args.output:
 	sys.stdout.write(box.all())
+
+if args.health:
+	box.health()
