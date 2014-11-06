@@ -1,6 +1,6 @@
 pkgname=filesystem-peerbox
 pkgver=0.23
-pkgrel=1
+pkgrel=2
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
@@ -42,9 +42,35 @@ sha256sums=('867bc18abb625044136beaa4b8d6a14e10a1ccf9f8bdcc358fc496dbfbd18e73'
             '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
             '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649'
             '9136e5491ac8f934bf966c7156b99d12cd77ee0337a0241bff9ba496e4e8f225')
-            
+         
+lint() {
+	# ensure that passwd is sync'd to shadow and group is sync'd to gshadow.
+	local r=0
+
+	local passwd shadow group gshadow
+
+	for f in passwd shadow group gshadow; do
+		mapfile -t "$f" < <(cut -d: -f1 "$f" | sort)
+	done
+
+	# we can cheat and do simple string comparison only because we can make some
+	# assumptions about the data in these files
+	if [[ ${passwd[*]} != "${shadow[*]}" ]]; then
+		error 'passwd is not in sync with shadow!'
+		r=1
+	fi
+
+	if [[ ${group[*]} != "${gshadow[*]}" ]]; then
+		error 'group is not in sync with gshadow!'
+		r=1
+	fi
+
+	return $r
+}
+
 build() {
 	cd ${srcdir}
+	lint
 	a2x -d manpage -f manpage archlinux.7.txt
 }
 
@@ -96,7 +122,7 @@ package() {
     #
 	# setup /var
 	#
-	for d in cache/man local opt log/old lib/misc empty; do
+	for d in cache local opt log/old lib/misc empty; do
 		install -d -m755 var/${d}
 	done
 	install -d -m1777 var/{tmp,spool/mail}
