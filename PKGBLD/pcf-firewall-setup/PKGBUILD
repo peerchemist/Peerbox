@@ -1,0 +1,20 @@
+pkgname=pcf-modules-firewall-setup
+pkgver=0.11
+pkgrel=3
+pkgdesc='Tool that sets up iptables rules at first boot'
+url='http://www.peerbox.me'
+arch=('any')
+license=('GPL')
+depends=('bash' 'iptables')
+source=('pcf-firewall-setup.sh'
+		'pcf-firewall-setup.service'
+		'iptables.rules.template')
+sha256sums=('6794d9c0e21622c22214687ef66ce54e453ced46a6e6fac79f58b16cd6d29d46'
+            '3b74fadb82a0df61376b391e5a587868b600c833c2899c6b473591c4cfb25985'
+            'a122a476e3edd0d7f8c1dd9adb3636d124851dd680b96d6d61925d6ea8aa3bad')
+            
+package() {
+  install -Dm755 "pcf-firewall-setup.sh" "$pkgdir/usr/lib/pcf/modules/pcf-firewall-setup"
+  install -Dm644 "pcf-firewall-setup.service" "$pkgdir/usr/lib/systemd/system/pcf-firewall-setup.service"
+  install -Dm640 "iptables.rules.template" "$pkgdir/usr/share/pcf/firewall/iptables.rules.template"
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=Configure Iptables firewall
+ConditionPathExists=!/etc/pcf/firewall/.lock
+Wants=network.target dhcpcd@eth0.service
+After=network.target dhcpcd@eth0.service
+
+[Service]
+ExecStart=/usr/lib/pcf/modules/pcf-firewall-setup
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

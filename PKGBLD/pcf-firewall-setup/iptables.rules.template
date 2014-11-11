@@ -1,0 +1,27 @@
+*nat
+:PREROUTING ACCEPT [230:36778]
+:INPUT ACCEPT [11:906]
+:OUTPUT ACCEPT [103:6364]
+:POSTROUTING ACCEPT [103:6364]
+COMMIT
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [8341:2057655]
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p udp -m udp --sport 67 --dport 68 -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type 3/4 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -p udp -m udp --dport 53 -j ACCEPT
+-A INPUT -d 224.0.0.251/32 -p udp -m state --state NEW -m udp --dport 5353 -j ACCEPT
+-A INPUT -d 239.255.255.250/32 -p udp -m udp --dport 1900 -j ACCEPT
+-A INPUT -s <SUBNET>/24 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 9901 -j ACCEPT
+-A INPUT -s <SUBNET>/24 -p icmp -m icmp --icmp-type 8 -j ACCEPT
+-A INPUT -s <SUBNET>/24 -p udp -m udp --sport 1900 -j ACCEPT
+-A INPUT -p tcp -m tcp ! --tcp-flags FIN,SYN,RST,ACK SYN -m state --state NEW -j DROP
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
+-A INPUT -j REJECT --reject-with icmp-port-unreachable
+-A OUTPUT -o lo -j ACCEPT
+COMMIT
