@@ -1,20 +1,19 @@
-
-pkgver=3.14.6
+pkgver=3.14.23
 pkgrel=3
 pkgbase=linux-raspberrypi-grsec
 _branch=rpi-3.14.y
 _srcname=linux-$_branch
 _kernelname=${pkgbase#linux}
 _desc="Peerbox"
-_grsec_patch="grsecurity-3.0-3.14.6-rpi-201406301600.patch"
+_grsec_patch=grsec-rpi-3.14.23.patch
 
 arch=('armv6h')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'uboot-mkimage' 'git' 'python2' 'bc')
-options=('!strip')
+#options=('!strip')
 source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
-	    "https://grsecurity.net/${_grsec_patch}"
+        "https://grsecurity.net/~spender/$_grsec_patch"
         'config'
         'change-default-console-loglevel.patch'
         'args-uncompressed.txt'
@@ -22,17 +21,19 @@ source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
         'imagetool-uncompressed.py'
         'disable-8192cu.patch'
         '0001-Bluetooth-allocate-static-minor-for-vhci.patch'
+        '05-grsecurity.conf'
         )
 
-sha256sums=('92c8c30ca69d01341431a0de30a34a332197aa890ea484a1fa26a18df3008e5f'
-            'c1f7ec11889360cf83520785b41509f07f29296a5145fa0f8f3bc727e4b31acd'
-            '7f0ebc3e77979d062b7ab1a79a862535645f95a613d17357aea7400c9362931a'
+sha256sums=('90dde1d703f4976437c17c0db2cd551b720462035dcf21bab68d40fd09a0b17e'
+            '72038048626e35309198e48d1190b015fadddc75a6a227804b2ade50707657ed'
+            '5450c9a78d9f85c3d7cd88acf3629a17abeb855e0a6d5e19a07796a8dc12d58d'
             '3f1120150350dc2650c28dbe4a732b4b33d0f5213058bcfb184b8bf241f9c4c9'
             'f6085b24ab74440159a836713620ca3193df9da365884f6b56917655898f00dc'
             '4af6e284f892cdf6960874cc176d8a16ee2d812ebffb1aa46ebf1b6927a20ce7'
             '23b9e48acb009c179d39241cac6e524880d2d92671985196b14be8dac58c6367'
             '2bd5c195ff3df55a0aa2550860c2574bbb79f3fe1a25ad4c4bc015f35b4c88ea'
-            '6d72e14552df59e6310f16c176806c408355951724cd5b48a47bf01591b8be02')
+            '6d72e14552df59e6310f16c176806c408355951724cd5b48a47bf01591b8be02'
+            'f276660dc8e8bc6a88366a5af2f25df75200524d45dc22180441a4c582cfba6e')
 
 prepare() {
   cd "${srcdir}/${_srcname}"
@@ -55,11 +56,6 @@ msg "Patches:"
   msg2 "Disable out of tree RTL8192 driver and enable rtlwifi"
     patch -Np1 -i "${srcdir}/disable-8192cu.patch"
 
-  msg2 "Add grsecurity patches"
-    patch -Np1 -i "$srcdir/$_grsec_patch"
-    rm localversion-grsec
-
-
   msg "Prepare to build"
     cat "${srcdir}/config" > ./.config
 
@@ -68,6 +64,10 @@ msg "Patches:"
 
     # don't run depmod on 'make install'. We'll do this ourselves in packaging
     sed -i '2iexit 0' scripts/depmod.sh
+
+  msg2 "Add grsecurity patches"
+    patch -Np1 -i "$srcdir/$_grsec_patch"
+    rm localversion-grsec
 }
 
 build() {
@@ -148,6 +148,9 @@ _package() {
   # move module tree /lib -> /usr/lib
   mkdir -p "${pkgdir}/usr"
   mv "$pkgdir/lib" "$pkgdir/usr"
+
+  # Copy sysctl configuration
+  install -Dm600 "$srcdir/05-grsecurity.conf" "$pkgdir/etc/sysctl.d/05-grsecurity.conf"
 
 }
 
