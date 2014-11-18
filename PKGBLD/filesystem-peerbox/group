@@ -33,7 +33,7 @@ input:x:97:
 power:x:98:
 nobody:x:99:
 users:x:100:
-systemd-journal:x:190:
+systemd-journal:x:190:sunny
 systemd-journal-gateway:x:191:
 systemd-timesync:x:192:
 systemd-network:x:193:
@@ -46,3 +46,6 @@ socket-deny-client:x:203:
 socket-deny-server:x:204:
 ppcoind:x:999:
 sunny:x:1000:
+systemd-journal-remote:x:998:
+systemd-journal-upload:x:997:
+proc-trusted:x:205:sunny
