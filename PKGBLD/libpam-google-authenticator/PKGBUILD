@@ -1,6 +1,6 @@
 pkgname=libpam-google-authenticator
 pkgver=1.0
-pkgrel=3
+pkgrel=4
 pkgdesc='PAM module for google authenticator app'
 arch=('i686' 'x86_64' 'armv6h')
 url="https://code.google.com/p/google-authenticator/"
@@ -9,7 +9,6 @@ depends=('pam')
 optdepends=('qrencode: scannable QR codes for google auth phone app')
 conflicts=('google-authenticator-libpam-git' 'google-authenticator-libpam-hg')
 source=("http://google-authenticator.googlecode.com/files/${pkgname}-${pkgver}-source.tar.bz2")
-install=${pkgname}.install
 sha256sums=('80426045d13ce7a2bf56c692ccfb1751cef3c7484752ad40738facf729264d4b')
 
 build() {
