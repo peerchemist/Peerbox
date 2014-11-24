@@ -2,7 +2,7 @@
 # arg 2:  the old package version
 
 KERNEL_NAME=-grsec-lts
-KERNEL_VERSION=3.14.23-1-grsec-lts
+KERNEL_VERSION=3.14.25-3-grsec-lts
 
 _fix_permissions() {
   /usr/bin/linux-pax-flags -y
@@ -63,7 +63,7 @@ _add_groups() {
 _remove_groups() {
   for group in proc-trusted tpe socket-deny-server socket-deny-client socket-deny-all; do
     if getent group $group >/dev/null; then
-	  groupdel $group
+    groupdel $group
     fi
   done
 }
@@ -98,7 +98,7 @@ post_install() {
   mkinitcpio -p linux${KERNEL_NAME}
 
   _add_groups
-  _fix_permissions
+#  _fix_permissions
   
   _help
 }
@@ -115,7 +115,7 @@ post_upgrade() {
   mkinitcpio -p linux${KERNEL_NAME}
 
   _add_groups
-  _fix_permissions
+#  _fix_permissions
 
   _help
 }
