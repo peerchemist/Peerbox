@@ -1,14 +1,15 @@
+## Maintainer: peerchemist
 
-pkgname='peerunity-qt-git'
+pkgname='peerunity-qt'
 _gitname=peerunity
-pkgver=0.1.1.r0.gfd2da0e
-pkgrel=1
+pkgver=0.1.1
+pkgrel=2
 pkgdesc="Peercoin network-compatible, community-developed wallet client."
 arch=('x86_64' 'i686')
 url="https://github.com/Peerunity/Peerunity"
 license=('MIT')
 provides=('peerunity-qt')
-conflicts=('peerunity-qt' 'peerunity-git' 'peercoin-qt' 'peercoin-qt-git')
+conflicts=('peerunity-git')
 depends=('qt4' 'miniupnpc' 'boost-libs' 'qrencode')
 makedepends=('git' 'boost' 'gcc' 'make' 'qrencode')
 source=('git://github.com/peerunity/peerunity'
@@ -26,8 +27,8 @@ pkgver() {
 build() {
 	cd ${_gitname}/
 
-	# and make qt gui
-	qmake-qt4 USE_QRCODE=1 USE_UPNP=1
+	# make qt gui
+	qmake-qt4 USE_QRCODE=1 USE_UPNP=1 USE_SSL=1 PIE=1
 	make
 
 }
