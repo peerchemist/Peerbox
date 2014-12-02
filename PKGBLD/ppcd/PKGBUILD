@@ -1,0 +1,34 @@
+# Maintainer: peerchemist
+
+pkgname=ppcd
+pkgver=0.9.0
+pkgrel=7
+pkgdesc="An alternative full node Peercoin implementation written in Go"
+arch=('x86_64' 'i686' 'armv6h')
+url="https://github.com/mably/ppcd"
+license=('BSD')
+makedepends=('go' 'git')
+install='ppcd.install'
+source=('ppcd.conf'
+         'ppcd.tmpfiles'
+         'ppcd.service')
+
+sha256sums=('e1d8354316e16ef3fd65d07dd895342afd5f07e68fb99d13c95daa733d017db3'
+            'e89c91a9155283546e3c7c2da5edaad147d3ddce7e64a33efc2804b4e39ef0fc'
+            '74b00656901a763a0a72ebba1381d6c921c13bf3cea73e22c4feea80d0704cae')
+
+_gourl="github.com/mably/ppcd"
+
+build() {
+  cd "$srcdir"
+  msg "go getting source... (this may take a while)"
+  GOPATH="$srcdir" go get -u -v -x ${_gourl}
+}
+
+package() {
+  mkdir -p "$pkgdir/usr/bin"
+  install -p -m755 "$srcdir/bin/${pkgname}" "$pkgdir/usr/bin"
+  install -Dm640 "ppcd.conf" "$pkgdir/etc/ppcd/ppcd.conf"
+  install -Dm644 "ppcd.service" "$pkgdir/usr/lib/systemd/system/ppcd.service"
+  install -Dm644 "ppcd.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/ppcd.conf"
+}

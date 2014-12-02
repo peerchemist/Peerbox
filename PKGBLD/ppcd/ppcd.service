@@ -1,0 +1,25 @@
+[Unit]
+Description=PPCD
+After=network.target
+Conflicts=ppcoind.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=ppcd
+Group=ppcd
+Restart=always
+RestartSec=15
+PIDFile=/run/ppcd/ppcd.pid
+ExecStart=/usr/bin/ppcd \
+		--configfile=/etc/ppcd/ppcd.conf \
+		--datadir=/var/lib/ppcd \
+		--debuglevel=info \
+		--upnp
+
+PrivateTmp=true
+PrivateDevices=yes
+ProtectSystem=full
+ProtectHome=yes
+NoNewPrivileges=yes
