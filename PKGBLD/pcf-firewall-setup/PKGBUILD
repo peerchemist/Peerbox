@@ -1,6 +1,6 @@
 pkgname=pcf-modules-firewall-setup
 pkgver=0.11
-pkgrel=4
+pkgrel=5
 pkgdesc='Tool that sets up iptables rules at first boot'
 url='http://www.peerbox.me'
 arch=('any')
