@@ -10,7 +10,7 @@ source=('pcf-firewall-setup.sh'
 		'pcf-firewall-setup.service'
 		'iptables.rules.template')
 sha256sums=('6794d9c0e21622c22214687ef66ce54e453ced46a6e6fac79f58b16cd6d29d46'
-            '3b74fadb82a0df61376b391e5a587868b600c833c2899c6b473591c4cfb25985'
+            '6845b4b1e10566ff5be61a32cbe7254d49db60b052538e0f4a0116592e633340'
             'a122a476e3edd0d7f8c1dd9adb3636d124851dd680b96d6d61925d6ea8aa3bad')
             
 package() {
