@@ -2,7 +2,7 @@
 
 pkgname=ppcd
 pkgver=0.9.0
-pkgrel=8
+pkgrel=9
 pkgdesc="An alternative full node Peercoin implementation written in Go"
 arch=('x86_64' 'i686' 'armv6h')
 url="https://github.com/mably/ppcd"
@@ -19,6 +19,11 @@ sha256sums=('e1d8354316e16ef3fd65d07dd895342afd5f07e68fb99d13c95daa733d017db3'
             'c2f9cc8cba994613302174e7d7b3462685d2d0afaf94d2737407b3808b81db28')
 
 _gourl="github.com/mably/ppcd"
+
+pkgver() {
+  cd "$srcdir/src/github.com/mably/ppcd"
+  git describe --long --tags | sed 's/PPCD_//g' | sed -r 's/([^-]*-g)/r\1/;s/-/./g' | sed 's/_/\./g'
+}
 
 build() {
   cd "$srcdir"
