@@ -16,7 +16,7 @@ source=('ppcd.conf'
 
 sha256sums=('e1d8354316e16ef3fd65d07dd895342afd5f07e68fb99d13c95daa733d017db3'
             'e89c91a9155283546e3c7c2da5edaad147d3ddce7e64a33efc2804b4e39ef0fc'
-            'c2f9cc8cba994613302174e7d7b3462685d2d0afaf94d2737407b3808b81db28')
+            'e80f618acfac75e918ec3cae60893f7ee51890a41a78761a81d3f981399593cc')
 
 _gourl="github.com/mably/ppcd"
 
