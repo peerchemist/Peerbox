@@ -2,7 +2,11 @@ _user_name="ppcd"
 _user_home="/var/lib/$_user_name"
 
 chown_conf() {
- chown $_user_name: "/etc/ppcd/ppcd.conf"
+ chown -R $_user_name: "/etc/ppcd/"
+}
+
+gencerts () {
+  /usr/bin/ppcd-gencerts -f -d /etc/ppcd/
 }
 
 pre_install() {
@@ -22,11 +26,13 @@ pre_install() {
 }
 
 post_install() {
+ gencerts
  chown_conf
  systemd-tmpfiles --create ppcd.conf
 }
 
 post_upgrade() {
+ gencerts
  chown_conf
  systemd-tmpfiles --create ppcd.conf
 }

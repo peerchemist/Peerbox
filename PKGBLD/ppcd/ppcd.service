@@ -16,7 +16,9 @@ ExecStart=/usr/bin/ppcd \
 		--configfile=/etc/ppcd/ppcd.conf \
 		--datadir=/var/lib/ppcd \
 		--debuglevel=info \
-		--upnp
+		--rpccert=/etc/ppcd/rpc.cert \
+		--rpckey=/etc/ppcd/rpc.key \
+		--ppcd
 
 PrivateTmp=true
 PrivateDevices=yes
