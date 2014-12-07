@@ -1,24 +1,26 @@
 # Maintainer: peerchemist
 
 pkgname=ppcd
-pkgver=0.9.0
-pkgrel=9
+pkgver=0.9.0.BETA.r0.g15d4f79
+pkgrel=10
 pkgdesc="An alternative full node Peercoin implementation written in Go"
+provides=('ppcd')
 arch=('x86_64' 'i686' 'armv6h')
 url="https://github.com/mably/ppcd"
 license=('BSD')
 depends=('ppcd-gencerts')
+optdepends=('ppcctl')
 makedepends=('go' 'git')
 install='ppcd.install'
 source=('ppcd.conf'
          'ppcd.tmpfiles'
          'ppcd.service')
 
+_gourl="github.com/mably/ppcd"
+
 sha256sums=('e1d8354316e16ef3fd65d07dd895342afd5f07e68fb99d13c95daa733d017db3'
             'e89c91a9155283546e3c7c2da5edaad147d3ddce7e64a33efc2804b4e39ef0fc'
             'e80f618acfac75e918ec3cae60893f7ee51890a41a78761a81d3f981399593cc')
-
-_gourl="github.com/mably/ppcd"
 
 pkgver() {
   cd "$srcdir/src/github.com/mably/ppcd"
