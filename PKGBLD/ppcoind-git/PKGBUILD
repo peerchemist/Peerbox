@@ -1,7 +1,7 @@
 
 pkgname='ppcoind'
 pkgver=v0.4.0ppc.r4.g5ace24f
-pkgrel=13
+pkgrel=14
 pkgdesc='Official CLI implementation of Peercoin, the sustainable and secure cryptocurrency alternative to Bitcoin.'
 url='http://peercoin.net/'
 license=('MIT')
@@ -14,7 +14,7 @@ source=($pkgname'::git+https://github.com/ppcoin/ppcoin.git'
         'ppcoin-skel')
 
 sha256sums=('SKIP'
-            '9eedec3cbc19718cd5428002a55e4ecb83fd5c85fd2c6cbe9bdab8304a1a7808'
+            '3b88fe40619bdf8b1ac74aa7d64de0de61c472dce575129578dd25bf7fb58b8e'
             'd9787233db52b2738d4376cd04278365bbb43d0c7c08eac20d2f2378b12787d4'
             '4a5969b3aba06fcbc435f5d0d2ec7f8aa3f1b5a81d09322b017c72acff5d57c1'
             '187ea10d4f1c7577a271513966fa255ec94e96b3212d16974beeaf81625ac24c'
@@ -34,7 +34,7 @@ build() {
  cd "$srcdir/$pkgname"
  
  # make ppcoind
- make -f makefile.unix USE_UPNP=1 USE_SSL=1 -C src CXXFLAGS="$CXXFLAGS"
+ make -f makefile.unix USE_UPNP=1 USE_SSL=1 -e PIE=1 -C src
  
 }
 
