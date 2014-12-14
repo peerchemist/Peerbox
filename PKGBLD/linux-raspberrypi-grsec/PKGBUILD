@@ -1,5 +1,5 @@
 pkgver=3.14.23
-pkgrel=3
+pkgrel=4
 pkgbase=linux-raspberrypi-grsec
 _branch=rpi-3.14.y
 _srcname=linux-$_branch
@@ -26,7 +26,7 @@ source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
 
 sha256sums=('90dde1d703f4976437c17c0db2cd551b720462035dcf21bab68d40fd09a0b17e'
             '72038048626e35309198e48d1190b015fadddc75a6a227804b2ade50707657ed'
-            '5450c9a78d9f85c3d7cd88acf3629a17abeb855e0a6d5e19a07796a8dc12d58d'
+            'f1bf6755675e8643baf0c939cb7d7e4640def1c68f31c56efc169bcb19027ed3'
             '3f1120150350dc2650c28dbe4a732b4b33d0f5213058bcfb184b8bf241f9c4c9'
             'f6085b24ab74440159a836713620ca3193df9da365884f6b56917655898f00dc'
             '4af6e284f892cdf6960874cc176d8a16ee2d812ebffb1aa46ebf1b6927a20ce7'
