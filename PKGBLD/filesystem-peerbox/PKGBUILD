@@ -1,6 +1,6 @@
 pkgname=filesystem-peerbox
 pkgver=0.24
-pkgrel=2
+pkgrel=3
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
@@ -31,8 +31,8 @@ sha256sums=('cee22355ed9f1a16267e7e8425da56c267ba8eeb96554a5730234c29b3bcc030'
             '92fecd0e399cee86204f86cd8171c4c8d30d110263dc521479d48627f5b20a69'
             'efcd458ab5f0ab369ab57ce07e2e9cf1d7521852f5337c282a7913cb37aa808f'
             '20f606330ebb14018798934ea7728f9b941497515edaeea89f1250ed07c9ffd8'
-            '138853ea349b79a2b2728406abcd83130124fd2fa53f4b224eb5e953b376d016'
-            'cfb5a81302665578f90bf6209bfd8fbfe952f34deb2a3f6c349b3f28de8c430c'
+            '6d073dc69dc039fc1ebaab12c9ee32bf88634322c4fc97c6fb1a58a63cb00c05'
+            '0a3f416ce45bc3ef3bc0ea5d556a555c17a51544d753104612d170b887f3d0c9'
             '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
             '3f07de8973712d75e472ce787f45dbb9d527d23a01f9a86548e9afba5c005860'
             '0262cacc91cd309be0747e088d46a39f0b205392fbbafab96d767e48a3872ad0'

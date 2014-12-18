@@ -1,7 +1,7 @@
 NAME="Peerbox on Arch Linux ARM"
 ID=peerbox
 ID_LIKE=peerbox
-VERSION_ID="0.23"
+VERSION_ID="0.24.2"
 PRETTY_NAME="Peerbox"
 ANSI_COLOR="0;36"
 HOME_URL="http://www.peerbox.me/"
