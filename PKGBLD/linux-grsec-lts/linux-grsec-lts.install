@@ -2,7 +2,7 @@
 # arg 2:  the old package version
 
 KERNEL_NAME=-grsec-lts
-KERNEL_VERSION=3.14.25-3-grsec-lts
+KERNEL_VERSION=3.14.27-1-grsec-lts
 
 _fix_permissions() {
   /usr/bin/linux-pax-flags -y
