@@ -1,19 +1,19 @@
-pkgver=3.14.23
-pkgrel=4
+pkgver=3.14.28
+pkgrel=1
 pkgbase=linux-raspberrypi-grsec
 _branch=rpi-3.14.y
 _srcname=linux-$_branch
 _kernelname=${pkgbase#linux}
 _desc="Peerbox"
-_grsec_patch=grsec-rpi-3.14.23.patch
+_grsec_patch=grsec-rpi-3.14.28.patch
 
 arch=('armv6h')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'uboot-mkimage' 'git' 'python2' 'bc')
 #options=('!strip')
-source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
-        "https://grsecurity.net/~spender/$_grsec_patch"
+source=(https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz
+        https://grsecurity.net/~spender/$_grsec_patch{,.sig}
         'config'
         'change-default-console-loglevel.patch'
         'args-uncompressed.txt'
@@ -23,10 +23,12 @@ source=("https://github.com/raspberrypi/linux/archive/${_branch}.tar.gz"
         '0001-Bluetooth-allocate-static-minor-for-vhci.patch'
         '05-grsecurity.conf'
         )
+validpgpkeys=('DE9452CE46F42094907F108B44D1C0F82525FE49') #Bradley Spengler
 
-sha256sums=('90dde1d703f4976437c17c0db2cd551b720462035dcf21bab68d40fd09a0b17e'
-            '72038048626e35309198e48d1190b015fadddc75a6a227804b2ade50707657ed'
-            'f1bf6755675e8643baf0c939cb7d7e4640def1c68f31c56efc169bcb19027ed3'
+sha256sums=('d86ae3bab3bc2d14c6bb453bba0e43ff2747e901c667ee228f873e48835e055b'
+            'f70ccfc1755167069b4937b55ac38c0dd7e674e4bdc0b25f0727d2fca5a86459'
+            'SKIP'
+            'd79ce969552683e41ad015b18e5cd3375681d0640a36f7980d563bfc15eb5348'
             '3f1120150350dc2650c28dbe4a732b4b33d0f5213058bcfb184b8bf241f9c4c9'
             'f6085b24ab74440159a836713620ca3193df9da365884f6b56917655898f00dc'
             '4af6e284f892cdf6960874cc176d8a16ee2d812ebffb1aa46ebf1b6927a20ce7'
