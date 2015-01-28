@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.23"
+__version__ = "0.24"
 
 import os, sys
 import sh
@@ -70,42 +70,47 @@ class pbinfo:
 
 	def hardware(self):
 
-		mm = {}
+		info = {}
 
 		with open('/proc/cpuinfo') as cpuinfo:
 			for line in cpuinfo:
 				if line.startswith('Hardware'):
 					hardware = line.split(':')[1].strip()
 					if hardware == "BCM2708":
-						mm['hardware'] = "Raspberry Pi"
+						info['hardware'] = "Raspberry Pi"
 
 				if line.startswith('Serial'):
 					ser = line.split(':')[1].strip()
-					mm['serial'] = ser
+					info['serial'] = ser
 
 
 		with open('/proc/cmdline', 'r') as cmdline:
 			for i in cmdline.readline().split():
 				if i.startswith('smsc95xx.macaddr'):
-					mm['maccaddr'] = str(i.split('=')[1])
+					info['maccaddr'] = str(i.split('=')[1])
 
 				if i.startswith('bcm2708.boardrev'):
-					mm['board_rev'] = str(i.split('=')[1])
+					info['board_rev'] = str(i.split('=')[1])
 
-		return(mm)
+		return(info)
 
 
 	def ppcoind(self, argv):
 
 		get = sh.ppcoind("getinfo", _ok_code=[0,3,5,87]).stdout
 		pos_diff = sh.ppcoind("getdifficulty", _ok_code=[0,3,5,87]).stdout
+		pid = sh.pidof("ppcoind")
 
 		try:
 			getinfo = json.loads(get)
 			pos = json.loads(pos_diff)['proof-of-stake']
 			getinfo["difficulty proof-of-stake"] = pos
+
 		except:
-			return("ppcoind inactive")
+			if pid != None:
+				return("ppcoind is running but not ready")
+			else:
+				return("ppcoind inactive")
 
 		## When posting in public, hide IP and balance.
 		if argv == "private":
@@ -115,6 +120,64 @@ class pbinfo:
 
 		else:
 			return(getinfo)
+
+
+## Checking health of blockchain
+class health:
+
+	def pull(self):
+		url = "http://peerchain.net/api/blocks/last"
+		response = urllib.urlopen(url)
+		return(json.loads(response.read()))
+
+	def local(self):
+		
+		local = {}
+		local["heightInt"] = int(sh.ppcoind("getblockcount", _ok_code=[0,3,5,87]).stdout)
+
+		local["hash"] = sh.ppcoind("getblockhash", local["heightInt"],
+												_ok_code=[0,3,5,87]).stdout.strip()
+
+		block_info = json.loads(sh.ppcoind("getblock", local["hash"],
+												_ok_code=[0,3,5,87]).stdout)
+
+		local["prevHash"] = block_info["previousblockhash"]
+		local["mrkRoot"] = block_info["merkleroot"]
+
+		return local
+
+	def check(self):
+
+		local = self.local()
+		remote = self.pull()
+		report = {}
+
+		## Block number
+		if remote["id"] == local["heightInt"]:
+			report["block_count_matches"] = True
+		else:
+			report["block_count_matches"] = False
+
+		## Hash of the current block
+		if remote["hash"] == local["hash"]:
+			report["last_block_hash_matches"] = True
+		else:
+			report["last_block_hash_matches"] = False
+
+		## Hash of previous block
+		if remote["hashPrevBlock"] == local["prevHash"]:
+			report["previous_block_hash_matches"] = True
+		else:
+			report["previous_block_hash_matches"] = False
+
+		## hash of the MerkleRoot
+		if remote["hashMerkleRoot"] == local["mrkRoot"]:
+			report["merkle_root_matches"] = True
+		else:
+			report["merkle_root_matches"] = False
+
+		return report
+
 
 ## Class that will do all the pretty printing
 class box:
@@ -165,7 +228,7 @@ class box:
 
 		report = health.check()
 		print "Checking if we are on the right chain..."
-		print "Using" + " " + style.UNDERLINED + "www.peerchain.co" + style.RESET + " as reference."
+		print "Using" + " " + style.UNDERLINED + "www.peerchain.net" + style.RESET + " as reference."
 		print
 
 		for k,v in report.items():
@@ -175,63 +238,6 @@ class box:
 				print(k + ":" + fore.RED + style.BOLD + "False" + style.RESET)
 
 		print
-
-
-## Checking health of blockchain
-class health:
-
-	def pull(self):
-		url = "https://peerchain.co/api/v1/blockLatest/"
-		response = urllib.urlopen(url)
-		return(json.loads(response.read()))
-
-	def local(self):
-		
-		local = {}
-		local["heightInt"] = int(sh.ppcoind("getblockcount", _ok_code=[0,3,5,87]).stdout)
-
-		local["hash"] = sh.ppcoind("getblockhash", local["heightInt"],
-												_ok_code=[0,3,5,87]).stdout.strip()
-
-		block_info = json.loads(sh.ppcoind("getblock", local["hash"],
-												_ok_code=[0,3,5,87]).stdout)
-
-		local["prevHash"] = block_info["previousblockhash"]
-		local["mrkRoot"] = block_info["merkleroot"]
-
-		#timestring = block_info["time"].replace("UTC", "").strip()
-		#local["timeStampUnix"] = dt.strptime(timestring
-		#										, "%Y-%m-%d %H:%M:%S").strftime("%s")
-
-		return local
-
-	def check(self):
-
-		local = self.local()
-		remote = self.pull()
-		report = {}
-
-		if remote["heightInt"] == local["heightInt"]:
-			report["block_count_matches"] = True
-		else:
-			report["block_count_matches"] = False
-
-		if remote["hash"] == local["hash"]:
-			report["last_block_hash_matches"] = True
-		else:
-			report["last_block_hash_matches"] = False
-
-		if remote["prevHash"] == local["prevHash"]:
-			report["previous_block_hash_matches"] = True
-		else:
-			report["previous_block_hash_matches"] = False
-
-		if remote["mrkRoot"] == local["mrkRoot"]:
-			report["merkle_root_matches"] = True
-		else:
-			report["merkle_root_matches"] = False
-
-		return report
 
 
 pbinfo = pbinfo()
