@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.24"
+__version__ = "0.24.2"
 
 import os, sys
 import sh
@@ -99,7 +99,7 @@ class pbinfo:
 
 		get = sh.ppcoind("getinfo", _ok_code=[0,3,5,87]).stdout
 		pos_diff = sh.ppcoind("getdifficulty", _ok_code=[0,3,5,87]).stdout
-		pid = sh.pidof("ppcoind")
+		pid = sh.sudo("pidof", "ppcoind").stdout.strip()
 
 		try:
 			getinfo = json.loads(get)
