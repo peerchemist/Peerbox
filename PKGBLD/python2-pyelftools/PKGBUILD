@@ -1,14 +1,14 @@
 pkgname=python2-pyelftools
 _pypiname=pyelftools
-pkgver=0.22
-pkgrel=2
+pkgver=0.23
+pkgrel=1
 pkgdesc="Python library for analyzing ELF files and DWARF debugging information"
 arch=('any')
-url="http://pypi.python.org/pypi/pyelftools"
+url="https://github.com/eliben/pyelftools"
 license=('custom')
 depends=('python2')
-source=("http://pypi.python.org/packages/source/p/${_pypiname}/${_pypiname}-${pkgver}.tar.gz")
-sha256sums=('9f7dd617b8a577a3834e7dd7f34f49df21c0670e67a48b21add19abe1adffb60')
+source=("https://github.com/eliben/pyelftools/archive/v${pkgver}.zip")
+sha256sums=('77dcd03db9ea80366d8e393292516e4b1701de50ea561fb69f4b6c3c3bb9c159')
 
 build() {
   cd ${srcdir}/${_pypiname}-${pkgver}
