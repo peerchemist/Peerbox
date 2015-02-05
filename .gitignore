@@ -1,0 +1,7 @@
+*.pyc
+*.tar
+*.tar.gz
+*.tar.xz
+src
+pkg
+PKGBUILD~
