@@ -1,25 +1,29 @@
-pkgname=openssh-peerbox
+pkgname=openssh
 pkgver=6.7p1
-pkgrel=2
+pkgrel=3
 pkgdesc='Free version of the SSH connectivity tools'
 provides=('openssh')
 conflicts=('openssh')
 url='http://www.openssh.org/portable.html'
 license=('custom:BSD')
 arch=('armv6h' 'i686' 'x86_64')
+makedepends=('linux-headers')
 depends=('openssl' 'libedit')
-source=(ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${pkgver}.tar.gz
-        'ssh-genkeys.service'
+validpgpkeys=('59C2118ED206D927E667EBE3D3E5F56B6D920D30')
+source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
+        'sshdgenkeys.service'
+        'sshd@.service'
         'sshd.service'
-        'sshd.pam'
-		'sshd_config'
-		)
+        'sshd.socket'
+        'sshd.pam')
 
 sha256sums=('b2f8394eae858dabbdef7dac10b99aec00c95462753e80342e530bbb6f725507'
+            'SKIP'
             '8b2ead71715c235cce50c653c97d8eb54bb2908c6fd8c09cbaf20ef9a1c6196c'
-            '41347824023de76399cd9b7b117e30dc976c75803711c6006b70ff23998adff4'
-            '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846'
-            '3dd8a0819d73fe92c9e69430284d5c55713315f158f3b1b7fd7b475b9775ba15')
+            '69cc2abaaae0aa8071b8eac338b2df725f60ce73381843179b74eaac78ba7f1d'
+            '54f128f23f6f4c96f4b6dfa6b3048ebf4ca4d5102c9bd243dddf8b05c5ad8add'
+            'de14363e9d4ed92848e524036d9e6b57b2d35cc77d377b7247c38111d2a3defd'
+            '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846')
 
 backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config')
 
@@ -42,19 +46,18 @@ build() {
 }
 
 package() {
-	
-	## Use preconfigured sshd_config
 
-	cp sshd_config ${srcdir}/openssh-${pkgver}
-
-	cd "${srcdir}/openssh-${pkgver}"
+	cd "${srcdir}/${pkgname}-${pkgver}"
 
 	make DESTDIR="${pkgdir}" install
 
+	ln -sf ssh.1.gz "${pkgdir}"/usr/share/man/man1/slogin.1.gz
 	install -Dm644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENCE"
-	
-	install -Dm644 ../ssh-genkeys.service "${pkgdir}"/usr/lib/systemd/system/ssh-genkeys.service
+
+	install -Dm644 ../sshdgenkeys.service "${pkgdir}"/usr/lib/systemd/system/sshdgenkeys.service
+	install -Dm644 ../sshd@.service "${pkgdir}"/usr/lib/systemd/system/sshd@.service
 	install -Dm644 ../sshd.service "${pkgdir}"/usr/lib/systemd/system/sshd.service
+	install -Dm644 ../sshd.socket "${pkgdir}"/usr/lib/systemd/system/sshd.socket
 	install -Dm644 ../sshd.pam "${pkgdir}"/etc/pam.d/sshd
 
 	install -Dm755 contrib/findssl.sh "${pkgdir}"/usr/bin/findssl.sh

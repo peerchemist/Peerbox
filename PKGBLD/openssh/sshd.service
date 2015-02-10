@@ -1,7 +1,7 @@
 [Unit]
 Description=OpenSSH Daemon
-Wants=ssh-genkeys.service
-After=ssh-genkeys.service
+Wants=sshdgenkeys.service
+After=sshdgenkeys.service
 After=network.target
 
 [Service]
