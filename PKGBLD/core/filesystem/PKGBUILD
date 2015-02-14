@@ -1,4 +1,4 @@
-pkgname=filesystem-peerbox
+pkgname=filesystem
 pkgver=0.25
 pkgrel=1
 pkgdesc='Base filesystem'
@@ -30,8 +30,8 @@ sha256sums=('cee22355ed9f1a16267e7e8425da56c267ba8eeb96554a5730234c29b3bcc030'
             'd6efbeab103b229b443163b4d8cf3eedce4d0fc1385f8098ffb8e905a930795d'
             'efcd458ab5f0ab369ab57ce07e2e9cf1d7521852f5337c282a7913cb37aa808f'
             '20f606330ebb14018798934ea7728f9b941497515edaeea89f1250ed07c9ffd8'
-            '6d073dc69dc039fc1ebaab12c9ee32bf88634322c4fc97c6fb1a58a63cb00c05'
-            '0a3f416ce45bc3ef3bc0ea5d556a555c17a51544d753104612d170b887f3d0c9'
+            'bbecbef9dc7c88a6f2c23c010d856b39ec635df8110f6484962ace35ab009b40'
+            '51836d01deca33d55a495395db99fc2518dd721debd5ab03aa47d52e2fec5b11'
             '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
             '3f07de8973712d75e472ce787f45dbb9d527d23a01f9a86548e9afba5c005860'
             '0262cacc91cd309be0747e088d46a39f0b205392fbbafab96d767e48a3872ad0'
@@ -39,7 +39,7 @@ sha256sums=('cee22355ed9f1a16267e7e8425da56c267ba8eeb96554a5730234c29b3bcc030'
             '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
             '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
             '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649')
-         
+            
 lint() {
 	# ensure that passwd is sync'd to shadow and group is sync'd to gshadow.
 	local r=0
