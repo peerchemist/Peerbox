@@ -1,0 +1,394 @@
+
+/*=======================================
+* Element resets
+*=======================================*/
+@import "compass";
+@import "bootstrap.min";
+@import "font-awesome.min";
+
+/*=======================================
+* Fonts
+*=======================================*/
+@import url(http://fonts.googleapis.com/css?family=Noto+Serif:400,700);
+
+/*=======================================
+* variables
+*=======================================*/
+$white: #FFFFFF;
+$grey: #555555;
+$green: #228944;
+$blue: #0c7bb9;
+
+
+/*=======================================
+* defaults
+*=======================================*/
+.btn, a, a:hover {
+	outline: none !important;
+	text-decoration: none;
+	-webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    color: $green;
+}
+.btn, .form-control { border-radius: 2px; }
+.form-control:focus {
+	border-color: $green; box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(233, 177, 102, 0.6);
+	webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(233, 177, 102, 0.6);
+}
+
+.navbar-toggle {
+	background-color: $green;
+	.icon-bar {
+		background-color: #FFFFFF;
+	}
+}
+
+.btn-green {
+	background-color: $green;
+	color: #FFFFFF;
+	&:hover, &:focus { background-color: rgba(34, 137, 68, 0.22); color: $green; }
+}
+.icons {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	font-size: 50px;
+	border-radius: 100px;
+	border: 1px solid;
+	padding: 10px;
+	margin-bottom: 30px;
+}
+.container { max-width: 960px; }
+
+/*=======================================
+* body wrapper
+*=======================================*/
+
+body {
+	color: #4D4D4D;
+	padding-top: 90px;
+	font-family: 'Noto Serif', serif;
+
+	header {
+		background-color: #FFFFFF;
+		border: 0 !important;
+		border-radius: 0 !important;
+		margin: 0 !important;
+		padding: 20px 0;
+		min-height: 0 !important;
+
+		.navbar-header {
+
+			.navbar-brand { margin-top: -15px; }
+			.navbar-git {
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+		}
+
+		.navbar-nav {
+			li {
+				a {
+					background-color: #FFFFFF;
+					padding-right: 25px;
+					padding-left: 25px;
+					text-transform: uppercase;
+					&:hover, &:focus {
+						background-color: #FFFFFF;
+						color: $grey;
+					}
+				}
+				&:hover, &:focus {
+					background-color: #FFFFFF;
+					color: $grey;
+				}
+			}
+		}
+
+	}
+
+	.introduction {
+		background-color: #183526;
+		background-image: url('../img/header.jpg');
+		background-position: center;
+		color: #FFFFFF;
+		padding: 130px 0;
+		text-align: center;
+		h1 { font-size: 55px; font-weight: 200; margin-bottom: 30px; }
+		a { font-size: 25px; padding: 10px 25px; background-color: #FFFFFF;  }
+	}
+
+	.subHeader {
+		background-color: $green;
+		color: #FFFFFF;
+		padding: 60px 40px;
+		text-align: center;
+		h1 { margin: 0; font-size: 40px; }
+	}
+
+	main {
+		position: relative;
+		background: #fff url("../img/bg.jpg") no-repeat -100px bottom;
+		padding: 60px 60px 300px;
+
+		#homePage {
+			padding: 20px 0;
+			text-align: center;
+			font-size: 18px;
+			> div > div { padding: 0 30px; }
+			> div:nth-child(2) > div {
+				border-left: 1px solid;
+				border-right: 1px solid;
+			}
+		}
+
+		#aboutPage {
+			padding: 20px 80px 70px;
+			h2 { margin: 0 0 30px; }
+			blockquote {
+				padding: 30px 45px;
+				margin: 30px 0;
+				font-size: 18.5px;
+				border-left: 5px solid $green;
+				background-color: #eee;
+				font-weight: 200;
+				&:before {
+					content: "\f10d";
+					font-family: FontAwesome;
+					margin-left: -22px;
+				}
+
+				&:after {
+					content: "\f10e";
+					font-family: FontAwesome;
+				}
+			}
+		}
+
+		#tutPage {
+			padding: 20px 0 70px;
+			article {
+				padding-bottom: 40px;
+				margin-bottom: 40px;
+				border-bottom: 1px solid #EDEDED;
+				h2 { margin: 10px 0 20px; }
+			}
+
+			.pagination {
+				> li {
+					> a, > span { color: $green; }
+					&.active > a, &.active > span,
+					&.active:hover > a, &.active:focus > a,
+					&.active:hover > span, &.active:focus > span {
+						background-color: $green !important;
+						color: $white !important;
+					}
+				}
+			}
+
+			aside {
+				background: -moz-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%, rgba(0,0,0,0) 100%);
+				background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(214,214,214,0.24)), color-stop(100%,rgba(0,0,0,0)));
+				background: -webkit-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				background: -o-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				background: -ms-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				background: linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3dd6d6d6', endColorstr='#00000000',GradientType=1 );
+				padding: 10px 30px 80px;
+				min-height: 500px;
+
+				small { text-align: right; display: block; }
+				ul {
+					padding-top: 10px;
+					li {
+						display: block;
+						a {
+							padding: 3px 0 3px 25px;
+							display: block;
+							border-bottom: 1px dotted;
+							width: 100%;
+							margin-bottom: 10px;
+							color: inherit;
+							&:before {
+							  	content: "\f04b";
+							  	font-family: FontAwesome;
+							  	color: $green;
+							  	padding-right: 15px;
+							 	margin-left: -25px;
+							}
+
+							&:hover, &:focus {
+								&:before { color: $grey; }
+							}
+						}
+
+						&.active {
+							a {
+								&:before { color: $grey; }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		#tutFullPage {
+			padding: 20px 0 70px;
+			article {
+				padding-bottom: 40px;
+				h2 { margin: 10px 0 20px; }
+			}
+
+			aside {
+				background: -moz-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%, rgba(0,0,0,0) 100%);
+				background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(214,214,214,0.24)), color-stop(100%,rgba(0,0,0,0)));
+				background: -webkit-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				background: -o-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				background: -ms-linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				background: linear-gradient(45deg,  rgba(214,214,214,0.24) 0%,rgba(0,0,0,0) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3dd6d6d6', endColorstr='#00000000',GradientType=1 );
+				padding: 10px 30px 80px;
+				min-height: 500px;
+				ul {
+					padding-top: 10px;
+					li {
+						display: block;
+						a {
+							padding: 3px 0;
+							display: block;
+							border-bottom: 1px dotted;
+							width: 100%;
+							margin-bottom: 10px;
+							color: inherit;
+							&:before {
+							  content: "\f04b";
+							  font-family: FontAwesome;
+							  color: $green;
+							  padding-right: 10px;
+							}
+							&:hover, &:focus {
+								&:before { color: $grey; }
+							}
+						}
+
+						&.active {
+							a {
+								&:before { color: $grey; }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.subFooter {
+			background-color: #F7F7F7;
+			margin: 30px 0;
+			padding: 35px;
+			display: block;
+			font-size: 26px;
+			.btn { display: block; margin-top: 20px; }
+		}
+
+	}
+
+	footer {
+		margin-top: -180px;
+		padding: 50px 0 40px;
+		background-color: #FFFFFF;
+		position: relative;
+		border-top: 1px solid #EDEDED;
+		text-align: center;
+		a { color: inherit; }
+		.footer-link { font-size: 20px; li { padding: 0 15px; } }
+		.footer-social { font-size: 15px; li { padding: 0 10px; i { color: $green; } } }
+	}
+
+}
+
+/*
+*************************************************
+* Media Queries for smaller screens             *
+*************************************************/
+
+@media only screen and (max-width: 767px) {
+
+body {
+
+	header {
+		padding-bottom: 0 !important;
+		.navbar-nav {
+			float: none !important;
+			li a {
+				border-top: 1px solid $grey;
+				text-align: center;
+				font-size: 20px;
+				padding: 15px !important;
+			}
+		}
+	}
+
+	.introduction {
+		padding: 20px 0;
+		h1 { font-size: 40px; }
+	}
+
+	.subHeader {
+		padding: 20px 0;
+		h1 { font-size: 30px; }
+	}
+
+	main {
+		padding: 40px 0 300px !important;
+
+		#homePage {
+			> div:nth-child(2) > div { border: none; }
+			> div > div { padding: 20px; }
+		}
+
+		#aboutPage { padding: 0 0 70px !important; }
+	}
+
+	footer {
+		ul {
+			li {
+				display: block !important;
+				float: none;
+				a { padding: 10px 10px; display: block; }
+			}
+		}
+	}
+
+}
+
+}
+
+@media only screen and (max-width: 1220px) {
+
+body {
+
+	header {
+		.navbar-nav { float: left; }
+	}
+
+}
+
+}
+
+@media only screen and (max-width: 992px) {
+
+body {
+
+	header {
+		.navbar-header .navbar-git { display: none; }
+		.navbar-nav li a { padding: 10px 15px; }
+	}
+
+}
+
+}
