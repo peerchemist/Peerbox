@@ -8,7 +8,4 @@
 tmpfs /var/log  tmpfs defaults,nodev,nosuid,mode=0755,size=16M      0       0
 
 ##/tmp
-tmpfs /tmp  tmpfs defaults,nodev,nosuid,mode=1777,size=16M        0       0
-
-##ppcoin
-/dev/mmcblk0p6 /var/lib/ppcoind  f2fs  defaults,nodev,nosuid,noexec     1    1
+#tmpfs /tmp  tmpfs defaults,nodev,nosuid,mode=1777,size=16M        0       0

@@ -1,11 +1,10 @@
 pkgname=filesystem-peerbox
-pkgver=0.24
-pkgrel=3
+pkgver=0.25
+pkgrel=1
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
 replaces=('filesystem')
-conflicts=('filesystem')
 provides=('filesystem')
 install='filesystem.install'
 makedepends=('asciidoc')
@@ -27,8 +26,8 @@ sha256sums=('cee22355ed9f1a16267e7e8425da56c267ba8eeb96554a5730234c29b3bcc030'
             'f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
             'cc1964557b00da5a3abdd4f5e8c07efd1eab6a105ae03b59ef13ca9093939cd8'
             '3971caa4d18eca5a9922d36bee3745fb85511ac593a073dab7d11722a13221e0'
-            '8883589b20f7dbe12c32b9d0f9a3cfaaafe26bfd99b44db765565ca09f4b0dc4'
-            '92fecd0e399cee86204f86cd8171c4c8d30d110263dc521479d48627f5b20a69'
+            '967a0d1ddb7fb67df55c6fb1ffc383ec4daf77e18f1d9c0996bce42b07758485'
+            'd6efbeab103b229b443163b4d8cf3eedce4d0fc1385f8098ffb8e905a930795d'
             'efcd458ab5f0ab369ab57ce07e2e9cf1d7521852f5337c282a7913cb37aa808f'
             '20f606330ebb14018798934ea7728f9b941497515edaeea89f1250ed07c9ffd8'
             '6d073dc69dc039fc1ebaab12c9ee32bf88634322c4fc97c6fb1a58a63cb00c05'
