@@ -1,0 +1,33 @@
+pkgname=i2pd
+pkgver=0.7.0
+pkgrel=1
+pkgdesc="Simplified C++ implementation of I2P client"
+arch=('i686' 'x86_64')
+url="https://github.com/PrivacySolutions/i2pd"
+license=('GPL2')
+depends=(crypto++ boost-libs)
+makedepends=(boost)
+conflicts=(i2pd-git)
+install=i2pd.install
+source=(https://github.com/PrivacySolutions/${pkgname}/archive/${pkgver}.tar.gz
+        i2pd.service
+		i2p.conf
+		i2pd.tmpfiles.conf)
+
+sha256sums=('462ab0c5c0ccdefdce14eae1bc1c5727bad5e8748b57a59c040b91dcba0c2cba'
+            'e609f82f843c9a98b9d1f43624f5b213877c02c24e117020b36f2075e7baef7d'
+            'b7ed2880bb1013182e83e2c3d2ccfac8051aa077c2f6a8f3939f2f3f691cd3c5'
+            'bc98fa479054997de458477440cb86580b7c318a472800e64a5b72ea68f85d47')
+
+build() {
+    cd $srcdir/$pkgname-$pkgver
+    make CXXFLAGS="$CXXFLAGS"
+}
+
+package() {
+    cd $srcdir/$pkgname-$pkgver
+    install -Dm755 i2p $pkgdir/usr/bin/i2p
+    install -Dm0644 $srcdir/i2pd.service $pkgdir/usr/lib/systemd/system/i2pd.service
+    install -Dm0644 ../i2p.conf $pkgdir/var/lib/i2pd/i2p.conf
+    install -Dm0644 $srcdir/i2pd.tmpfiles.conf $pkgdir/usr/lib/tmpfiles.d/i2pd.conf
+}
