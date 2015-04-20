@@ -1,0 +1,56 @@
+
+pkgname='nud'
+_gitname="nubit"
+pkgver=v1.0.1.r1.g89e79aa
+pkgrel=1
+pkgdesc="The World's First Stable Digital Currency, daemon."
+url="https://nubits.com/"
+license=('custom')
+install='nud.install'
+arch=('armv6h' 'i686' 'x86_64')
+source=(git+https://bitbucket.org/JordanLeePeershares/nubit
+        'nud.service'
+        'nu.conf'
+        'nud.conf'
+        'nud.tmpfiles'
+        'nu-skel'
+        )
+
+sha256sums=('SKIP'
+            '763882ae53e1151fd7bbb54632eecc23eb9147324e637b74546935773117305b'
+            '993489e77cdb07bd69bd47ef240dea6e5b5296a3d320957807c0ea2c85e6f488'
+            '60bf5d9b03ebc964b9914548820c57654c4f80054337a8fc32e824476784b1f9'
+            '5b2f44fcf99c6ca327aff3338b0b752a60b784f8e513db38e2d34c8366b54dd0'
+            'bbe3e7f55f36999de336a19d66558dc9c621b257a42fc0ed5a093a6dcc32791b')
+
+
+makedepends=('boost' 'miniupnpc')
+depends=('boost-libs' 'miniupnpc' 'openssl')
+
+pkgver() {
+
+ cd "$srcdir/$_gitname"
+ git describe --always | sed -E 's/([^-]*-g)/r\1/;s/-/./g'
+
+}
+
+build() {
+
+  ## Build daemon
+  cd $srcdir/$_gitname/src
+  make -f makefile.unix USE_UPNP=0 USE_SSL=1 -e PIE=1
+
+}
+
+package() {
+	
+ cd $srcdir
+ install -Dm755 $_gitname/src/nud $pkgdir/usr/bin/nud
+ install -Dm644 nud.service $pkgdir/usr/lib/systemd/system/nud.service
+ install -Dm640 nu.conf $pkgdir/etc/nu/nu.conf
+ install -Dm640 nud.conf $pkgdir/etc/conf.d/nud.conf
+ install -Dm640 nu-skel $pkgdir/etc/skel/.nu
+ install -Dm644 nud.tmpfiles $pkgdir/usr/lib/tmpfiles.d/nud.conf
+ install -Dm644 $_gitname/COPYING $pkgdir/usr/share/licenses/$_gitname/COPYING
+
+}
