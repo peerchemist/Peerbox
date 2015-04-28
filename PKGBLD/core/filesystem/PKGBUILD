@@ -1,6 +1,6 @@
 pkgname=filesystem
 pkgver=2015.05
-pkgrel=1
+pkgrel=2
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
@@ -26,7 +26,7 @@ sha256sums=('560fd7c98fa3b14cb297304366300867a0ab0c5dd53eb797e67642f1e345bcde'
             '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
             'f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
             'e7fda6eeaa087ddb8f9e5f8e284a839960e8da1c85db0bc40a49a9475bc3f05b'
-            '00ee0054c66406511195a4b68d9c505c7c8eb07aa0ab7eb0893167cb6427352b'
+            '6a8d233de1b2becddcfec9d882ddaa89105bdbcb9a00feeeb1f5fd53b924050c'
             '967a0d1ddb7fb67df55c6fb1ffc383ec4daf77e18f1d9c0996bce42b07758485'
             'd6efbeab103b229b443163b4d8cf3eedce4d0fc1385f8098ffb8e905a930795d'
             'efcd458ab5f0ab369ab57ce07e2e9cf1d7521852f5337c282a7913cb37aa808f'
