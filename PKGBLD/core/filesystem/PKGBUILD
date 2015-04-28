@@ -1,5 +1,5 @@
 pkgname=filesystem
-pkgver=0.25
+pkgver=2015.02
 pkgrel=1
 pkgdesc='Base filesystem'
 arch=('any')
@@ -39,7 +39,7 @@ sha256sums=('cee22355ed9f1a16267e7e8425da56c267ba8eeb96554a5730234c29b3bcc030'
             '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
             '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
             '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649')
-            
+
 lint() {
 	# ensure that passwd is sync'd to shadow and group is sync'd to gshadow.
 	local r=0
