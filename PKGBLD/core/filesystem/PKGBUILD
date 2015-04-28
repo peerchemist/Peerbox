@@ -1,10 +1,9 @@
 pkgname=filesystem
-pkgver=2015.02
+pkgver=2015.05
 pkgrel=1
 pkgdesc='Base filesystem'
 arch=('any')
 license=('GPL')
-replaces=('filesystem')
 provides=('filesystem')
 install='filesystem.install'
 makedepends=('asciidoc')
@@ -15,30 +14,32 @@ backup=('etc/fstab' 'etc/crypttab' 'etc/group' 'etc/hosts' 'etc/passwd' 'etc/sha
 source=('group' 'issue' 'nsswitch.conf' 'securetty' 'host.conf' 'ld.so.conf' 'hostname'
         'passwd' 'shadow' 'fstab' 'fstab-raspi' 'crypttab' 'hosts' 'motd' 'os-release'
         'shells' 'gshadow' 'profile' 'modprobe.d.usb-load-ehci-first' 'resolv.conf'
-        'archlinux.7.txt' 'locale.sh')
+        'locale.sh'
+        'https://raw.githubusercontent.com/archlinuxarm/PKGBUILDs/master/core/filesystem/archlinux.7.txt'
+        )
 
-sha256sums=('cee22355ed9f1a16267e7e8425da56c267ba8eeb96554a5730234c29b3bcc030'
+sha256sums=('560fd7c98fa3b14cb297304366300867a0ab0c5dd53eb797e67642f1e345bcde'
             '48bdfada99beadcc369e97926d880f2179edfc79eee556bf74074c79f6b3f8c7'
             '3cfbffdf732985d8a5cd5145cca2da338df53bf45cd097f30c194294492f16f1'
-            '4a5ef3c8fe48e377284660376fcb8999328c27b85e7560fce3add920e7bef357'
+            '695393a503ff0e56776d131a06815c8492413cb91413f8f56e3b0c332b6cbf0f'
             'f21f35e7d3083aeee19beb48478130d119b2572922a4889df98326d551540eda'
             '00d5d103837480d26cd350753382c3211df6bc304ee59ffaab130fad108f6a86'
             'f32c2faa1221ba88c579ce2898f79bc166b668f4e8090a75134e6af937be54a6'
-            'cc1964557b00da5a3abdd4f5e8c07efd1eab6a105ae03b59ef13ca9093939cd8'
-            '3971caa4d18eca5a9922d36bee3745fb85511ac593a073dab7d11722a13221e0'
+            'e7fda6eeaa087ddb8f9e5f8e284a839960e8da1c85db0bc40a49a9475bc3f05b'
+            '00ee0054c66406511195a4b68d9c505c7c8eb07aa0ab7eb0893167cb6427352b'
             '967a0d1ddb7fb67df55c6fb1ffc383ec4daf77e18f1d9c0996bce42b07758485'
             'd6efbeab103b229b443163b4d8cf3eedce4d0fc1385f8098ffb8e905a930795d'
             'efcd458ab5f0ab369ab57ce07e2e9cf1d7521852f5337c282a7913cb37aa808f'
             '20f606330ebb14018798934ea7728f9b941497515edaeea89f1250ed07c9ffd8'
-            'bbecbef9dc7c88a6f2c23c010d856b39ec635df8110f6484962ace35ab009b40'
+            '4e47e9da6d39314eec41ba7f2f4cfc635c386d82f65c9362a8a183848e3d6268'
             '51836d01deca33d55a495395db99fc2518dd721debd5ab03aa47d52e2fec5b11'
             '6cff886fe9e23096d5f67b7857a747ebaf10431be5a2afc40236de5ad13a654f'
-            '3f07de8973712d75e472ce787f45dbb9d527d23a01f9a86548e9afba5c005860'
+            '035f49c50cfc3c0264f9bb7895639302db535ed23a3218d137d06c55bf6a85d6'
             '0262cacc91cd309be0747e088d46a39f0b205392fbbafab96d767e48a3872ad0'
             '90fb123aa8c0176bc144322b585bb889181c437542ddbe546af43e11b95be6ab'
             '74d2be3dd69600bcf0da751a1804a386bf4ad143b76d79c336acaa5c600e7991'
-            '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163'
-            '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649')
+            '6555917d318a1ca46f6e19091753cc7564b2fb4148d9d17b5999f9045ef27649'
+            '22f9ec6a8e42e7ea743f611cb34ee13d1f0b97e3d388f03c6fdca57886e0a163')
 
 lint() {
 	# ensure that passwd is sync'd to shadow and group is sync'd to gshadow.

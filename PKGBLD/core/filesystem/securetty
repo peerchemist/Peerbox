@@ -9,8 +9,8 @@ tty2
 #tty4
 #tty5
 #tty6
-ttyS0
-hvc0
-ttyAMA0
+#ttyS0
+#hvc0
+#ttyAMA0
 
 # End of file
