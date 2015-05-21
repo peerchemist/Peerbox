@@ -1,37 +1,49 @@
 pkgname=openssh
-pkgver=6.7p1
-pkgrel=3
+pkgver=6.8p1
+pkgrel=4
 pkgdesc='Free version of the SSH connectivity tools'
-provides=('openssh')
-conflicts=('openssh')
 url='http://www.openssh.org/portable.html'
 license=('custom:BSD')
-arch=('armv6h' 'i686' 'x86_64')
+arch=('armv6h' 'x86_64')
 makedepends=('linux-headers')
 depends=('openssl' 'libedit')
+optdepends=('xorg-xauth: X11 forwarding'
+            'x11-ssh-askpass: input passphrase in X')
 validpgpkeys=('59C2118ED206D927E667EBE3D3E5F56B6D920D30')
 source=("ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/${pkgname}-${pkgver}.tar.gz"{,.asc}
+        'error.patch'
+	'dispatch.patch'
         'sshdgenkeys.service'
         'sshd@.service'
         'sshd.service'
         'sshd.socket'
-        'sshd.pam')
-
-sha256sums=('b2f8394eae858dabbdef7dac10b99aec00c95462753e80342e530bbb6f725507'
+        'sshd.pam'
+	'sshd_config')
+sha256sums=('3ff64ce73ee124480b5bf767b9830d7d3c03bbcb6abe716b78f0192c37ce160e'
             'SKIP'
-            '8b2ead71715c235cce50c653c97d8eb54bb2908c6fd8c09cbaf20ef9a1c6196c'
+            '1e6145ebccee0e1c7e0b1ad2f96a20f6fe06d3327e7e715ad13ecb7b4e37aed8'
+            '0b7c0655cb48e51382e9c38847ea655622e1516a1138494ae7ed212aca77e248'
+            'c83f5f248ee71e14925a6bb981ef64c35703999034709ce8887e4d62ea7ba6f3'
             '69cc2abaaae0aa8071b8eac338b2df725f60ce73381843179b74eaac78ba7f1d'
             '54f128f23f6f4c96f4b6dfa6b3048ebf4ca4d5102c9bd243dddf8b05c5ad8add'
             'de14363e9d4ed92848e524036d9e6b57b2d35cc77d377b7247c38111d2a3defd'
-            '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846')
+            '64576021515c0a98b0aaf0a0ae02e0f5ebe8ee525b1e647ab68f369f81ecd846'
+            'd66808da5392121d2bcd739a744882ded03bc4c2eff3c9e5273d292903ab50d8')
 
-backup=('etc/ssh/ssh_config' 'etc/ssh/sshd_config')
+backup=('etc/ssh/sshd_config')
+
+prepare() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	patch -p1 -i ../error.patch
+}
 
 build() {
-	cd "${srcdir}/openssh-${pkgver}"
+	cd "${srcdir}/${pkgname}-${pkgver}"
 
 	./configure \
 		--prefix=/usr \
+		--without-ssh1 \
+		--with-pie \
 		--sbindir=/usr/bin \
 		--libexecdir=/usr/lib/ssh \
 		--sysconfdir=/etc/ssh \
@@ -39,19 +51,27 @@ build() {
 		--with-ssl-engine \
 		--with-pam \
 		--with-privsep-user=nobody \
+		--with-xauth=/usr/bin/xauth \
 		--with-md5-passwords \
 		--with-pid-dir=/run \
 
 	make
 }
 
-package() {
+check() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
 
+	make tests || true
+	# hard to suitably test connectivity:
+	# - fails with /bin/false as login shell
+	# - fails with firewall activated, etc.
+}
+
+package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 
 	make DESTDIR="${pkgdir}" install
 
-	ln -sf ssh.1.gz "${pkgdir}"/usr/share/man/man1/slogin.1.gz
 	install -Dm644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENCE"
 
 	install -Dm644 ../sshdgenkeys.service "${pkgdir}"/usr/lib/systemd/system/sshdgenkeys.service
@@ -59,9 +79,9 @@ package() {
 	install -Dm644 ../sshd.service "${pkgdir}"/usr/lib/systemd/system/sshd.service
 	install -Dm644 ../sshd.socket "${pkgdir}"/usr/lib/systemd/system/sshd.socket
 	install -Dm644 ../sshd.pam "${pkgdir}"/etc/pam.d/sshd
+	install -Dm644 ../sshd_config ${pkgdir}/etc/ssh/sshd_config
 
 	install -Dm755 contrib/findssl.sh "${pkgdir}"/usr/bin/findssl.sh
 	install -Dm755 contrib/ssh-copy-id "${pkgdir}"/usr/bin/ssh-copy-id
 	install -Dm644 contrib/ssh-copy-id.1 "${pkgdir}"/usr/share/man/man1/ssh-copy-id.1
-
 }

@@ -14,6 +14,7 @@ ConditionPathExists=|!/etc/ssh/ssh_host_ed25519_key.pub
 [Service]
 ExecStart=/usr/bin/ssh-keygen -A
 Type=oneshot
+After=time-sync.target
 RemainAfterExit=yes
 
 [Install]
