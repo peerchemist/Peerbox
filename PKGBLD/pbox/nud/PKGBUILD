@@ -1,8 +1,7 @@
-
 pkgname='nud'
 _gitname="nubit"
-pkgver=v1.0.1.r1.g89e79aa
-pkgrel=1
+pkgver=v1.1.0.r1.g5133046
+pkgrel=2
 pkgdesc="The World's First Stable Digital Currency, daemon."
 url="https://nubits.com/"
 license=('custom')

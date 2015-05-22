@@ -30,3 +30,8 @@ post_upgrade() {
  chown_conf
  systemd-tmpfiles --create nud.conf
 }
+
+post_remove() {
+  rm -rf _user_home
+  userdel _user_name
+}
