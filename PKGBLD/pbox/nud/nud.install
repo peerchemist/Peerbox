@@ -32,6 +32,5 @@ post_upgrade() {
 }
 
 post_remove() {
-  rm -rf _user_home
-  userdel _user_name
+ userdel -r $_user_name
 }
