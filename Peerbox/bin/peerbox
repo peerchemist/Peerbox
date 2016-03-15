@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.5"
+__version__ = "0.5.0"
 
 import os, sys
 import sh
@@ -30,13 +30,13 @@ import urllib
 import platform
 import collections
 import getpass
-from node import Node
-from health import Health
+from peerbox import ppc_node
+from peerbox import health_check
 from datetime import timedelta
 from datetime import datetime as dt
 
-node = Node()
-health = Health(node)
+node = ppc_node.Node()
+health = health_check.Health(node)
 
 def system():
 	'''parses system info'''

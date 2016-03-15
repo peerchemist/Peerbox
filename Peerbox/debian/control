@@ -1,0 +1,20 @@
+Source: peerbox
+Section: python
+Priority: optional
+Maintainer: Peerchemist, <peerchemist@protonmail.ch>
+Build-Depends: debhelper (>= 7),
+               python (>= 2.7.9-1),
+	       	   python-requests (>= 2.4.3-1),
+	           python-sh (>= 1.09-1),
+	           ppcoin (>= 0.5.1-1)
+Standards-Version: 3.9.2
+X-Python-Version: >= 2.7
+
+
+Package: peerbox
+Architecture: all
+Section: python
+Depends: ${misc:Depends}, ${python:Depends}
+Description: short description
+ Peerbox control script, it is used to control and monitor Peerbox installation.
+ .
