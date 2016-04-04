@@ -27,14 +27,15 @@ class Node:
     def __init__(self):
         self.username = ""
         self.password = ""
-        self.test = ""
+        self.testnet = False
+        self.testnet_check()
         self.userpass()
-        self.testnet()
 
         if self.testnet == False:
             self.node = Server('http://127.0.0.1:9902', 
                 auth=(self.username, self.password))
-        else:
+
+        if self.testnet == True:
             self.node = Server('http://127.0.0.1:9904', 
                 auth=(self.username, self.password))
 
@@ -48,20 +49,17 @@ class Node:
                 if line.startswith("rpcpassword"):
                     self.password = line.split("=")[1].strip()
 
-    def testnet(self):
+    def testnet_check(self):
         with open('/home/{0}/.ppcoin/ppcoin.conf'.format(getpass.getuser()), 'r') as conf:
             for line in conf:
                 if line.startswith("testnet"):
                     if (line.split("=")[1] == 1 or line.split("=")[1] == True):
-                        self.testnet = True
-                    else:
-                        self.testnet = False
-                else:
-                    self.testnet = False
+                        #self.testnet = True
+                        return True
 
-    def getblock(self, block):
-        '''returns detail block info'''
-        return self.node.getblock(block)
+    def getblock(self, blockhash):
+        '''returns detail block info.'''
+        return self.node.getblock(blockhash)
 
     def getblockcount(self):
         '''Retrieve last block index'''
@@ -93,7 +91,7 @@ class Node:
     def createnewaddress(self):
         return self.node.createnewaddress()
 
-    def sendtoaddress(recv_addr, amount, comment=""):
+    def sendtoaddress(self, recv_addr, amount, comment=""):
         '''send ammount to address, with optional comment. Returns txid.
         sendtoaddress(ADDRESS, AMMOUNT, COMMENT)'''
         return self.node.sendtoaddress(recv_addr, amount, comment)
@@ -105,4 +103,20 @@ class Node:
     def getdifficulty(self):
         '''Get PoS/PoW difficulty'''
         return self.node.getdifficulty()
+
+    def getrawtransaction(self, txid, verbose=1):
+        '''get raw transaction'''
+        return self.node.getrawtransaction(txid, verbose)
+
+    def getrawmempool(self):
+        '''returns raw mempool'''
+        return self.node.getrawmempool()
+
+    def listtransactions(self):
+        '''list all transactions associated with this wallet'''
+        return self.node.listtransactions()
+
+    def listunspent(self):
+        '''list only unspent UTXO's'''
+        return self.node.listunspent()
 

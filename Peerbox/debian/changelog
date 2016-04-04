@@ -1,11 +1,20 @@
-peerbox (0.5.0-1) UNRELEASED; urgency=medium
+peerbox (0.5.2-1) stable; urgency=low
+
+  * Added send command.
+  * Added addresses command.
+  * Fix hardware platform detection.
+
+ --  <peerchemist@protonmail.ch>  Sat, 2 Apr 2016 18:48:57 +0000
+
+peerbox (0.5.1-2) stable; urgency=low
+
+  * Added minting command.
+  * Added enable command.
+
+ --  <peerchemist@protonmail.ch>  Sat, 2 Apr 2016 13:08:37 +0000
+
+peerbox (0.5.0-2) stable; urgency=low
 
   * Initial release.
 
- --  <peerchemist@debian8>  Mon, 14 Mar 2016 10:53:39 +0000
- 
- peerbox (0.5.0-2) UNRELEASED; urgency=medium
-
-  * Minor bugfixes.
-
- --  <peerchemist@debian8>  Mon, 15 Mar 2016 09:07:11 +0000
+ --  <peerchemist@protonmail.ch>  Thu, 31 Mar 2016 19:20:55 +0000
