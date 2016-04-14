@@ -1,0 +1,11 @@
+--- genbuild.sh	2016-01-14 01:14:29.000000000 +0000
++++ genbuild-modif.sh	2016-03-03 17:07:24.145439209 +0000
+@@ -16,7 +16,7 @@
+     git diff >/dev/null 2>/dev/null 
+ 
+     # get a string like "v0.6.0-66-g59887e8-dirty"
+-    DESC="$(git describe --dirty 2>/dev/null)"
++    DESC="$(git describe 2>/dev/null)"
+ 
+     # get a string like "2012-04-10 16:27:19 +0200"
+     TIME="$(git log -n 1 --format="%ci")"

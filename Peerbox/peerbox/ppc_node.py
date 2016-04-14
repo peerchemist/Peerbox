@@ -57,6 +57,10 @@ class Node:
                         #self.testnet = True
                         return True
 
+    def walletpassphrase(self, passphrase, timeout=999999, mint_only=True):
+        '''used to unlock wallet for minting'''
+        return self.node.walletpassphrase(passphrase, timeout, mint_only)
+
     def getblock(self, blockhash):
         '''returns detail block info.'''
         return self.node.getblock(blockhash)
@@ -85,7 +89,7 @@ class Node:
         return self.node.getinfo()
 
     def getaddressesbyaccount(self, account=""):
-        '''can be used to list all asociated addresses'''
+        '''can be used to list asociated addresses'''
         return self.node.getaddressesbyaccount(account)
 
     def createnewaddress(self):
@@ -115,6 +119,10 @@ class Node:
     def listtransactions(self):
         '''list all transactions associated with this wallet'''
         return self.node.listtransactions()
+
+    def listreceivedbyaddress(self, minconf=0, includeempty=True):
+        '''get list of all accounts in the wallet'''
+        return self.node.listreceivedbyaddress(minconf, includeempty)
 
     def listunspent(self):
         '''list only unspent UTXO's'''

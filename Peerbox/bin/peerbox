@@ -1,7 +1,7 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
 #
-# Copyright 2014 Peerchemist
+# Copyright 2016 Peerchemist
 #
 # This file is part of Peerbox project.
 #
@@ -20,9 +20,10 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.5.2"
+__version__ = "0.5.4"
 
 import os, sys
+import signal
 import sh
 import argparse
 import json
@@ -115,14 +116,25 @@ def isRunning():
 def exchangeRates():
     '''pull peercoin exchange rates from remote api'''
 
-    api = "https://www.cryptonator.com/api/ticker/"
-    try:
-      usd = json.loads(urllib.urlopen(api + "ppc-usd").read())["ticker"]["price"]
-      btc = json.loads(urllib.urlopen(api + "ppc-btc").read())["ticker"]["price"]
-    except:
-      print("Can not connect to remote api")
-      return
-    return {"usd": usd, "btc": btc}
+    def get():
+        api = "https://www.cryptonator.com/api/ticker/"
+
+        return {"usd": json.loads(urllib.urlopen(api + "ppc-usd").read())["ticker"]["price"], 
+                "btc": json.loads(urllib.urlopen(api + "ppc-btc").read())["ticker"]["price"]
+                }
+
+    def handler(s, f):
+        print 'Signal handler called with signal', s
+        raise IOError("Couldn't connect!")
+
+    # Set the signal handler and a 5-second alarm
+    signal.signal(signal.SIGALRM, handler)
+    signal.alarm(5)
+
+    ## the operation that may take a long time/or wait indefinitely, than we expect it to
+    return get()
+
+    signal.alarm(0) # Disable the alarm
 
 def info(public=False):
     '''acts like just like ppcoind getinfo but on steroids'''
@@ -193,7 +205,7 @@ def balance():
 
 def addr():
     '''prints out all Peercoin addresses associated with this wallet.'''
-    return node.getaddressesbyaccount()
+    return node.listreceivedbyaddress()
 
 def send(addr, ammount, comment=""):
     '''send Peercoin to some address'''
@@ -201,6 +213,7 @@ def send(addr, ammount, comment=""):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Show information on Peerbox.')
+    parser.add_argument("-version", help="print Peerbox version.", action="store_true")
     parser.add_argument("-info", help='''equal to "ppcoind getinfo" with some extras''', action="store_true")
     parser.add_argument("-balance", help="print balance", action="store_true")
     parser.add_argument("-public", help="show info with omitted private data", action="store_true")
@@ -209,34 +222,68 @@ if __name__ == "__main__":
     parser.add_argument("-rates", help="current average PPC exchange rates in USD and BTC", action="store_true")
     parser.add_argument("-start", help="start Peerbox", action="store_true")
     parser.add_argument("-stop", help="stop Peerbox", action="store_true")
-    parser.add_argument("-enable", help="make Peerbox autostart at boot time", action="store_true")
+    parser.add_argument("-autostart", help="make Peerbox autostart at boot time", nargs='?', action='append')
+    parser.add_argument("-tor", help="start Peerbox with Tor", action="store_true")
     parser.add_argument("-restart", help="restart Peerbox", action="store_true")
     parser.add_argument("-mint", help="unlock Peercoin wallet for minting.", action="store_true")
     parser.add_argument("-addr", help="shows all associated addresses.", action="store_true")
     parser.add_argument("-send", help="send Peercoins; -send ADDRESS AMMOUNT", nargs="*")
     args = parser.parse_args()
 
-if isRunning() == False and not args.start:
+if isRunning() == False and not (args.start or args.tor):
     print('''Peerbox is not running. Please start Peerbox with "peerbox -start" ''')
     sys.exit()
 
 if isRunning() == False and args.start:
     print("Staring Peerbox...")
     sh.sudo("systemctl", "start", "ppcoind@{0}.service".format(getpass.getuser()))
-    sys.exit()
+
+if isRunning() == False and args.tor:
+    print("Starting Peerbox with Tor onion router as proxy...")
+    sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
 
 if isRunning() == True and args.start:
     print("Peerbox is already running.")
+
+if isRunning() == True and args.tor:
+    print("Starting Peerbox with Tor onion router as proxy...")
+    sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+
+if args.version:
+    print(__version__)
     
 if args.restart:
-    sh.sudo("systemctl", "restart", "ppcoind@{0}.service".format(getpass.getuser()))
+    print("Restarting Peerbox...")
+    try:
+        if sh.systemctl("is-active", "ppcoind@{0}.service".format(getpass.getuser())) != "active":
+            sh.sudo("systemctl", "restart", "ppcoind@{0}.service".format(getpass.getuser()))
+    except:
+        pass
+    try:    
+        if sh.systemctl("is-active", "ppcoind-tor@{0}.service".format(getpass.getuser())) != "active":
+            sh.sudo("systemctl", "restart", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+    except:
+        pass
 
 if args.stop:
-    sh.sudo("systemctl", "stop", "ppcoind@{0}.service".format(getpass.getuser()))
+    print("Stopping Peerbox...")
+    try:
+        if sh.systemctl("is-active", "ppcoind@{0}.service".format(getpass.getuser())) != "active":
+            sh.sudo("systemctl", "stop", "ppcoind@{0}.service".format(getpass.getuser()))
+    except:
+        pass
+    try:
+        if sh.systemctl("is-active", "ppcoind-tor@{0}.service".format(getpass.getuser())) != "active":
+            sh.sudo("systemctl", "stop", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+    except:
+        pass
 
-if args.enable:
-    sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
-    print("Peerbox will now autostart at boot time.")
+if args.autostart:
+    if args.autostart[0].lower() == "tor":
+        sh.sudo("systemctl", "enable", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+    else:
+        sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
+        print("Peerbox will now autostart at boot time.")
 
 if args.info:
     print(json.dumps(info(), indent=4))

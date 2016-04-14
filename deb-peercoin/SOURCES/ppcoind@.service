@@ -1,0 +1,22 @@
+[Unit]
+Description=Ppcoin Daemon
+After=network.target 
+Conflicts=ppcoind-tor@%i.service
+Conflicts=ppcoin-qt@%i.service
+Conflicts=ppcoin-qt-tor@%i.service
+
+[Service]
+User=%i
+Group=users
+Type=simple
+Restart=on-failure
+RestartSec=15
+ExecStart=/usr/bin/ppcoind
+## security
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

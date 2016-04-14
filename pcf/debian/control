@@ -1,0 +1,16 @@
+Source: pcf
+Section: net
+Priority: optional
+Maintainer: Peerchemist <peerchemist@protonmail.ch>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: http://www.peerbox.me
+Vcs-Git: git://github.com/peerchemist/Peerbox/peerbox.git
+Vcs-Browser: https://github.com/peerchemist/Peerbox
+
+Package: pcf
+Architecture: all
+Depends: ${misc:Depends}
+Description: Peercoin configuration scripts.
+ Collection of scripts which serve as helper scripts for setting up and maintaining underlying Operating System.
+ .
