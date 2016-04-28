@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='peerbox',
-      version='0.5.4',
+      version='0.5.5',
       description='Peerbox control scripts',
       url='https://github.com/peerchemist/Peerbox',
       author='Peerchemist',

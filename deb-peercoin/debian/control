@@ -4,21 +4,22 @@ Section: net
 Priority: optional
 Maintainer: Peerchemist <peerchemist@protonmail.ch>
 Homepage: http://peercoin.net/
-Vcs-Git: git://github.com/ppcoin/ppcoin/pcf.git
+Vcs-Git: git://github.com/ppcoin/ppcoin/ppcoin.git
 Vcs-Browser: https://github.com/ppcoin/ppcoin
 Build-Depends: debhelper (>= 9), 
 			libssl-dev, libqt4-dev, libboost-dev, libminiupnpc-dev, libdb++-dev, libboost-program-options-dev, libboost-filesystem-dev, libboost-system-dev, libboost-thread-dev, systemd, hardening-includes
 
 Package: ppcoin
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, tor
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: tor
 Description: Peercoin P2P digital currency - daemon
  .
  PPCoin is a crypto-currency project forked from Bitcoin and we aim to achieve
  energy-efficiency and keep as much as possible the original Bitcoin's
  preferable properties.
  .
- Full transaction history is stored locally at each client. This
+ Full transaction history (blockchain) is stored locally at each client. This
  requires about 1 GB of free disk space.
  .
  This package provides both the daemon, ppcoind and QT based graphical wallet.

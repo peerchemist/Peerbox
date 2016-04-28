@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for ppcoin
+# postinst script for peerbox
 #
 # see: dh_installdeb(1)
 
@@ -7,12 +7,7 @@ set -e
 
 case "$1" in
     configure)
-	
 	systemctl daemon-reload
-	echo ""
-	echo "Welcome to Peerbox."
-	echo ""
-
     ;;
 esac
 

@@ -1,3 +1,21 @@
+pcf (0.2-2) stable; urgency=low
+
+  * Update set_gauth script.
+
+ -- Peerchemist <peerchemist@protonmail.ch>  Thu, 21 Apr 2016 19:05:40 +0000
+
+pcf (0.2-1) stable; urgency=low
+
+  * Make set_gauth script executable.
+
+ -- Peerchemist <peerchemist@protonmail.ch>  Mon, 18 Apr 2016 12:08:11 +0000
+
+pcf (0.2-0) stable; urgency=low
+
+  * Add set_gauth script.
+
+ -- Peerchemist <peerchemist@protonmail.ch>  Sun, 17 Apr 2016 20:54:43 +0000
+
 pcf (0.1-4) stable; urgency=low
 
   * Update set_tor script.

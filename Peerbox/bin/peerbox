@@ -20,11 +20,12 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.5.4"
+__version__ = "0.5.5"
 
 import os, sys
 import signal
 import sh
+import subprocess
 import argparse
 import json
 import urllib
@@ -177,6 +178,20 @@ def info(public=False):
 
     return report
 
+def gauth_set():
+    #gauth = sh.Command("/usr/bin/google-authenticator")
+    #gauth("--force", "-t", "-d", "--rate-limit=3", "--rate-time=120", 
+    #                           "--window-size=4", "--label=Peerbox")
+    subprocess.call(["/usr/bin/google-authenticator", 
+                    "--force", "-t", "-d", "--rate-limit=3", 
+                    "--rate-time=120", "--window-size=4", "--label=Peerbox"])
+    sh.sudo("/usr/lib/pcf/set_gauth", "set")
+    print("Google-authenticator is now enabled.")
+
+def gauth_unset():
+    sh.sudo("/usr/lib/pcf/set_gauth", "unset")
+    print("Google-authenticator is now disabled.")
+
 def healthCheck():
     '''compares local blockchain data with ppc.blockr.io as reference point'''
     report = health.check()
@@ -224,10 +239,12 @@ if __name__ == "__main__":
     parser.add_argument("-stop", help="stop Peerbox", action="store_true")
     parser.add_argument("-autostart", help="make Peerbox autostart at boot time", nargs='?', action='append')
     parser.add_argument("-tor", help="start Peerbox with Tor", action="store_true")
+    parser.add_argument("-onion", help="show .onion address if node has one", action="store_true")
     parser.add_argument("-restart", help="restart Peerbox", action="store_true")
     parser.add_argument("-mint", help="unlock Peercoin wallet for minting.", action="store_true")
     parser.add_argument("-addr", help="shows all associated addresses.", action="store_true")
     parser.add_argument("-send", help="send Peercoins; -send ADDRESS AMMOUNT", nargs="*")
+    parser.add_argument("-gauth", help="enable or disable google-authenticator, use with 'set' or 'unset'", nargs='?', action='append')
     args = parser.parse_args()
 
 if isRunning() == False and not (args.start or args.tor):
@@ -235,7 +252,7 @@ if isRunning() == False and not (args.start or args.tor):
     sys.exit()
 
 if isRunning() == False and args.start:
-    print("Staring Peerbox...")
+    print("Starting Peerbox...")
     sh.sudo("systemctl", "start", "ppcoind@{0}.service".format(getpass.getuser()))
 
 if isRunning() == False and args.tor:
@@ -281,6 +298,7 @@ if args.stop:
 if args.autostart:
     if args.autostart[0].lower() == "tor":
         sh.sudo("systemctl", "enable", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+        print("Peerbox Tor will now autostart at boot time.")
     else:
         sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
         print("Peerbox will now autostart at boot time.")
@@ -298,7 +316,11 @@ if args.health:
     healthCheck()
 
 if args.rates:
-    print(json.dumps(exchangeRates(), indent=4))
+    try:
+        print(json.dumps(exchangeRates(), indent=4))
+    except:
+        print("Sorry, remote API could not be reached. Try again later.")
+        pass
 
 if args.mint:
     mint()
@@ -311,6 +333,22 @@ if args.addr:
 
 if args.send:
     print(send(args.send[0], args.send[1]))
+
+if args.onion:
+    try:
+        print(sh.sudo("cat", "/var/lib/tor/ppcoin-service/hostname"))
+    except:
+        pass
+
+if args.gauth:
+    if not args.gauth[0]:
+        print("You must state the argument, 'set'/'true' or 'unset'/'false'.")
+    if args.gauth[0] == ("set" or "true"):
+        gauth_set()
+    if args.gauth[0] == ("unset" or "false"):
+        gauth_unset()
+    if args.gauth[0] not in ("set", "unset", "true", "false", "status"):
+        print("I really don't know what do you want me to do.")
 
 if not any(vars(args).values()) == True:
     print(json.dumps(info(), indent=4))

@@ -1,7 +1,7 @@
 [Unit]
-Description=Ppcoin Daemon
+Description=Peercoin daemon - tor
 After=network.target
-Requires=tor.service
+Wants=tor.service
 Conflicts=ppcoind@%i.service
 Conflicts=ppcoin-qt@%i.service
 Conflicts=ppcoin-qt-tor@%i.service

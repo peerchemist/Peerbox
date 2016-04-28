@@ -1,1 +1,2 @@
 set_tor /usr/lib/pcf/
+set_gauth /usr/lib/pcf/

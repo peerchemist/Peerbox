@@ -1,5 +1,5 @@
 [Unit]
-Description=Ppcoin Daemon
+Description=Peercoin daemon
 After=network.target 
 Conflicts=ppcoind-tor@%i.service
 Conflicts=ppcoin-qt@%i.service

@@ -1,8 +1,8 @@
 [Unit]
-Description=Ppcoin-qt
+Description=Peercoin-qt-tor
 After=network.target
 After=graphical.target
-Requires=tor.service
+Wants=tor.service
 Conflicts=ppcoind@%i.service
 Conflicts=ppcoind-tor@%i.service
 Conflicts=ppcoin-qt@%i.service
