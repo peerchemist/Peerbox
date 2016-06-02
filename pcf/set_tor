@@ -3,9 +3,9 @@
 # Copyright 2016 Peerchemist <peerchemist@protonmail.ch> 
 ##
 
-VERSION="0.3"
+VERSION="0.4"
 
-function set_torrc {
+set_torrc() {
     echo "HiddenServiceDir /var/lib/tor/ppcoin-service/" >> /etc/tor/torrc
     echo "HiddenServicePort 9901 127.0.0.1:9901" >> /etc/tor/torrc
 }

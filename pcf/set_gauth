@@ -2,30 +2,30 @@
 #
 ## Copyright 2016 Peerchemist <peerchemist@protonmail.ch>
 #
-VERSION=0.3
+VERSION="0.4"
 
 PAM="/etc/pam.d/sshd"
 SSHD="/etc/ssh/sshd_config"
 
-function configure_pam {
+configure_pam() {
 	sed -i '/# \/etc\/security\/pam_env.conf./a auth    required    pam_google_authenticator.so' $PAM
 }
 
-function deconfigure_pam {
+deconfigure_pam() {
 	sed -i '/auth    required    pam_google_authenticator.so/d' $PAM
 }
 
-function configure_sshd {
+configure_sshd() {
 	sed -i "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g" $SSHD
 	systemctl reload sshd
 }
 
-function deconfigure_sshd {
+deconfigure_sshd() {
 	sed -i "s/ChallengeResponseAuthentication yes/ChallengeResponseAuthentication no/g" $SSHD
 	systemctl reload sshd
 }
 
-function status {
+status() {
 	if grep -Fxq "auth    required    pam_google_authenticator.so" $PAM && grep -Fxq "ChallengeResponseAuthentication yes" $SSHD;
 	then
 		echo True
@@ -33,10 +33,6 @@ function status {
 		echo False
 	fi
 }
-
-#if [[ $1 == "status" ]]; then
-#	status
-#fi
 
 if [[ $1 == "set" ]] && status == "False"; then
 	configure_pam

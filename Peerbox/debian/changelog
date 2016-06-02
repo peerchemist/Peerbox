@@ -1,3 +1,9 @@
+peerbox (0.5.6-1) stable; urgency=low
+
+  * Automatically configure peercoin directory upon install.
+  
+ --  <peerchemist@protonmail.ch>  Thu, 28 Apr 2016 12:33:17 +0000
+
 peerbox (0.5.5-8) stable; urgency=low
 
   * Added dependency on sudo.

@@ -3,12 +3,7 @@
 #
 # see: dh_installdeb(1)
 
-set -e
-
-case "$1" in
-    configure)
-	systemctl daemon-reload
-
+intro() {
 	echo "
 	 _____               _               
 	|  __ \             | |              
@@ -18,12 +13,34 @@ case "$1" in
 	|_|   \___|\___|_|  |_.__/ \___/_/\_\ "
 
 	echo "
-	  version: 0.5.5
+	  version: 0.5.6
 	  url: www.peerbox.me
 	  forum: https://www.peercointalk.org/index.php?board=68.0
 	  git: https://github.com/peerchemist/Peerbox
-	"
+	"	
+}
 
+conf() {
+	for _HOME in /home/*?; do
+		# Obtain the username
+		USER=$( basename ${_HOME} )
+
+		if [ ! -d "$_HOME/.ppcoin" ]; then
+			echo "Peercoin directory not found! Creating one now."
+			mkdir $_HOME/.ppcoin
+		fi
+
+		if [ ! -f $_HOME/.ppcoin/ppcoin.conf ]; then
+			echo "Peercoin configuration file not found! Creating one now."
+			echo "rpcuser=rpcuser\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > $_HOME/.ppcoin/ppcoin.conf
+			echo "server=1" >> $_HOME/.ppcoin/ppcoin.conf
+		fi
+		chown -R ${USER}:${USER} $_HOME/.ppcoin
+	done
+
+}
+
+rename() {
 	if ! [ "cat /etc/hostname" = "peerbox" ]; then
 
 			echo "
@@ -43,7 +60,19 @@ case "$1" in
 			;;
 
 			esac
-	fi
+	fi	
+}
+
+set -e
+
+case "$1" in
+    configure)
+	systemctl daemon-reload
+	##
+	intro
+	rename
+	conf
+	##
 esac
 
 # dh_installdeb will replace this with shell code automatically
