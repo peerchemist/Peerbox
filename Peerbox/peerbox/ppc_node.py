@@ -57,7 +57,7 @@ class Node:
                         #self.testnet = True
                         return True
 
-    def walletpassphrase(self, passphrase, timeout=999999, mint_only=True):
+    def walletpassphrase(self, passphrase, timeout=9999999, mint_only=True):
         '''used to unlock wallet for minting'''
         return self.node.walletpassphrase(passphrase, timeout, mint_only)
 
@@ -73,9 +73,13 @@ class Node:
         '''retrieve block hash'''
         return self.node.getblockhash(block)
 
-    def getbalance(self):
-        '''retrieve balance'''
-        return self.node.getbalance()
+    def gettransaction(self, txid):
+        '''get transaction info'''
+        return self.node.gettransaction(txid)
+
+    def getbalance(self, account=""):
+        '''retrieve balance, If [account] is specified, returns the balance in the account. '''
+        return self.node.getbalance(account)
 
     def getdifficulty(self):
         '''Get PoS/PoW difficulty'''
@@ -92,13 +96,19 @@ class Node:
         '''can be used to list asociated addresses'''
         return self.node.getaddressesbyaccount(account)
 
-    def createnewaddress(self):
-        return self.node.createnewaddress()
+    def getnewaddress(self, label=""):
+        return self.node.getnewaddress(label)
 
     def sendtoaddress(self, recv_addr, amount, comment=""):
         '''send ammount to address, with optional comment. Returns txid.
         sendtoaddress(ADDRESS, AMMOUNT, COMMENT)'''
         return self.node.sendtoaddress(recv_addr, amount, comment)
+
+    def sendmany(self, recv_dict, account="", comment=""):
+        '''send outgoing tx to many addresses, input is dict of addr:coins, 
+        returns txid'''
+        #{"addr1":#coin,"addr2":#coin,"addr3":#coin...}
+        return self.node.sendmany(account, recv_dict, comment)
 
     def getconnectioncount(self):
         '''Get number of active connections'''
@@ -116,9 +126,9 @@ class Node:
         '''returns raw mempool'''
         return self.node.getrawmempool()
 
-    def listtransactions(self):
+    def listtransactions(self, account="", many=999, since=0):
         '''list all transactions associated with this wallet'''
-        return self.node.listtransactions()
+        return self.node.listtransactions(account, many, since)
 
     def listreceivedbyaddress(self, minconf=0, includeempty=True):
         '''get list of all accounts in the wallet'''
