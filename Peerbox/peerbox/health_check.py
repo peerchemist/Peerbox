@@ -27,8 +27,8 @@ class Health:
 	def __init__(self, node):
 		self.node = node
 
-	def remote(self):
-		api = "http://ppc.blockr.io/api/v1/block/info/last"
+	def api(self):
+		api = "https://peercoin.mintr.org/api/block/latest"
 		try:
 			return json.loads(urllib.urlopen(api).read())
 		except:
@@ -38,41 +38,53 @@ class Health:
 	def local(self):
 		
 		local = {}
-		local["height"] = self.node.getblockcount()
-		local["hash"] = self.node.getblockhash(local["height"])
-		block_info = self.node.getblock(local["hash"])
+		local["height"] = int(self.node.getblockcount())
+		local["blockhash"] = self.node.getblockhash(local["height"])
+		block_info = self.node.getblock(local["blockhash"])
 
-		local["prevHash"] = block_info["previousblockhash"]
-		local["mrkRoot"] = block_info["merkleroot"]
+		local["prev_block_hash"] = block_info["previousblockhash"]
+		local["merkleroot"] = block_info["merkleroot"]
 
 		return local
+
+	def remote(self):
+		a = self.api()
+
+		remote = {
+			"height": int(a["height"]),
+			"blockhash": a["blockhash"],
+			"prev_block_hash": a["previousblockhash"],
+			"merkleroot": a["merkleroot"]
+		}
+
+		return remote
 
 	def check(self):
 
 		local = self.local()
-		remote = self.remote()["data"]
+		remote = self.remote()
 		report = {}
 
 		## Block number
-		if remote["nb"] == local["height"]:
+		if remote["height"] == local["height"]:
 			report["block_count_matches"] = True
 		else:
 			report["block_count_matches"] = False
 
 		## Hash of the current block
-		if remote["hash"] == local["hash"]:
-			report["last_block_hash_matches"] = True
+		if remote["blockhash"] == local["blockhash"]:
+			report["block_hash_matches"] = True
 		else:
-			report["last_block_hash_matches"] = False
+			report["block_hash_matches"] = False
 
 		## Hash of previous block
-		if remote["prev_block_hash"] == local["prevHash"]:
+		if remote["prev_block_hash"] == local["prev_block_hash"]:
 			report["previous_block_hash_matches"] = True
 		else:
 			report["previous_block_hash_matches"] = False
 
 		## hash of the MerkleRoot
-		if remote["merkleroot"] == local["mrkRoot"]:
+		if remote["merkleroot"] == local["merkleroot"]:
 			report["merkle_root_matches"] = True
 		else:
 			report["merkle_root_matches"] = False

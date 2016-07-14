@@ -13,7 +13,7 @@ intro() {
 	|_|   \___|\___|_|  |_.__/ \___/_/\_\ "
 
 	echo "
-	  version: 0.5.6
+	  version: 0.5.7
 	  url: www.peerbox.me
 	  forum: https://www.peercointalk.org/index.php?board=68.0
 	  git: https://github.com/peerchemist/Peerbox
@@ -21,17 +21,18 @@ intro() {
 }
 
 conf() {
+	echo "Configuring .ppcoin directory for each user..."
 	for _HOME in /home/*?; do
 		# Obtain the username
 		USER=$( basename ${_HOME} )
 
 		if [ ! -d "$_HOME/.ppcoin" ]; then
-			echo "Peercoin directory not found! Creating one now."
+			echo "Peercoin directory not found for user $USER! Creating one now."
 			mkdir $_HOME/.ppcoin
 		fi
 
 		if [ ! -f $_HOME/.ppcoin/ppcoin.conf ]; then
-			echo "Peercoin configuration file not found! Creating one now."
+			echo "Peercoin configuration file not found for user $USER! Creating one now."
 			echo "rpcuser=rpcuser\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > $_HOME/.ppcoin/ppcoin.conf
 			echo "server=1" >> $_HOME/.ppcoin/ppcoin.conf
 		fi
@@ -55,7 +56,7 @@ rename() {
 
 			y*|Y*)
 			hostnamectl --static set-hostname peerbox
-			echo "You should reboot now."
+			echo "\nYou should reboot now.\n"
 			exit
 			;;
 
@@ -70,8 +71,8 @@ case "$1" in
 	systemctl daemon-reload
 	##
 	intro
-	rename
 	conf
+	rename
 	##
 esac
 

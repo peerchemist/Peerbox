@@ -1,3 +1,27 @@
+peerbox (0.5.7-2) stable; urgency=low
+
+  * Fixes.
+  
+ --  <peerchemist@protonmail.ch>  Sun, 14 Jul 2016 18:24:10 +0000
+
+peerbox (0.5.7-1) stable; urgency=low
+
+  * Changed API provider for -health functionality.
+  
+ --  <peerchemist@protonmail.ch>  Sun, 14 Jul 2016 18:02:10 +0000
+
+peerbox (0.5.6-4) stable; urgency=low
+
+  * Updated backend node library, minor tweaks in design.
+  
+ --  <peerchemist@protonmail.ch>  Sun, 14 Jul 2016 13:38:10 +0000
+
+peerbox (0.5.6-3) stable; urgency=low
+
+  * Some misc fixes...
+  
+ --  <peerchemist@protonmail.ch>  Sun, 5 Jun 2016 13:09:22 +0000
+
 peerbox (0.5.6-1) stable; urgency=low
 
   * Automatically configure peercoin directory upon install.

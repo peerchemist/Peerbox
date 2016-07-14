@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.5.6.2"
+__version__ = "0.5.7"
 
 import os, sys
 import signal
@@ -195,7 +195,7 @@ def healthCheck():
     report = health.check()
     print
     print "Checking if we are on the right chain..."
-    print "Using" + " " + "ppc.blockr.io" + " as reference."
+    print "Using" + " " + "peercoin.mintr.org" + " as reference."
     print
 
     for k,v in report.items():
