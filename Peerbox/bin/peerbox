@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.5.6"
+__version__ = "0.5.6.2"
 
 import os, sys
 import signal
@@ -37,8 +37,6 @@ from peerbox import health_check
 from datetime import timedelta
 from datetime import datetime as dt
 
-node = ppc_node.Node()
-health = health_check.Health(node)
 
 def system():
     '''parses system info'''
@@ -128,11 +126,10 @@ def exchangeRates():
         print 'Signal handler called with signal', s
         raise IOError("Couldn't connect!")
 
-    # Set the signal handler and a 5-second alarm
+    # Set the signal handler and add 5-second alarm
     signal.signal(signal.SIGALRM, handler)
     signal.alarm(5)
 
-    ## the operation that may take a long time/or wait indefinitely, than we expect it to
     return get()
 
     signal.alarm(0) # Disable the alarm
@@ -194,6 +191,7 @@ def gauth_unset():
 
 def healthCheck():
     '''compares local blockchain data with ppc.blockr.io as reference point'''
+    health = health_check.Health(node)
     report = health.check()
     print
     print "Checking if we are on the right chain..."
@@ -302,6 +300,10 @@ if args.autostart:
     else:
         sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
         print("Peerbox will now autostart at boot time.")
+
+### rpc dependant functions from here ##
+
+node = ppc_node.Node()
 
 if args.info:
     print(json.dumps(info(), indent=4))
