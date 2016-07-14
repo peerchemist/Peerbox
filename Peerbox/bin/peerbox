@@ -303,7 +303,7 @@ if args.autostart:
 
 ### rpc dependant functions from here ##
 
-node = ppc_node.Node()
+node = ppc_node.Node(testnet=False)
 
 if args.info:
     print(json.dumps(info(), indent=4))
