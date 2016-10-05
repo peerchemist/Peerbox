@@ -1,9 +1,0 @@
-#
-# /etc/fstab: static file system information
-#
-# <file system> <dir>   <type>  <options>       <dump>  <pass>
-# /dev/sda2 LABEL=root
-UUID=c1c77ea9-9167-44f5-912d-023a19b0c77a	/	ext4	rw,relatime,data=ordered        0 1
-
-# /dev/sda1 LABEL=boot
-UUID=D08C-3A54	/boot	vfat	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-r$

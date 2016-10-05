@@ -1,7 +1,0 @@
-post_install() {
-       /usr/lib/pcf/modules/pcf-gauth true
-}
-
-post_remove() {
-	/usr/lib/pcf/modules/pcf-gauth false
-}
