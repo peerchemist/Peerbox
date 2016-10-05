@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.5.7"
+__version__ = "0.5.9"
 
 import os, sys
 import signal
@@ -194,8 +194,8 @@ def healthCheck():
     health = health_check.Health(node)
     report = health.check()
     print
-    print "Checking if we are on the right chain..."
-    print "Using" + " " + "peercoin.mintr.org" + " as reference."
+    print("Checking if we are on the right chain...")
+    print("Using" + " " + {0} + " as reference.".format("peercoin.mintr.org"))
     print
 
     for k,v in report.items():
@@ -243,6 +243,7 @@ if __name__ == "__main__":
     parser.add_argument("-addr", help="shows all associated addresses.", action="store_true")
     parser.add_argument("-send", help="send Peercoins; -send ADDRESS AMOUNT", nargs="*")
     parser.add_argument("-gauth", help="enable or disable google-authenticator, use with 'set' or 'unset'", nargs='?', action='append')
+    parser.add_argument("-testnet", help="switch to testnet", action="store_true")
     args = parser.parse_args()
 
 if isRunning() == False and not (args.start or args.tor):
@@ -257,12 +258,24 @@ if isRunning() == False and args.tor:
     print("Starting Peerbox with Tor onion router as proxy...")
     sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
 
-if isRunning() == True and args.start:
-    print("Peerbox is already running.")
+if args.start:
+    if ( sh.sudo("systemctl", "is-active", "ppcoind@{0}.service".format(getpass.getuser())) != "active" or 
+        sh.sudo("systemctl", "is-active", "ppcoind-tor@{0}.service".format(getpass.getuser())) ) != "active":
+        print("Peerbox is already running.")
 
 if isRunning() == True and args.tor:
     print("Starting Peerbox with Tor onion router as proxy...")
     sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+
+if args.testnet:
+    if os.path.isdir("/var/lib/ppcoind"):
+        if sh.sudo("systemctl", "is-active", "ppcoind-testnet") != "active":
+            print("Starting Peerbox-testnet sandboxed node.")
+            sh.sudo("systemctl", "start", "ppcoind-testnet.service")
+        else:
+            print("ppcoind-testnet service is already running.")
+    else:
+        print("Ppcoind-testnet not installed, install with 'sudo apt install ppcoind-testnet'.")
 
 if args.version:
     print(__version__)
@@ -301,9 +314,28 @@ if args.autostart:
         sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
         print("Peerbox will now autostart at boot time.")
 
-### rpc dependant functions from here ##
+if args.onion:
+    try:
+        print(sh.sudo("cat", "/var/lib/tor/ppcoin-service/hostname"))
+    except:
+        pass
 
-node = ppc_node.Node(testnet=False)
+if args.gauth:
+    if not args.gauth[0]:
+        print("You must state the argument, 'set'/'true' or 'unset'/'false'.")
+    if args.gauth[0] == ("set" or "true"):
+        gauth_set()
+    if args.gauth[0] == ("unset" or "false"):
+        gauth_unset()
+    if args.gauth[0] not in ("set", "unset", "true", "false", "status"):
+        print("I really don't know what do you want me to do.")
+
+### rpc dependant functions from here ###
+
+if args.testnet:
+    node = ppc_node.Node(testnet=True)
+else:
+    node = ppc_node.Node(testnet=False)
 
 if args.info:
     print(json.dumps(info(), indent=4))
@@ -335,22 +367,6 @@ if args.addr:
 
 if args.send:
     print(send(args.send[0], args.send[1]))
-
-if args.onion:
-    try:
-        print(sh.sudo("cat", "/var/lib/tor/ppcoin-service/hostname"))
-    except:
-        pass
-
-if args.gauth:
-    if not args.gauth[0]:
-        print("You must state the argument, 'set'/'true' or 'unset'/'false'.")
-    if args.gauth[0] == ("set" or "true"):
-        gauth_set()
-    if args.gauth[0] == ("unset" or "false"):
-        gauth_unset()
-    if args.gauth[0] not in ("set", "unset", "true", "false", "status"):
-        print("I really don't know what do you want me to do.")
 
 if not any(vars(args).values()) == True:
     print(json.dumps(info(), indent=4))

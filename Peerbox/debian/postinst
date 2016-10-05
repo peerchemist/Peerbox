@@ -13,7 +13,7 @@ intro() {
 	|_|   \___|\___|_|  |_.__/ \___/_/\_\ "
 
 	echo "
-	  version: 0.5.7
+	  version: 0.5.9
 	  url: www.peerbox.me
 	  forum: https://www.peercointalk.org/index.php?board=68.0
 	  git: https://github.com/peerchemist/Peerbox
@@ -21,7 +21,7 @@ intro() {
 }
 
 conf() {
-	echo "Configuring .ppcoin directory for each user..."
+	echo "Configuring .ppcoin directory fo r each user..."
 	for _HOME in /home/*?; do
 		# Obtain the username
 		USER=$( basename ${_HOME} )
@@ -33,10 +33,10 @@ conf() {
 
 		if [ ! -f $_HOME/.ppcoin/ppcoin.conf ]; then
 			echo "Peercoin configuration file not found for user $USER! Creating one now."
-			echo "rpcuser=rpcuser\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > $_HOME/.ppcoin/ppcoin.conf
+			echo echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" > $_HOME/.ppcoin/ppcoin.conf
 			echo "server=1" >> $_HOME/.ppcoin/ppcoin.conf
 		fi
-		chown -R ${USER}:${USER} $_HOME/.ppcoin
+		chown -R $USER: $_HOME/.ppcoin
 	done
 
 }

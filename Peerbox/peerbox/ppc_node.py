@@ -24,40 +24,42 @@ from jsonrpc import Server
 
 class Node:
     
-    def __init__(self, testnet):
-        self.username = ""
-        self.password = ""
+    def __init__(self, testnet, username="", password=""):
+
         if testnet == True:
             self.testnet = True
         else:
             self.testnet = False
-        self.testnet_check()
-        self.userpass()
 
         if self.testnet == False:
+            self.userpass()
             self.node = Server('http://127.0.0.1:9902', 
                 auth=(self.username, self.password))
 
         if self.testnet == True:
+            self.userpass("/var/lib/ppcoind/")
             self.node = Server('http://127.0.0.1:9904', 
                 auth=(self.username, self.password))
 
-    def userpass(self):
-        '''Reads .ppcoin/ppcoin.conf file for username/password'''
-        with open('/home/{0}/.ppcoin/ppcoin.conf'.format(getpass.getuser()), 'r') as conf:
-            for line in conf:
-                if line.startswith('rpcuser'):
-                    self.username = line.split("=")[1].strip()
-                if line.startswith("rpcpassword"):
-                    self.password = line.split("=")[1].strip()
+    def userpass(self, directory=""):
+        '''Reads ppcoin.conf file for username/password'''
 
-    def testnet_check(self):
-        with open('/home/{0}/.ppcoin/ppcoin.conf'.format(getpass.getuser()), 'r') as conf:
-            for line in conf:
-                if line.startswith("testnet"):
-                    if (line.split("=")[1] == 1 or line.split("=")[1] == True):
-                        #self.testnet = True
-                        return True
+        if directory == "":
+            with open('/home/{0}/.ppcoin/ppcoin.conf'.format(getpass.getuser()), 'r') as conf:
+                for line in conf:
+                    if line.startswith('rpcuser'):
+                        self.username = line.split("=")[1].strip()
+                    if line.startswith("rpcpassword"):
+                        self.password = line.split("=")[1].strip()
+
+        else:
+            with open('{0}ppcoin.conf'.format(directory), 'r') as conf:
+                for line in conf:
+                    if line.startswith('rpcuser'):
+                        self.username = line.split("=")[1].strip()
+                    if line.startswith("rpcpassword"):
+                        self.password = line.split("=")[1].strip()
+
 
     def walletpassphrase(self, passphrase, timeout=99999999, mint_only=True):
         '''used to unlock wallet for minting'''
