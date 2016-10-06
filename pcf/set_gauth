@@ -2,6 +2,7 @@
 #
 ## Copyright 2016 Peerchemist <peerchemist@protonmail.ch>
 #
+
 VERSION="0.4"
 
 PAM="/etc/pam.d/sshd"
