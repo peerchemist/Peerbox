@@ -112,8 +112,8 @@ def exchange_rates():
 
     url = "https://api.cryptonator.com/api/ticker/"
     try:
-        usd = requests.get(url + "ppc-usd", timeout=3).json()["ticker"]
-        btc = requests.get(url + "ppc-btc", timeout=3).json()["ticker"]
+        usd = requests.get(url + "ppc-usd", timeout=3).json()["ticker"]["price"]
+        btc = requests.get(url + "ppc-btc", timeout=3).json()["ticker"]["price"]
     except IOError:
         return {"error": "Unable to reach remote price API."}
 
@@ -141,12 +141,13 @@ def info(public=False):
     report["average_load"] = s["avg_load"]
     
     if public == False:
-        report["balance"] = i["balance"]
+        report["balance"] = float(node.getbalance())
         if (int(report["balance"]) != 0 
             and exchange_rates() != None
             and i["testnet"] == False):
-            report["value"] = {"BTC": int(float(report["balance"]) * float(exchange_rates()["btc"])),
-                              "USD": int(float(report["balance"]) * float(exchange_rates()["usd"]))}
+            report["value"] = {"BTC": report["balance"] * float(exchange_rates()["btc"]),
+                              "USD": report["balance"] * float(exchange_rates()["usd"])
+                              }
         report["stake"] = i["stake"]
         report["newmint"] = i["newmint"]
     
