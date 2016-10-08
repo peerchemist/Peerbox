@@ -90,7 +90,7 @@ def hardware():
 
         r["hardware"] = _platform()
         r["serial"] = _serial()
-        return info
+        return r
 
     else:
         return {"hardware": "Unknown",
