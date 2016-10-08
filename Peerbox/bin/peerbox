@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.6.1"
+__version__ = "0.6.2"
 
 import os, sys
 import requests
@@ -127,16 +127,18 @@ def info(public=False):
     from collections import OrderedDict
 
     i = node.getinfo()
+    h = hardware()
+    s = system()
     report = OrderedDict()
 
     report["ppc_version"] = i["version"]
-    report["os"] = system()["os"]
-    report["hardware"] = hardware()["hardware"]
-    if (public == False and "Raspberry Pi" in hardware()["hardware"]):
-        report["serial"] = hardware()["serial"]
-        report["macc addr"] = hardware()["macc"]
-    report["uptime"] = system()["uptime"]
-    report["average_load"] = system()["avg_load"]
+    report["os"] = s["os"]
+    report["hardware"] = h["hardware"]
+    if (public == False and "Raspberry Pi" in h["hardware"]):
+        report["serial"] = h["serial"]
+        report["macc addr"] = h["macc"]
+    report["uptime"] = s["uptime"]
+    report["average_load"] = s["avg_load"]
     
     if public == False:
         report["balance"] = i["balance"]

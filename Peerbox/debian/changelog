@@ -1,3 +1,9 @@
+peerbox (0.6.2-1) stable; urgency=low
+
+  * Fixed errors with the `-info` command.
+
+ --  <peerchemist@protonmail.ch>  Sat, 08 Oct 2016 11:24:22 +0000
+
 peerbox (0.6.1-1) stable; urgency=low
 
   * Ready to be released.
