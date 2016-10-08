@@ -1,10 +1,22 @@
+peerbox (0.6.1-1) stable; urgency=low
+
+  * Ready to be released.
+
+ --  <peerchemist@protonmail.ch>  Sat, 08 Oct 2016 10:32:14 +0000
+
+peerbox (0.6-1) stable; urgency=low
+
+  * v0.6 release with huge code refactor and code cleanup.
+
+ --  <peerchemist@protonmail.ch>  Fri, 08 Oct 2016 11:11:27 +0000
+
 peerbox (0.5.9-1) stable; urgency=low
 
   * Changed method of random rpc password generation.
   * Fixed .ppcoin directory creation for non "pi" users.
   * Added testnet support.
   
- --  <peerchemist@protonmail.ch>  Sun, 14 Jul 2016 18:24:10 +000
+ --  <peerchemist@protonmail.ch>  Sun, 14 Jul 2016 18:24:10 +0000
 
 peerbox (0.5.7-2) stable; urgency=low
 
@@ -116,37 +128,3 @@ peerbox (0.5.4-1) stable; urgency=low
   * 0.5.4 release. 
 
  --  <peerchemist@protonmail.ch>  Tue, 12 Apr 2016 11:56:48 +0000
-
-peerbox (0.5.3-2) stable; urgency=low
-
-  * Polishing of 0.5.3 code. 
-
- --  <peerchemist@protonmail.ch>  Tue, 12 Apr 2016 09:59:20 +0000
-
-peerbox (0.5.3-1) stable; urgency=low
-
-  * Added support for full node behind Tor proxy.
-  * Other misc improvements and fixes.
-
- --  <peerchemist@protonmail.ch>  Sat, 9 Apr 2016 12:38:37 +0000
-
-peerbox (0.5.2-1) stable; urgency=low
-
-  * Added send command.
-  * Added addresses command.
-  * Fix hardware platform detection.
-
- --  <peerchemist@protonmail.ch>  Sun, 3 Apr 2016 18:48:57 +0000
-
-peerbox (0.5.1-2) stable; urgency=low
-
-  * Added minting command.
-  * Added enable command.
-
- --  <peerchemist@protonmail.ch>  Sat, 2 Apr 2016 13:08:37 +0000
-
-peerbox (0.5.0-2) stable; urgency=low
-
-  * Initial release.
-
- --  <peerchemist@protonmail.ch>  Thu, 31 Mar 2016 19:20:55 +0000

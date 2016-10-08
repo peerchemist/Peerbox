@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.6"
+__version__ = "0.6.1"
 
 import os, sys
 import requests
@@ -180,16 +180,17 @@ def health_check():
     
     def _remote():
         try:
-            a = requests.get("https://peercoin.mintr.org/api/block/latest")
+            a = requests.get("https://peercoin.mintr.org/api/block/latest", timeout=3, verify=False).json()
             return {
                 "height": int(a["height"]),
                 "blockhash": a["blockhash"],
                 "prev_block_hash": a["previousblockhash"],
                 "merkleroot": a["merkleroot"]
             }
-        except:
-            return {"error": "Can't reach remote API server!"}
-    
+        except IOError as e:
+            print("error: Can't reach remote API server!", e)
+            raise
+
     def _local():
         local = {}
         local["height"] = int(node.getblockcount())
@@ -234,6 +235,7 @@ def health_check():
 
     print("\nChecking if we are on the right chain...")
     print("Using peercoin.mintr.org as reference.\n")
+
     r = _check()
     for k, v in r.items():
         if v == True:

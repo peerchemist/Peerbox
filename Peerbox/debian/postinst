@@ -13,10 +13,11 @@ intro() {
 	|_|   \___|\___|_|  |_.__/ \___/_/\_\ "
 
 	echo "
-	  version: 0.5.9
+	  version: 0.6.1
 	  url: www.peerbox.me
 	  forum: https://www.peercointalk.org/index.php?board=68.0
 	  git: https://github.com/peerchemist/Peerbox
+	  chat: https://peercoin.chat/channel/peerbox
 	"	
 }
 

@@ -11,8 +11,8 @@ X-Python-Version: >= 2.7
 Package: peerbox
 Architecture: all
 Section: python
-Depends: ppcoin, python-requests (>= 2.4.3-1), python-sh (>= 1.09-1), sudo, tor, avahi-daemon, pcf, libpam-google-authenticator
-         ${misc:Depends}, ${python:Depends}
+Pre-Depends: dpkg (>= 1.16.1), python2.7
+Depends: python-requests (>= 2.4.3-1), python-sh (>= 1.09-1), peercoin-rpc, ppcoin, sudo, tor, avahi-daemon, pcf, libpam-google-authenticator, ${misc:Depends}
 Description: Peerbox control script.
  Peerbox control script, it is used to control and monitor Peerbox installation.
  .
