@@ -141,7 +141,7 @@ def info(public=False):
     report["average_load"] = s["avg_load"]
     
     if public == False:
-        report["balance"] = float(node.getbalance())
+        report["balance"] = i["balance"]
         if (int(report["balance"]) != 0 
             and exchange_rates() != None
             and i["testnet"] == False):
