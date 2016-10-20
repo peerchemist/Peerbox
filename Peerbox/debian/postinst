@@ -13,7 +13,7 @@ intro() {
 	|_|   \___|\___|_|  |_.__/ \___/_/\_\ "
 
 	echo "
-	  version: 0.6.3
+	  version: 0.6.4
 	  url: www.peerbox.me
 	  forum: https://www.peercointalk.org/index.php?board=68.0
 	  git: https://github.com/peerchemist/Peerbox
@@ -34,7 +34,7 @@ conf() {
 
 		if [ ! -f $_HOME/.ppcoin/ppcoin.conf ]; then
 			echo "Peercoin configuration file not found for user $USER! Creating one now."
-			echo echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" > $_HOME/.ppcoin/ppcoin.conf
+			echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" > $_HOME/.ppcoin/ppcoin.conf
 			echo "server=1" >> $_HOME/.ppcoin/ppcoin.conf
 		fi
 		chown -R $USER: $_HOME/.ppcoin
