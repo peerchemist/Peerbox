@@ -74,9 +74,9 @@ def hardware():
                     if _hardware == "BCM2709":
                         return "Raspberry Pi_2"
 
-    def _serial():  
+    def _serial():
         with open('/proc/cpuinfo') as cpuinfo:
-            for line in cpuinfo:            
+            for line in cpuinfo:
                 if line.startswith('Serial'):
                     ser = line.split(':')[1].strip()
                     return ser
@@ -97,15 +97,27 @@ def hardware():
                 "serial": "Unknown",
                 "macc": "Unknown"}
 
-def is_running():
+def is_running(since=False):
     '''checks if ppcoind is running'''
-    try:
-        pid = sh.pidof("ppcoind").stdout.strip()
-    except IOError:
-        return False
 
-    if pid != None:
-        return True
+    o = ["ppcoind", "ppcoind-tor"]
+
+    for mode in o:
+        try:
+            status = sh.systemctl.status("{0}@{1}".format(mode, getpass.getuser())).split('\x1b[m')
+        except sh.ErrorReturnCode_3:
+            pass
+
+    for i in status:
+        if i.strip().startswith("Active:"):
+            if "active (running)" in i:
+                running = True
+                since = i.split("since")[1].split(";")[1].strip()
+
+    if since:
+        return running, since
+    else:
+        return running
 
 def exchange_rates():
     '''pull peercoin exchange rates from remote api'''
