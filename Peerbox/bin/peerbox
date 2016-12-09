@@ -150,8 +150,9 @@ def info(public=False):
         report["serial"] = h["serial"]
         report["macc addr"] = h["macc"]
     report["uptime"] = s["uptime"]
+    report["peercoin node running since"] = is_running(since=True)[1]
     report["average_load"] = s["avg_load"]
-    
+
     if public == False:
         report["balance"] = i["balance"]
         if (int(report["balance"]) != 0 
@@ -162,7 +163,7 @@ def info(public=False):
                               }
         report["stake"] = i["stake"]
         report["newmint"] = i["newmint"]
-    
+
     if public == False:
         report["ip"] = i["ip"]
     report["connections"] = i["connections"]
@@ -170,7 +171,7 @@ def info(public=False):
     report["moneysupply"] = i["moneysupply"]
     report["pos_difficulty"] = node.getdifficulty()["proof-of-stake"]
     report["pow_difficulty"] = node.getdifficulty()["proof-of-work"]
-    
+
     if i["testnet"] == True:
         report["testnet"] = True
 
