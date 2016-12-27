@@ -22,7 +22,7 @@ intro() {
 }
 
 conf() {
-	echo "Configuring .ppcoin directory fo r each user..."
+	echo "Configuring .ppcoin directory for each user..."
 	for _HOME in /home/*?; do
 		# Obtain the username
 		USER=$( basename ${_HOME} )
