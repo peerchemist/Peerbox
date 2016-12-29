@@ -43,7 +43,7 @@ conf() {
 }
 
 rename() {
-	if ! [ "cat /etc/hostname" = "peerbox" ]; then
+	if ! [ "$HOSTNAME" = "peerbox" ]; then
 
 			echo "
 	Do you want to rename this machine to 'peerbox'?
