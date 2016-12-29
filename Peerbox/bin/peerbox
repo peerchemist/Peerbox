@@ -207,9 +207,10 @@ def gauth_unset():
 
 def health_check():
     '''compares local blockchain data with ppc.mintr.org as reference point'''
-    
+
     def _remote():
         try:
+            requests.packages.urllib3.disable_warnings()
             a = requests.get("https://peercoin.mintr.org/api/block/latest", timeout=3, verify=False).json()
             return {
                 "height": int(a["height"]),
