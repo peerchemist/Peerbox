@@ -34,7 +34,7 @@ conf() {
 
 		if [ ! -f $_HOME/.ppcoin/ppcoin.conf ]; then
 			echo "Peercoin configuration file not found for user $USER! Creating one now."
-			echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" > $_HOME/.ppcoin/ppcoin.conf
+			echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 24 | head -n 1)" > $_HOME/.ppcoin/ppcoin.conf
 			echo "server=1" >> $_HOME/.ppcoin/ppcoin.conf
 		fi
 		chown -R $USER: $_HOME/.ppcoin
