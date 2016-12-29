@@ -1,3 +1,7 @@
+peerbox (0.6.4-1) stable; urgency=medium
+  * Follow upstream.
+ --  <peerchemist@protonmail.ch>  Thu, 29 Dec 2016 12:10:19 +0000
+
 peerbox (0.6.3-1) stable; urgency=medium
   * Updated dependencies to to package rename.
  --  <peerchemist@protonmail.ch>  Sat, 11 Oct 2016 12:12:19 +0000
