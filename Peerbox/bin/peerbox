@@ -20,7 +20,7 @@
  
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.6.2"
+__version__ = "0.6.4"
 
 import os, sys
 import requests
@@ -100,24 +100,38 @@ def hardware():
 def is_running(since=False):
     '''checks if ppcoind is running'''
 
-    o = ["ppcoind", "ppcoind-tor"]
+    modes = ["ppcoind", "ppcoind-tor"]
 
-    for mode in o:
+    for mode in modes: ## try each in modes
+
         try:
-            status = sh.systemctl.status("{0}@{1}".format(mode, getpass.getuser())).split('\x1b[m')
+            if sh.systemctl("is-active", "{0}@{1}".format(mode, getpass.getuser())).strip() == "active":
+
+                running = True
+
+                try:
+                    status = sh.systemctl.status("{0}@{1}".format(mode, getpass.getuser())).encode("utf-8").split("\n  ")
+
+                    for i in status:
+                        if i.strip().startswith("Active:"):
+
+                            if "active (running)" in i:
+                                since = i.split("since")[1].split(";")[1].strip()
+
+                                if since:
+                                    return running, since
+                                else:
+                                    return running
+
+                except sh.ErrorReturnCode_3:
+                    print({"error": "unknown error."})
+
+            else:
+                return False
+
         except sh.ErrorReturnCode_3:
             pass
 
-    for i in status:
-        if i.strip().startswith("Active:"):
-            if "active (running)" in i:
-                running = True
-                since = i.split("since")[1].split(";")[1].strip()
-
-    if since:
-        return running, since
-    else:
-        return running
 
 def exchange_rates():
     '''pull peercoin exchange rates from remote api'''
@@ -301,24 +315,19 @@ if __name__ == "__main__":
     parser.add_argument("-testnet", help="switch to testnet", action="store_true")
     args = parser.parse_args()
 
-if is_running() == False and not (args.start or args.tor):
+if is_running() is False and not (args.start or args.tor):
     print('''Peerbox is not running. Please start Peerbox with "peerbox -start" ''')
     sys.exit()
 
-if is_running() == False and args.start:
+if is_running() is False and args.start:
     print("Starting Peerbox...")
     sh.sudo("systemctl", "start", "ppcoind@{0}.service".format(getpass.getuser()))
 
-if is_running() == False and args.tor:
+if is_running() is False and args.tor:
     print("Starting Peerbox with Tor onion router as proxy...")
     sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
 
-if args.start:
-    if ( sh.sudo("systemctl", "is-active", "ppcoind@{0}.service".format(getpass.getuser())) != "active" or 
-        sh.sudo("systemctl", "is-active", "ppcoind-tor@{0}.service".format(getpass.getuser())) ) != "active":
-        print("Peerbox is already running.")
-
-if is_running() == True and args.tor:
+if is_running() is True and args.tor:
     print("Starting Peerbox with Tor onion router as proxy...")
     sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
 
@@ -336,32 +345,26 @@ if args.testnet:
 
 if args.version:
     print(__version__)
-    
+
 if args.restart:
-    print("Restarting Peerbox...")
-    try:
-        if sh.systemctl("is-active", "ppcoind@{0}.service".format(getpass.getuser())) != "active":
+    if is_running():
+        print("Restarting Peerbox...")
+        try:
             sh.sudo("systemctl", "restart", "ppcoind@{0}.service".format(getpass.getuser()))
-    except:
-        pass
-    try:    
-        if sh.systemctl("is-active", "ppcoind-tor@{0}.service".format(getpass.getuser())) != "active":
+        except:
             sh.sudo("systemctl", "restart", "ppcoind-tor@{0}.service".format(getpass.getuser()))
-    except:
-        pass
+    else:
+        print("Peerbox is not running.")
 
 if args.stop:
-    print("Stopping Peerbox...")
-    try:
-        if sh.systemctl("is-active", "ppcoind@{0}.service".format(getpass.getuser())) != "active":
+    if is_running():
+        print("Stopping Peerbox...")
+        try:
             sh.sudo("systemctl", "stop", "ppcoind@{0}.service".format(getpass.getuser()))
-    except:
-        pass
-    try:
-        if sh.systemctl("is-active", "ppcoind-tor@{0}.service".format(getpass.getuser())) != "active":
+        except:
             sh.sudo("systemctl", "stop", "ppcoind-tor@{0}.service".format(getpass.getuser()))
-    except:
-        pass
+    else:
+        print("Peerbox is not running.")
 
 if args.autostart:
     if args.autostart[0].lower() == "tor":
@@ -387,7 +390,7 @@ if args.gauth:
     if args.gauth[0] not in ("set", "unset", "true", "false", "status"):
         print("I really don't know what do you want me to do.")
 
-### rpc dependant functions from here ###
+### rpc dependent functions from here ###
 
 if args.testnet:
     node = Client(testnet=True)
