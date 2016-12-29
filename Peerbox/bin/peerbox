@@ -116,7 +116,7 @@ def is_running(since=False):
                         if i.strip().startswith("Active:"):
 
                             if "active (running)" in i:
-                                since = i.split("since")[1].split(";")[1].strip()
+                                since = i.split("since")[1].split(";")[1].split("\n")[0].strip()
 
                                 if since:
                                     return running, since
