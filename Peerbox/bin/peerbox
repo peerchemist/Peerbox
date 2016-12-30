@@ -324,7 +324,7 @@ if is_running() is False and args.tor:
     print("Starting Peerbox with Tor onion router as proxy...")
     sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
 
-if is_running() is False and args.tor:
+if is_running() is True and args.tor:
     print("Starting Peerbox with Tor onion router as proxy...")
     sh.sudo("systemctl", "start", "ppcoind-tor@{0}.service".format(getpass.getuser()))
 
