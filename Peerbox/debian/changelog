@@ -1,3 +1,11 @@
+peerbox (0.6.4-5) stable; urgency=medium
+  * Release.
+ --  <peerchemist@protonmail.ch>  Thu, 05 Jan 2016 10:15:28 +0000
+
+peerbox (0.6.4-3) stable; urgency=medium
+  * Fixed some bugs.
+ --  <peerchemist@protonmail.ch>  Thu, 30 Dec 2016 09:46:19 +0000
+
 peerbox (0.6.4-2) stable; urgency=medium
   * Final 0.6.4 release.
  --  <peerchemist@protonmail.ch>  Thu, 29 Dec 2016 17:19:19 +0000
