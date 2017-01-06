@@ -17,7 +17,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
- 
+
 __author__ = "Peerchemist"
 __license__ = "GPL"
 __version__ = "0.6.4"
@@ -100,34 +100,43 @@ def hardware():
 def is_running(since=False):
     '''checks if ppcoind is running'''
 
+    def status_check(mode):
+        '''check uptime of peercoin daemon'''
+        try:
+            status = sh.systemctl.status("{0}@{1}".format(mode, getpass.getuser())).encode("utf-8").split("\n  ")
+            return status
+        except sh.ErrorReturnCode_3:
+            return None
+
+    running = False
+    status = None
+
     modes = ["ppcoind", "ppcoind-tor"]
 
     for mode in modes: ## try each in modes
 
         try:
             if sh.systemctl("is-active", "{0}@{1}".format(mode, getpass.getuser())).strip() == "active":
-
                 running = True
-
-                try:
-                    status = sh.systemctl.status("{0}@{1}".format(mode, getpass.getuser())).encode("utf-8").split("\n  ")
-
-                    for i in status:
-                        if i.strip().startswith("Active:"):
-
-                            if "active (running)" in i:
-                                since = i.split("since")[1].split(";")[1].split("\n")[0].strip()
-
-                                if since:
-                                    return running, since
-                                else:
-                                    return running
-
-                except sh.ErrorReturnCode_3:
-                    print({"error": "unknown error."})
+                status = status_check(mode)
 
         except sh.ErrorReturnCode_3:
-            return False
+            pass
+
+    if status:
+        for i in status:
+            if i.strip().startswith("Active:"):
+
+                if "active (running)" in i:
+                    since = i.split("since")[1].split(";")[1].split("\n")[0].strip()
+
+    if running is not True:
+        return False
+    else:
+        if status:
+            return running, since
+        else:
+            return running
 
 def exchange_rates():
     '''pull peercoin exchange rates from remote api'''
@@ -228,7 +237,7 @@ def health_check():
         local["merkleroot"] = block_info["merkleroot"]
         
         return local
-    
+
     def _check():
         local = _local()
         remote = _remote()

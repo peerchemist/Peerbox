@@ -43,7 +43,7 @@ conf() {
 }
 
 rename() {
-	if ! [ "$HOSTNAME" = "peerbox" ]; then
+	if "$HOSTNAME" != "peerbox"; then
 
 			echo "
 	Do you want to rename this machine to 'peerbox'?
@@ -62,7 +62,7 @@ rename() {
 			;;
 
 			esac
-	fi	
+	fi
 }
 
 set -e
