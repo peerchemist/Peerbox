@@ -196,6 +196,8 @@ def info(public=False):
 
     report["protocolversion"] = i["protocolversion"]
     report["walletversion"] = i["walletversion"]
+    if i["errors"]:
+        report["errors"] = i["errors"]
 
     return report
 
