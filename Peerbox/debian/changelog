@@ -1,3 +1,7 @@
+peerbox (0.6.4-6) stable; urgency=medium
+  * Dependency on rng-tools to use more available entropy sources.
+ --  <peerchemist@protonmail.ch>  Thu, 05 Jan 2016 10:15:28 +0000
+
 peerbox (0.6.4-5) stable; urgency=medium
   * Release.
  --  <peerchemist@protonmail.ch>  Thu, 05 Jan 2016 10:15:28 +0000
