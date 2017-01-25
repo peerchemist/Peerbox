@@ -1,0 +1,9 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "debian/jessie64"
+  config.vm.hostname = "peerbox-host"
+  config.vm.provision "shell", path: "peerbox.sh", privileged: false
+#  config.vm.network :forwarded_port, guest: 80, host: 4567
+end
