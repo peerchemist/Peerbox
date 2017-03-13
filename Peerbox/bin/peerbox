@@ -297,6 +297,11 @@ def addr():
     '''prints out all Peercoin addresses associated with this wallet.'''
     return node.listreceivedbyaddress()
 
+def encrypt(passphrase):
+    '''encrypts wallet'''
+    return node.encryptwallet(passphrase)
+
+
 def send(address, amount, comment=""):
     '''send Peercoin to some address'''
     return node.sendtoaddress(str(address), int(amount), str(comment))
@@ -318,6 +323,7 @@ if __name__ == "__main__":
     parser.add_argument("-restart", help="restart Peerbox", action="store_true")
     parser.add_argument("-mint", help="unlock Peercoin wallet for minting.", action="store_true")
     parser.add_argument("-addr", help="shows all associated addresses.", action="store_true")
+    parser.add_argument("-encrypt", help="encrypts wallet", nargs='?', action='append')
     parser.add_argument("-send", help="send Peercoins; -send ADDRESS AMOUNT", nargs="*")
     parser.add_argument("-gauth", help="enable or disable google-authenticator, use with 'set' or 'unset'", nargs='?', action='append')
     parser.add_argument("-testnet", help="switch to testnet", action="store_true")
@@ -438,6 +444,9 @@ if args.balance:
 
 if args.addr:
     print(json.dumps(addr(), indent=4))
+
+if args.encrypt:
+    print(json.dumps(encrypt(args.encrypt[0]), indent=4))
 
 if args.send:
     print(send(args.send[0], args.send[1]))
