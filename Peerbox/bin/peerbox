@@ -301,7 +301,7 @@ def newaddr():
     '''creates new Peercoin address'''
     return { 'address': node.getnewaddress() }  
 
-def encrypt(passphrase):
+def encryptwallet(passphrase):
     '''encrypts wallet'''
     return node.encryptwallet(passphrase)
 
@@ -328,7 +328,7 @@ if __name__ == "__main__":
     parser.add_argument("-mint", help="unlock Peercoin wallet for minting.", action="store_true")
     parser.add_argument("-addr", help="shows all associated addresses.", action="store_true")
     parser.add_argument("-newaddr", help="generates new address.", action="store_true")
-    parser.add_argument("-encrypt", help="encrypts wallet", nargs='?', action='append')
+    parser.add_argument("-encryptwallet", help="encrypts wallet", nargs='?', action='append')
     parser.add_argument("-send", help="send Peercoins; -send ADDRESS AMOUNT", nargs="*")
     parser.add_argument("-gauth", help="enable or disable google-authenticator, use with 'set' or 'unset'", nargs='?', action='append')
     parser.add_argument("-testnet", help="switch to testnet", action="store_true")
@@ -453,8 +453,8 @@ if args.addr:
 if args.newaddr:
     print(json.dumps(newaddr(), indent=4))
 
-if args.encrypt:
-    print(json.dumps(encrypt(args.encrypt[0]), indent=4))
+if args.encryptwallet:
+    print(json.dumps(encryptwallet(args.encrypt[0]), indent=4))
 
 if args.send:
     print(send(args.send[0], args.send[1]))
