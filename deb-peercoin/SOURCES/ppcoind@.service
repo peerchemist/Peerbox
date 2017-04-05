@@ -6,8 +6,8 @@ Conflicts=ppcoin-qt@%i.service
 Conflicts=ppcoin-qt-tor@%i.service
 
 [Service]
-User=%i
-Group=users
+User=peerbox
+Group=peerbox
 Type=simple
 Restart=on-failure
 RestartSec=15
