@@ -22,6 +22,8 @@ intro() {
 }
 
 conf() {
+    peerboxuser()
+
 	echo "Configuring .ppcoin directory for each user..."
 	for _HOME in /home/*?; do
 		# Obtain the username
