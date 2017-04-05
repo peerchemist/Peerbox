@@ -98,10 +98,10 @@ Please fix this and reinstall this package." >&2
     chown -R peerbox:peerbox /home/peerbox
 
     #setuid and setgid bits so ppcoind runs as peerbox user
-    sudo chmod u+s /usr/bin/ppcoind
-    sudo chmod g+s /usr/bin/ppcoind
-    sudo chown peerbox /usr/bin/ppcoind
-    sudo chgrp peerbox /usr/bin/ppcoind
+    chmod u+s /usr/bin/ppcoind
+    chmod g+s /usr/bin/ppcoind
+    chown peerbox /usr/bin/ppcoind
+    chgrp peerbox /usr/bin/ppcoind
 }
 
 set -e
