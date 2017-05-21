@@ -1,7 +1,0 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: peerbox
-Upstream-Contact: Peerchemist, <peerchemist@protonmail.ch>
-
-Files: *
-Copyright: 2016, Peerchemist, <peerchemist@protonmail.ch>
-License: GPL-3
