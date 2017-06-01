@@ -22,6 +22,8 @@ intro() {
 }
 
 conf() {
+    peerboxuser()
+
 	echo "Configuring .ppcoin directory for each user..."
 	for _HOME in /home/*?; do
 		# Obtain the username
@@ -63,6 +65,43 @@ rename() {
 
 			esac
 	fi
+}
+
+peerboxuser() {
+    if ! getent passwd peerbox > /dev/null; then
+        adduser --system $quiet --home /home/peerbox \
+            --shell /bin/bash --group --gecos "Peerbox administrator" peerbox
+    fi
+    # if the user was created manually, make sure the group is there as well
+    if ! getent group peerbox > /dev/null; then
+        addgroup --system $quiet peerbox
+    fi
+    # make sure peerbox is in the peerbox group
+    if ! id -Gn peerbox | grep -qw peerbox; then
+        adduser $quiet peerbox peerbox
+    fi
+
+    # check validity of peerbox user and group
+    if [ "`id -u peerbox`" -eq 0 ]; then
+        echo "The peerbox system user must not have uid 0 (root).
+Please fix this and reinstall this package." >&2
+        exit 1
+    fi
+    if [ "`id -g peerbox`" -eq 0 ]; then
+        echo "The peerbox system user must not have root as primary group.
+Please fix this and reinstall this package." >&2
+        exit 1
+    fi
+
+    # ensure home directory ownership
+    mkdir -p /home/peerbox
+    chown -R peerbox:peerbox /home/peerbox
+
+    #setuid and setgid bits so ppcoind runs as peerbox user
+    chmod u+s /usr/bin/ppcoind
+    chmod g+s /usr/bin/ppcoind
+    chown peerbox /usr/bin/ppcoind
+    chgrp peerbox /usr/bin/ppcoind
 }
 
 set -e
