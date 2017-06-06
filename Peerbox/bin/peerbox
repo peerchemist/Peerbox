@@ -394,7 +394,7 @@ if args.autostart:
             print("Disable autostart with\n  peerbox -noautostart no")
         elif args.autostart[0].lower() == "no":
             sh.sudo("systemctl", "disable", "ppcoind-tor@{0}.service".format(getpass.getuser()))
-                sh.sudo("systemctl", "disable", "ppcoind@{0}.service".format(getpass.getuser()))
+            sh.sudo("systemctl", "disable", "ppcoind@{0}.service".format(getpass.getuser()))
             print("Peerbox autostart at boot time is now disabled.")
     else:
         sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
