@@ -387,12 +387,19 @@ if args.stop:
         print("Peerbox is not running.")
 
 if args.autostart:
-    if args.autostart[0].lower() == "tor":
-        sh.sudo("systemctl", "enable", "ppcoind-tor@{0}.service".format(getpass.getuser()))
-        print("Peerbox Tor will now autostart at boot time.")
+    if args.autostart[0]:
+        if args.autostart[0].lower() == "tor":
+            sh.sudo("systemctl", "enable", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+            print("Peerbox Tor will now autostart at boot time.")
+            print("Disable autostart with\n  peerbox -noautostart no")
+        elif args.autostart[0].lower() == "no":
+            sh.sudo("systemctl", "disable", "ppcoind-tor@{0}.service".format(getpass.getuser()))
+                sh.sudo("systemctl", "disable", "ppcoind@{0}.service".format(getpass.getuser()))
+            print("Peerbox autostart at boot time is now disabled.")
     else:
         sh.sudo("systemctl", "enable", "ppcoind@{0}.service".format(getpass.getuser()))
         print("Peerbox will now autostart at boot time.")
+        print("Disable autostart with\n  peerbox -autostart no")
 
 if args.onion:
     try:
