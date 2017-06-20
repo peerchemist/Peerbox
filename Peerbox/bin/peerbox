@@ -322,7 +322,7 @@ if __name__ == "__main__":
     parser.add_argument("-rates", help="current average PPC exchange rates in USD and BTC", action="store_true")
     parser.add_argument("-start", help="start Peerbox", action="store_true")
     parser.add_argument("-stop", help="stop Peerbox", action="store_true")
-    parser.add_argument("-autostart", help="make Peerbox autostart at boot time", nargs='?', action='append')
+    parser.add_argument("-autostart", help="make Peerbox autostart at boot time; with argument »tor« means autostart Peerbox with Tor; with argument »no« means disalbe autostart", nargs='?', action='append')
     parser.add_argument("-tor", help="start Peerbox with Tor", action="store_true")
     parser.add_argument("-onion", help="show .onion address if node has one", action="store_true")
     parser.add_argument("-restart", help="restart Peerbox", action="store_true")
