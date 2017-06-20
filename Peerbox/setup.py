@@ -1,11 +1,11 @@
 from setuptools import setup
 
 setup(name='peerbox',
-      version='0.6.4',
+      version='0.6.5',
       description='Peerbox control scripts',
       url='https://github.com/peerchemist/Peerbox',
       author='Peerchemist',
       author_email='peerchemist@protonmail.ch',
-      license='GLP',
+      license='GPL',
       scripts=['bin/peerbox'],
       zip_safe=False)

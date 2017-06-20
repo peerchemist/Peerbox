@@ -13,7 +13,7 @@ intro() {
 	|_|   \___|\___|_|  |_.__/ \___/_/\_\ "
 
 	echo "
-	  version: 0.6.4
+	  version: 0.6.5
 	  url: www.peerbox.me
 	  forum: https://www.peercointalk.org/index.php?board=68.0
 	  git: https://github.com/peerchemist/Peerbox
@@ -43,7 +43,7 @@ conf() {
 }
 
 rename() {
-	if "$HOSTNAME" != "peerbox"; then
+	if [ "$HOSTNAME" != "peerbox" ]; then
 
 			echo "
 	Do you want to rename this machine to 'peerbox'?
