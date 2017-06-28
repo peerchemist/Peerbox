@@ -39,7 +39,14 @@ conf() {
 		fi
 		chown -R $USER: $_HOME/.ppcoin
 	done
-
+    #https://wiki.debian.org/UnattendedUpgrades
+    echo "Configuring automatic security updates"
+    echo 'APT::Periodic::Enable "1";' > /etc/apt/apt.conf.d/02periodic
+    echo 'APT::Periodic::Update-Package-Lists "1";' >> /etc/apt/apt.conf.d/02periodic
+    echo 'APT::Periodic::Download-Upgradeable-Packages "1";' >> /etc/apt/apt.conf.d/02periodic
+    echo 'APT::Periodic::Unattended-Upgrade "1";' >> /etc/apt/apt.conf.d/02periodic
+    echo 'APT::Periodic::AutocleanInterval "21";' >> /etc/apt/apt.conf.d/02periodic
+    echo 'APT::Periodic::Verbose "2";' >> /etc/apt/apt.conf.d/02periodic
 }
 
 rename() {
