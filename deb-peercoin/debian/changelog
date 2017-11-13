@@ -1,3 +1,9 @@
+peercoin (0.6.1-2) stable; urgency=low
+
+  * Upgrade to Peercoin v0.6.1.
+
+ --  <peerchemist@protonmail.ch>  Mon, 13 Nov 2017 13:46:19 +0000
+
 ppcoin (0.5.3-5) stable; urgency=low
 
   * Handle Tor dependency as suggests.
