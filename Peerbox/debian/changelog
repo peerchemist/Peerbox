@@ -1,3 +1,7 @@
+peerbox (0.6.6-2) stable; urgency=medium
+  * New Peercoin release.
+ --  <peerchemist@protonmail.ch>  Mon, 13 Nov 2017 20:21:28 +0000
+
 peerbox (0.6.6-1) stable; urgency=medium
   * Follow upstream.
  --  <peerchemist@protonmail.ch>  Sun, 20 Aug 2017 10:15:28 +0000
