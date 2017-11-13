@@ -1,0 +1,26 @@
+[Unit]
+Description=Peercoin daemon - tor
+After=network.target
+Wants=tor.service
+Conflicts=ppcoind@%i.service
+Conflicts=ppcoin-qt@%i.service
+Conflicts=ppcoin-qt-tor@%i.service
+
+[Service]
+User=%i
+Group=users
+PermissionsStartOnly=true
+Type=simple
+Restart=on-failure
+RestartSec=15
+ExecStartPre=/bin/bash -c "/usr/lib/pcf/set_tor"
+ExecStartPre=/bin/bash -c "/bin/systemctl set-environment HOSTNAME=$(cat /var/lib/tor/ppcoin-service/hostname)"
+ExecStart=/usr/bin/ppcoind -bind=127.0.0.1 -proxy=127.0.0.1:9050 -externalip=${HOSTNAME} -listen
+## security
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target

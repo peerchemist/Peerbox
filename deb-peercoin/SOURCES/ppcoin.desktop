@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Peercoin
+Comment=Official client for Peercoin P2P Cryptocurrency
+Comment[de]=Offizieller Client für die Kryptowährung Peercoin
+Exec=ppcoin-qt %u
+Terminal=false
+Type=Application
+Icon=ppcoin
+MimeType=x-scheme-handler/peercoin;
+Categories=Office;Finance;
