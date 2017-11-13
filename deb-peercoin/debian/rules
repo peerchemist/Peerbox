@@ -51,7 +51,7 @@ override_dh_auto_install:
 	install -m 644 "SOURCES/$(INSTALLNAME)-qt@.service" "$(DESTDIR)$(RCDIR)"
 	install -m 644 "SOURCES/$(INSTALLNAME)-qt-tor@.service" "$(DESTDIR)$(RCDIR)"
 	mkdir -p "$(DESTDIR)$(DATADIR)/applications"
-	install -m 644 "contrib/debian/peercoin=qt.desktop" "$(DESTDIR)$(DATADIR)/applications/${INSTALLNAME}.desktop"
+	install -m 644 "contrib/debian/peercoin-qt.desktop" "$(DESTDIR)$(DATADIR)/applications/${INSTALLNAME}.desktop"
 	mkdir -p "$(DESTDIR)$(DATADIR)/pixmaps"
 	install -m 644 src/qt/res/icons/$(NAME).png "$(DESTDIR)$(DATADIR)/pixmaps/$(INSTALLNAME).png"
 
