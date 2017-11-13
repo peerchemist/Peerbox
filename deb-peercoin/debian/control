@@ -13,9 +13,9 @@ Package: ppcoin
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: tor
-Description: Peercoin P2P digital currency - daemon
+Description: Peercoin P2P digital currency.
  .
- PPCoin is a crypto-currency project forked from Bitcoin and we aim to achieve
+ Peercoin is a crypto-currency project forked from Bitcoin and we aim to achieve
  energy-efficiency and keep as much as possible the original Bitcoin's
  preferable properties.
  .
