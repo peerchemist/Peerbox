@@ -1,0 +1,188 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ peercoin (0.6.1-1) stable; urgency=low
+ .
+   * Upgrade to v0.6.1ppc, rename package.
+Author: <peerchemist@protonmail.ch>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- /dev/null
++++ peercoin-0.6.1/SOURCES/genbuild.patch
+@@ -0,0 +1,11 @@
++--- genbuild.sh	2016-01-14 01:14:29.000000000 +0000
+++++ genbuild-modif.sh	2016-03-03 17:07:24.145439209 +0000
++@@ -16,7 +16,7 @@
++     git diff >/dev/null 2>/dev/null 
++ 
++     # get a string like "v0.6.0-66-g59887e8-dirty"
++-    DESC="$(git describe --dirty 2>/dev/null)"
+++    DESC="$(git describe 2>/dev/null)"
++ 
++     # get a string like "2012-04-10 16:27:19 +0200"
++     TIME="$(git log -n 1 --format="%ci")"
+--- /dev/null
++++ peercoin-0.6.1/SOURCES/peercoin-qt-tor@.service
+@@ -0,0 +1,31 @@
++[Unit]
++Description=Peercoin-qt-tor
++After=network.target
++After=graphical.target
++Wants=tor.service
++Conflicts=peercoind@%i.service
++Conflicts=peercoind-tor@%i.service
++Conflicts=peercoin-qt@%i.service
++
++[Service]
++User=%i
++Group=users
++PermissionsStartOnly=true
++Type=simple
++Restart=always
++RestartSec=15
++Environment=DISPLAY=:0
++Environment=XAUTHORITY=%h/.Xauthority
++ExecStartPre=/bin/bash -c "/usr/lib/pcf/set_tor"
++ExecStartPre=/bin/bash -c "/bin/systemctl set-environment HOSTNAME=$(cat /var/lib/tor/ppcoin-service/hostname)"
++ExecStart=/usr/bin/peercoin-qt -bind=127.0.0.1 -proxy=127.0.0.1:9050 -externalip=${HOSTNAME} -listen
++TimeoutStopSec=60s
++TimeoutStartSec=2s
++## security
++PrivateTmp=true
++PrivateDevices=true
++ProtectSystem=true
++NoNewPrivileges=true
++
++[Install]
++WantedBy=default.target
+--- /dev/null
++++ peercoin-0.6.1/SOURCES/peercoin-qt@.service
+@@ -0,0 +1,27 @@
++[Unit]
++Description=Peercoin-qt
++After=network.target
++After=graphical.target
++Conflicts=ppcoind@%i.service
++Conflicts=ppcoind-tor@%i.service
++Conflicts=ppcoin-qt-tor@%i.service
++
++[Service]
++User=%i
++Group=users
++Environment=DISPLAY=:0
++Environment=XAUTHORITY=%h/.Xauthority
++Type=simple
++Restart=always
++RestartSec=15
++ExecStart=/usr/bin/peercoin-qt
++TimeoutStopSec=60s
++TimeoutStartSec=2s
++## security
++PrivateTmp=true
++PrivateDevices=true
++ProtectSystem=full
++NoNewPrivileges=true
++
++[Install]
++WantedBy=multi-user.target
+--- /dev/null
++++ peercoin-0.6.1/SOURCES/peercoind-tor@.service
+@@ -0,0 +1,28 @@
++[Unit]
++Description=Peercoin daemon - tor
++After=network.target
++Wants=tor.service
++Conflicts=peercoind@%i.service
++Conflicts=peercoin-qt@%i.service
++Conflicts=peercoin-qt-tor@%i.service
++
++[Service]
++User=%i
++Group=users
++PermissionsStartOnly=true
++Type=forking
++Restart=always
++RestartSec=15
++ExecStartPre=/bin/bash -c "/usr/lib/pcf/set_tor"
++ExecStartPre=/bin/bash -c "/bin/systemctl set-environment HOSTNAME=$(cat /var/lib/tor/ppcoin-service/hostname)"
++ExecStart=/usr/bin/peercoind -daemon -bind=127.0.0.1 -proxy=127.0.0.1:9050 -externalip=${HOSTNAME} -listen
++TimeoutStopSec=60s
++TimeoutStartSec=2s
++## security
++PrivateTmp=true
++PrivateDevices=true
++ProtectSystem=true
++NoNewPrivileges=true
++
++[Install]
++WantedBy=default.target
+--- /dev/null
++++ peercoin-0.6.1/SOURCES/peercoind@.service
+@@ -0,0 +1,24 @@
++[Unit]
++Description=Peercoin daemon
++After=network.target 
++Conflicts=ppcoind-tor@%i.service
++Conflicts=ppcoin-qt@%i.service
++Conflicts=ppcoin-qt-tor@%i.service
++
++[Service]
++User=%i
++Group=users
++Type=forking
++Restart=always
++RestartSec=15
++ExecStart=/usr/bin/peercoind -daemon
++TimeoutStopSec=60s
++TimeoutStartSec=2s
++## security
++PrivateTmp=true
++PrivateDevices=true
++ProtectSystem=full
++NoNewPrivileges=true
++
++[Install]
++WantedBy=multi-user.target
+--- /dev/null
++++ peercoin-0.6.1/SOURCES/version_id.patch
+@@ -0,0 +1,24 @@
++--- version.cpp	2016-03-08 12:39:07.001764120 +0000
+++++ version-modif.cpp	2016-03-08 12:38:40.408493120 +0000
++@@ -11,7 +11,7 @@
++ const std::string CLIENT_NAME("Satoshi");
++ 
++ // Client version number
++-#define CLIENT_VERSION_SUFFIX   "-beta"
+++#define CLIENT_VERSION_SUFFIX   "-Peerbox"
++ 
++ 
++ // The following part of the code determines the CLIENT_BUILD variable.
++@@ -43,10 +43,10 @@
++ #define STRINGIFY(s) #s
++ 
++ #define BUILD_DESC_FROM_COMMIT(maj,min,rev,build,commit) \
++-    "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev) "." STRINGIFY(build) "-g" commit
+++    "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev) "-g" commit
++ 
++ #define BUILD_DESC_FROM_UNKNOWN(maj,min,rev,build) \
++-    "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev) "." STRINGIFY(build) "-unk"
+++    "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev)
++ 
++ #ifndef BUILD_DESC
++ #    ifdef GIT_COMMIT_ID

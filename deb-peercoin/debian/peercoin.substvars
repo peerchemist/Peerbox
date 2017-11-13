@@ -1,0 +1,2 @@
+shlibs:Depends=libboost-filesystem1.55.0, libboost-program-options1.55.0, libboost-system1.55.0, libboost-thread1.55.0, libc6 (>= 2.15), libdb5.3++, libgcc1 (>= 1:4.1.1), libminiupnpc10 (>= 1.9.20140610), libqrencode3 (>= 3.2.0), libqt4-dbus (>= 4:4.5.3), libqt4-network (>= 4:4.5.3), libqtcore4 (>= 4:4.8.0), libqtgui4 (>= 4:4.8.0), libssl1.0.0 (>= 1.0.1), libstdc++6 (>= 4.9), zlib1g (>= 1:1.1.4)
+misc:Depends=
