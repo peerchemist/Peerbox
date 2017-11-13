@@ -12,7 +12,8 @@ LDFLAGS=$(shell dpkg-buildflags --get LDFLAGS)
 CFLAGS+=$(HARDENING_CFLAGS)
 LDFLAGS+=$(HARDENING_LDFLAGS)
 
-NAME=ppcoin
+NAME=peercoin
+INSTALLNAME=ppcoin
 DESTDIR=debian/$(NAME)
 PREFIX=/usr
 LIBDIR=$(PREFIX)/lib
@@ -26,13 +27,13 @@ RCDIR=$(LIBDIR)/systemd/system/
 override_dh_auto_build:
 	
 	# patches
-	patch share/genbuild.sh < ../SOURCES/genbuild.patch
+	patch share/genbuild.sh < SOURCES/genbuild.patch
 
 	$(MAKE) -C src/ -f makefile.unix $(NAME)d USE_UPNP=1
 	$(MAKE)
 
 override_dh_auto_clean:
-	if [ -f Makefile ]; then $(MAKE) clean; else rm -rf build/; rm -f $(NAME); fi
+	if [ -f Makefile ]; then $(MAKE) clean; else rm -rf build/; rm -f $(NAME)-qt; fi
 	cd src; $(MAKE) -f makefile.unix clean
 
 override_dh_auto_configure:
@@ -41,18 +42,18 @@ override_dh_auto_configure:
 override_dh_auto_install:
 
 	mkdir -p "$(DESTDIR)$(BINDIR)"
-	install -m 0755 $(NAME)-qt "$(DESTDIR)$(BINDIR)"
-	install -m 0755 src/$(NAME)d "$(DESTDIR)$(BINDIR)"
+	install -m 0755 $(NAME)-qt "$(DESTDIR)$(BINDIR)$(INSTALLNAME)-qt"
+	install -m 0755 src/$(NAME)d "$(DESTDIR)$(BINDIR)$(INSTALLNAME)d"
 
 	mkdir -p "$(DESTDIR)$(RCDIR)"
-	install -m 644 "SOURCES/$(NAME)d@.service" "$(DESTDIR)$(RCDIR)"
-	install -m 644 "SOURCES/$(NAME)d-tor@.service" "$(DESTDIR)$(RCDIR)"
-	install -m 644 "SOURCES/$(NAME)-qt@.service" "$(DESTDIR)$(RCDIR)"
-	install -m 644 "SOURCES/$(NAME)-qt-tor@.service" "$(DESTDIR)$(RCDIR)"
+	install -m 644 "SOURCES/$(INSTALLNAME)d@.service" "$(DESTDIR)$(RCDIR)"
+	install -m 644 "SOURCES/$(INSTALLNAME)d-tor@.service" "$(DESTDIR)$(RCDIR)"
+	install -m 644 "SOURCES/$(INSTALLNAME)-qt@.service" "$(DESTDIR)$(RCDIR)"
+	install -m 644 "SOURCES/$(INSTALLNAME)-qt-tor@.service" "$(DESTDIR)$(RCDIR)"
 	mkdir -p "$(DESTDIR)$(DATADIR)/applications"
-	install -m 644 "contrib/debian/peercoin.desktop" "$(DESTDIR)$(DATADIR)/applications/${NAME}.desktop"
+	install -m 644 "contrib/debian/peercoin.desktop" "$(DESTDIR)$(DATADIR)/applications/${INSTALLNAME}.desktop"
 	mkdir -p "$(DESTDIR)$(DATADIR)/pixmaps"
-	install -m 644 src/qt/res/icons/$(NAME).png "$(DESTDIR)$(DATADIR)/pixmaps"
+	install -m 644 src/qt/res/icons/$(NAME).png "$(DESTDIR)$(DATADIR)/pixmaps/$(INSTALLNAME).png"
 
 override_dh_auto_test:
 	cd src; $(MAKE) -f makefile.unix test_${NAME}
