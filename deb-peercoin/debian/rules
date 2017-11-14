@@ -14,7 +14,7 @@ LDFLAGS+=$(HARDENING_LDFLAGS)
 
 NAME=peercoin
 INSTALLNAME=ppcoin
-DESTDIR=debian/$(NAME)
+DESTDIR=debian/$(INSTALLNAME)
 PREFIX=/usr
 LIBDIR=$(PREFIX)/lib
 BINDIR=$(PREFIX)/bin/
@@ -25,7 +25,7 @@ RCDIR=$(LIBDIR)/systemd/system/
 	dh $@
 
 override_dh_auto_build:
-	
+    
 	# patches
 	patch share/genbuild.sh < SOURCES/genbuild.patch
 
