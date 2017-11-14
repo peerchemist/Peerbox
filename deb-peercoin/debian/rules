@@ -26,9 +26,6 @@ RCDIR=$(LIBDIR)/systemd/system/
 
 override_dh_auto_build:
     
-	# patches
-	patch share/genbuild.sh < SOURCES/genbuild.patch
-
 	$(MAKE) -C src/ -f makefile.unix $(NAME)d USE_UPNP=1
 	$(MAKE)
 
