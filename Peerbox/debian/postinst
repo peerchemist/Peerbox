@@ -27,18 +27,19 @@ conf() {
 		# Obtain the username
 		USER=$( basename ${_HOME} )
 
-		if [ ! -d "$_HOME/.ppcoin" ]; then
+		if [ ! -d "$_HOME/.peercoin" ]; then
 			echo "Peercoin directory not found for user $USER! Creating one now."
-			mkdir $_HOME/.ppcoin
+			mkdir $_HOME/.peercoin
 		fi
 
-		if [ ! -f $_HOME/.ppcoin/ppcoin.conf ]; then
+		if [ ! -f $_HOME/.peercoin/peercoin.conf ]; then
 			echo "Peercoin configuration file not found for user $USER! Creating one now."
-			echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 24 | head -n 1)" > $_HOME/.ppcoin/ppcoin.conf
-			echo "server=1" >> $_HOME/.ppcoin/ppcoin.conf
+			echo "rpcuser=rpcuser\nrpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 24 | head -n 1)" > $_HOME/.peercoin/peercoin.conf
+			echo "server=1" >> $_HOME/.peercoin/peercoin.conf
 		fi
-		chown -R $USER: $_HOME/.ppcoin
+		chown -R $USER: $_HOME/.peercoin
 	done
+
     #https://wiki.debian.org/UnattendedUpgrades
     echo "Configuring automatic security updates"
     echo 'APT::Periodic::Enable "1";' > /etc/apt/apt.conf.d/02periodic
