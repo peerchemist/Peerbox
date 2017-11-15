@@ -7,7 +7,7 @@ Homepage: http://peercoin.net/
 Vcs-Git: git://github.com/ppcoin/ppcoin/ppcoin.git
 Vcs-Browser: https://github.com/ppcoin/ppcoin
 Build-Depends: debhelper (>= 9), 
-			libssl-dev, libqt4-dev, libboost-dev, libminiupnpc-dev, libdb++-dev, libboost-program-options-dev, libboost-filesystem-dev, libboost-system-dev, libboost-thread-dev, systemd, hardening-includes
+			libssl-dev, libqt4-dev, libboost-dev, libminiupnpc-dev, libdb++-dev, libboost-program-options-dev, libboost-filesystem-dev, libboost-system-dev, libboost-test-dev, libqrencode-dev, libboost-thread-dev, systemd, hardening-includes
 
 Package: ppcoin
 Architecture: any
