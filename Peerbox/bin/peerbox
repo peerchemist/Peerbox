@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2016 Peerchemist
+# Copyright 2018 Peerchemist
 #
 # This file is part of Peerbox project.
 #
@@ -20,7 +20,7 @@
 
 __author__ = "Peerchemist"
 __license__ = "GPL"
-__version__ = "0.6.6"
+__version__ = "0.6.7"
 
 import os, sys
 import requests
@@ -214,18 +214,26 @@ def gauth_unset():
     print("Google-authenticator is now disabled.")
 
 def health_check():
-    '''compares local blockchain data with ppc.mintr.org as reference point'''
+    '''compares local blockchain data with explorer.peercoin.net as reference point'''
 
     def _remote():
         try:
             requests.packages.urllib3.disable_warnings()
-            a = requests.get("https://peercoin.mintr.org/api/block/latest", timeout=3, verify=False).json()
+            # changed by: ab3d, date: 2017-12-31
+            url = "https://explorer.peercoin.net/api/"
+            # step 1: get blockcount
+            r_blockcount = requests.get(url+"getblockcount", timeout=3, verify=False).json()
+	          # step 2: get hash of last block 
+            r_blockhash = requests.get(url+"getblockhash?index="+str(r_blockcount), timeout=3, verify=False).text
+            # step 3: get block data
+            r_blockdata = requests.get(url+"getblock?hash="+str(r_blockhash), timeout=3, verify=False).json()
             return {
-                "height": int(a["height"]),
-                "blockhash": a["blockhash"],
-                "prev_block_hash": a["previousblockhash"],
-                "merkleroot": a["merkleroot"]
+                "height": int(r_blockdata["height"]),
+                "blockhash": r_blockdata["hash"],
+                "prev_block_hash": r_blockdata["previousblockhash"],
+                "merkleroot":r_blockdata["merkleroot"]
             }
+			
         except IOError as e:
             print("error: Can't reach remote API server!", e)
             raise
@@ -273,15 +281,21 @@ def health_check():
         return report
 
     print("\nChecking if we are on the right chain...")
-    print("Using peercoin.mintr.org as reference.\n")
+    print("Using explorer.peercoin.net as reference.\n")
 
     r = _check()
+    total = True
     for k, v in r.items():
         if v == True:
             print(k + ":" + " True")
         else:
             print(k + ":" + " False")
+            total = False
 
+    if (total == False):
+	    print ("\nKeep calm if one or more results of the report are marked with \"False\". Maybe your node \n")
+	    print ("just needs to synchronize. Try again in a few minutes. \n")
+      
 def mint():
     passwd = raw_input("Please enter your wallet password: ")
     print("Unlocking wallet for minting only.")
