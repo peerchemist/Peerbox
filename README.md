@@ -1,6 +1,3 @@
-You can support this repo via peer4commit.
-[![tip for next commit](http://peer4commit.com/projects/92.svg)](http://peer4commit.com/projects/92)
-
 # What is Peerbox?
 
 ## Intro
